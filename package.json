@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SGEdutech/backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SGEdutech/backend/issues"
+  },
+  "homepage": "https://github.com/SGEdutech/backend#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongoose": "^5.1.3"
+  }
+}
