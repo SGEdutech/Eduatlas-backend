@@ -7,6 +7,7 @@ const DurationSchema = secondarySchemas.DurationSchema;
 
 
 const eventSchema = new Schema({
+    eventId: String,
     owner: String,
     views: Number,
     bookmarks: Number,

@@ -16,7 +16,7 @@ class databaseAPI {
         return this.model.findOne(searchParameters);
     }
 
-    addRow(newRowInformation) {
+    addCollection(newRowInformation) {
         let newInstance = new this.model(newRowInformation);
         return newInstance.save();
     }
@@ -36,7 +36,7 @@ class databaseAPI {
             this.model.findOne(searchParameter)
                 .then(collectionToBeDeleted => {
                     deletedRow = collectionToBeDeleted;
-                    return this.model.destroy(searchParameter)
+                    return this.model.findOneAndRemove(searchParameter)
                 })
                 .then(() => resolve(deletedRow))
                 .catch(err => reject(err));
@@ -44,4 +44,4 @@ class databaseAPI {
     }
 }
 
-exports.databaseAPI = databaseAPI;
+module.exports = databaseAPI;
