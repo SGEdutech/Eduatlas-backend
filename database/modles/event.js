@@ -5,7 +5,6 @@ const secondarySchemas = require('../secondary-schemas');
 const GallerySchema = secondarySchemas.GallerySchema;
 const DurationSchema = secondarySchemas.DurationSchema;
 
-
 const eventSchema = new Schema({
     eventId: String,
     owner: String,

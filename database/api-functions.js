@@ -42,6 +42,37 @@ class databaseAPI {
                 .catch(err => reject(err));
         })
     }
+
+    addElementToArray(modelSearchParameter, arrayName, elementObject) {   //Needs optimisation
+        return new Promise((resolve, reject) => {
+            this.model.findOne(modelSearchParameter)
+                .then(data => {
+                    data[arrayName].push(elementObject);
+                    return data.save();
+                })
+                .then(data => resolve(data))
+                .catch(err => reject(err));
+        })
+    }
+
+    deleteElementFromArray(modelSearchParameter, arrayName, elementIdentifier) {
+        return new Promise((resolve, reject) => {
+            this.model.findOne(modelSearchParameter)
+                .then(data => {
+                    let elementIdentifierKey = Object.keys(elementIdentifier)[0];
+                    data[arrayName].forEach((item, index) => {
+                        if (item[elementIdentifierKey] === elementIdentifier[elementIdentifierKey]) {
+                            data[arrayName].splice(index, 1);
+                        }
+                    });
+                    return data.save();
+                })
+                .then(data => resolve(data))
+                .catch(err => reject(err));
+        })
+    }
+
 }
+
 
 module.exports = databaseAPI;
