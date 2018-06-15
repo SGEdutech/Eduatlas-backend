@@ -3,25 +3,34 @@ const Schema = mongoose.Schema;
 
 const secondarySchemas = require('../secondary-schemas');
 const GallerySchema = secondarySchemas.GallerySchema;
-const DurationSchema = secondarySchemas.DurationSchema;
 
 const eventSchema = new Schema({
-    eventId: String,
-    owner: String,
-    views: Number,
-    bookmarks: Number,
+    name: String,
+    description: String,
+    organiserName: String,
+    organiserPhone: String,
+    organiserEmail: String,
+    organiserAddress: String,
+    website: String,
+    targetAge: String,
+    fromDate: Date,
+    toDate: Date,
+    fromTime: String,
+    toTime: String,
+    addressLine1: String,
+    addressLine2: String,
+    city: String,
+    district: String,
+    state: String,
+    country: String,
+    pin: Number,
+    gallery: [GallerySchema],
+    coverPic: String,
     going: Number,
     notGoing: Number,
     mayBeGoing: Number,
-    name: String,
-    targetAge: String,
-    lastDate: Date,
-    description: String,
-    location: String,
-    timing: String,
-    gallery: [GallerySchema],
-    duration: [DurationSchema],
-    coverPic: String
+    views: Number,
+    bookmarks: Number
 });
 
 const Event = mongoose.model('event', eventSchema);

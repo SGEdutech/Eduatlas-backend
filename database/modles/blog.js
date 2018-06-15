@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+//TODO: Editor
 const BlogSchema = new Schema({
     blogId: String,
-    owner: String,
+    owner: String,  //no owner
     views: Number,
     bookmarks: Number,
     title: String,
@@ -12,9 +13,11 @@ const BlogSchema = new Schema({
     authorInfo: String,
     authorFacebookLink: String,
     authorTwitterLink: String,
-    authorQuoraLink: String,
+    authorQuoraLink: String,   // connect with user
     body: String   //TODO: Figure out a markup for decoration
 });
+
+//catagory
 
 const Blog = mongoose.model('blog', BlogSchema);
 

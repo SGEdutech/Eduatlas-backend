@@ -11,15 +11,15 @@ route.get('/', (req, res) => {
     tuitionDbFunctions.getSpecificData(req.query).then(data => res.send(data)).catch(err => console.error(err));
 });
 
-route.post('/', (req, res) => {
-    tuitionDbFunctions.addCollection(req.body).then(data => res.send(data)).catch(err => console.error(err));
-});
-
-
 route.post('/add/:arrayName/:_id', (req, res) => {
     schoolDbFunctions.addElementToArray({_id: req.params._id}, req.params.arrayName, req.body)
         .then(data => res.send(data))
         .catch(err => console.error(err));
+});
+
+route.post('/', (req, res) => {
+    if (req.file) req.body.coverPic = req.file.filename;
+    tuitionDbFunctions.addCollection(req.body).then(data => res.send(data)).catch(err => console.error(err));
 });
 
 route.put('/:userId', (req, res) => {

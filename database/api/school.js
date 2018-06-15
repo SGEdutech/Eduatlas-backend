@@ -18,6 +18,7 @@ route.post('/add/:arrayName/:_id', (req, res) => {
 });
 
 route.post('/', (req, res) => {
+    if (req.file) req.body.coverPic = req.file.filename;
     schoolDbFunctions.addCollection(req.body).then(data => res.send(data)).catch(err => console.error(err));
 });
 
@@ -25,7 +26,7 @@ route.put('/:_id', (req, res) => {
     schoolDbFunctions.updateOneRow(req.params, req.body).then(data => res.send(data)).catch(err => console.error(err));
 });
 
-route.delete('/delete/:arrayName/:_id', (req, res) => {
+route.delete('/delete/:_id/:arrayName', (req, res) => {
     schoolDbFunctions.deleteElementFromArray({_id: req.params._id}, req.params.arrayName, req.body)
         .then(data => res.send(data))
         .catch(err => console.error(err));
