@@ -6,9 +6,9 @@ const ids = {
         scope: ['email']
     },
     google: {
-        clientID: '453550727083-koh15o7kv6b16a05vk6hknproo9kbmmb.apps.googleusercontent.com',
-        clientSecret: 'VR2dJRSQrV6fZeM4zgV2MF9_',
-        callbackURL: "/auth/google/redirect",
+        clientID: '630427763568-koh8sqs7f05dqirfhbj34kiukulu8gft.apps.googleusercontent.com',
+        clientSecret: 'iny-CHdpeHy6GrzZAQCRmi4F',
+        callbackURL: "/redirect",
         scope: ['profile', 'phone', 'email']
     }
 };

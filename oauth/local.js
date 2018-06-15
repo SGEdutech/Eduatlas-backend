@@ -6,11 +6,11 @@ const DatabaseAPIClass = require('../database/api-functions');
 const APIHelperFunctions = new DatabaseAPIClass(User);
 
 passport.serializeUser((user, done) => {
-    done(null, user.userId)
+    done(null, user._id)
 });
 
 passport.deserializeUser((userid, done) => {
-    APIHelperFunctions.getSpecificData('userId', userid)
+    APIHelperFunctions.getSpecificData('_id', userid)
         .then((user) => {
             if (!user) {
                 done(new Error("no such user"))
@@ -21,8 +21,9 @@ passport.deserializeUser((userid, done) => {
     })
 });
 
-passport.use(new LocalStrategy((username, password, done) => {
-    APIHelperFunctions.getSpecificData('_id', username)
+passport.use(new LocalStrategy((email, password, done) => {
+    console.log("ji")
+    APIHelperFunctions.getSpecificData('primaryEmail', email)
         .then(user => {
             if (!user) {
                 done(new Error('No such user'))
@@ -44,21 +45,23 @@ route.post('/login', passport.authenticate('local', {
 
 // post request to sign-up don't need passportJS
 route.post('/signup', (req, res) => {
-    APIHelperFunctions.getSpecificData({_id: '41224d776a326fb40f000001'}) // regex to check if _id is valid mongo id- /^[0-9a-fA-F]{24}$/
+    APIHelperFunctions.getSpecificData({email: req.email}) // regex to check if _id is valid mongo id- /^[0-9a-fA-F]{24}$/
         .then(currentUser => {
             console.log(currentUser);
             if (currentUser) {
-                res.send("username already exist")
+                res.send("email already linked with a account")
                 // disable sign-up button till username is unique
                 // create AJAX request(refresh button) from frontend to check for username uniqueness
+            } else {
+
+                APIHelperFunctions.addCollection(req.body)
+                    .then(createdUser => {
+                        res.redirect('/login')
+                    });
             }
         })
         .catch(err => console.error(err));
 
-    APIHelperFunctions.addCollection(req.body)
-        .then(createdUser => {
-            res.redirect('/auth/login')
-        });
 });
 
 exports = module.exports = {

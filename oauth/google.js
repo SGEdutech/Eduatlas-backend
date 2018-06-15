@@ -7,11 +7,11 @@ const DatabaseAPIClass = require('../database/api-functions');
 const APIHelperFunctions = new DatabaseAPIClass(User);
 
 passport.serializeUser(function (user, done) {
-    done(null, user.userId)
+    done(null, user.googleId)
 });
 
 passport.deserializeUser(function (userid, done) {
-    APIHelperFunctions.getSpecificData('userId', userid).then(user => {
+    APIHelperFunctions.getSpecificData('googleId', userid).then(user => {
         if (!user) {
             return done(new Error("no such user"))
         }
@@ -31,19 +31,23 @@ passport.use(new GoogleStrategy({
         // passport callback function
         let profileInfo = {};
         profileInfo.googleId = profile.id;
-        profileInfo.userName = profile.displayName;
-        profileInfo.profilePic = profile.photos ? profile.photos[0].value : 'no pic uploaded';
+        profileInfo.name = profile.displayName;
+        profileInfo.profilePicPath = profile.photos ? profile.photos[0].value : 'no pic uploaded';
         if (profile.emails) {
-            profileInfo.email = profile.emails[0].value;
+            profileInfo.primaryEmail = profile.emails[0].value;
         }
         profileInfo.about = profile._json.tagline;
-        console.log("************************");
+
+        console.log("*******");
+        console.log(profileInfo);
+        console.log("*******");
+
         APIHelperFunctions.getSpecificData('googleId', profileInfo.googleId)
             .then(currentUser => {
                 if (currentUser) {
                     done(null, currentUser);
                 } else {
-                    APIHelperFunctions.addRow(profileInfo)
+                    APIHelperFunctions.addCollection(profileInfo)
                         .then(newUser => {
                             done(null, newUser);
                         });
