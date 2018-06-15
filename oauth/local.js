@@ -44,14 +44,16 @@ route.post('/login', passport.authenticate('local', {
 
 // post request to sign-up don't need passportJS
 route.post('/signup', (req, res) => {
-    APIHelperFunctions.getSpecificData({_id: 1})
+    APIHelperFunctions.getSpecificData({_id: '41224d776a326fb40f000001'}) // regex to check if _id is valid mongo id- /^[0-9a-fA-F]{24}$/
         .then(currentUser => {
+            console.log(currentUser);
             if (currentUser) {
                 res.send("username already exist")
                 // disable sign-up button till username is unique
                 // create AJAX request(refresh button) from frontend to check for username uniqueness
             }
-        });
+        })
+        .catch(err => console.error(err));
 
     APIHelperFunctions.addCollection(req.body)
         .then(createdUser => {

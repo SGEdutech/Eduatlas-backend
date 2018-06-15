@@ -6,12 +6,12 @@ const ContactSchema = secondarySchemas.ContactSchema;
 const ReviewSchema = secondarySchemas.ReviewSchema;
 const ImportantDateSchema = secondarySchemas.ImportantDateSchema;
 const GallerySchema = secondarySchemas.GallerySchema;
-const FacilitiesAndBraggingSchema = secondarySchemas.FacilitiesSchema;
+const FacilitiesAndBraggingSchema = secondarySchemas.FacilitiesAndBraggingSchema;
 
 const SchoolSchema = new Schema({
     coverPic: String,
     gallery: [String], //array
-    bragging: [String],  //make a schema
+    bragging: [FacilitiesAndBraggingSchema],  //make a schema
     description: String,
     curriculum: String,  //dropdown- CBSE, ICSE, State board, IB, IGCSC
     fromGrade: String,  //prenurcery - 12 drop down
