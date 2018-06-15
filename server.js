@@ -9,7 +9,8 @@ const routes = {
     event: require('./database/api/event'),
     school: require('./database/api/school'),
     tuition: require('./database/api/tuition'),
-    user: require('./database/api/user')
+    user: require('./database/api/user'),
+    auth: require('./oauth/auth_routes')
 };
 
 const app = express();
@@ -17,16 +18,12 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+app.use('/auth', routes.auth);
 app.use('/blog', routes.blog);
 app.use('/event', storageEngion.eventCoverPicMiddleware, routes.event);
 app.use('/school', storageEngion.schoolCoverPicMiddleware, routes.school);
 app.use('/tuition', storageEngion.tuitionCoverPicMiddleware, routes.tuition);
 app.use('/user', routes.user);
-
-app.use((req, res, next) => {
-    console.log(req.file);
-    next();
-});
 
 app.listen(PORT, () => {
     console.log(`Yo dawg! Server's at http://localhost:${PORT}`);
