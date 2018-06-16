@@ -6,11 +6,13 @@ const DatabaseAPIClass = require('../database/api-functions');
 const APIHelperFunctions = new DatabaseAPIClass(User);
 
 passport.serializeUser((user, done) => {
-    done(null, user._id)
+    //userid will be stuffed in cookie
+    done(null, user.id)
 });
 
 passport.deserializeUser((userid, done) => {
-    APIHelperFunctions.getSpecificData('_id', userid)
+    //reimplement it using FindById function of mongoose
+    APIHelperFunctions.getSpecificData({'_id': userid})
         .then((user) => {
             if (!user) {
                 done(new Error("no such user"))
@@ -21,16 +23,20 @@ passport.deserializeUser((userid, done) => {
     })
 });
 
-passport.use(new LocalStrategy((email, password, done) => {
-    console.log("ji")
-    APIHelperFunctions.getSpecificData('primaryEmail', email)
+passport.use(new LocalStrategy((username, password, done) => {
+
+    APIHelperFunctions.getSpecificData({'primaryEmail': username})
         .then(user => {
             if (!user) {
                 done(new Error('No such user'))
+            } else {
+                if (user.password !== password) {
+                    done(new Error('Wrong password'))
+                } else {
+                    console.log("successful local login");
+                }
             }
-            if (user.password !== password) {
-                done(new Error('Wrong password'))
-            }
+            //below line will pass user to serialize user phase
             done(null, user)
         })
         .catch(err => {
@@ -39,15 +45,15 @@ passport.use(new LocalStrategy((email, password, done) => {
 }));
 
 route.post('/login', passport.authenticate('local', {
-    failureRedirect: '/auth/login',
+    failureRedirect: '/login',
     successRedirect: '/profile',
 }));
 
 // post request to sign-up don't need passportJS
 route.post('/signup', (req, res) => {
-    APIHelperFunctions.getSpecificData({email: req.email}) // regex to check if _id is valid mongo id- /^[0-9a-fA-F]{24}$/
+    APIHelperFunctions.getSpecificData({primaryEmail: req.body.primaryEmail}) // regex to check if _id is valid mongo id- /^[0-9a-fA-F]{24}$/
         .then(currentUser => {
-            console.log(currentUser);
+
             if (currentUser) {
                 res.send("email already linked with a account")
                 // disable sign-up button till username is unique

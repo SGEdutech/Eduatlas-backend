@@ -8,7 +8,7 @@ const ids = {
     google: {
         clientID: '630427763568-koh8sqs7f05dqirfhbj34kiukulu8gft.apps.googleusercontent.com',
         clientSecret: 'iny-CHdpeHy6GrzZAQCRmi4F',
-        callbackURL: "/redirect",
+        callbackURL: "/auth/google/redirect",
         scope: ['profile', 'phone', 'email']
     }
 };

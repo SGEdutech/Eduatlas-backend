@@ -2,6 +2,12 @@ const express = require('express');
 const path = require('path');
 const PORT = require('./config').SERVER.PORT;
 const storageEngion = require('./storage-engine');
+const session = require('express-session');
+const passport = require('passport');
+require('./oauth/local');
+require('./oauth/google');
+require('./oauth/facebook');
+const keys = require('./oauth/_config').keys;
 require('./database/connection');
 
 const routes = {
@@ -14,6 +20,15 @@ const routes = {
 };
 
 const app = express();
+
+//cookie stuff
+app.use(session({
+    secret: keys.CookieKey,
+    cookie: {maxAge: 7 * 24 * 60 * 60 * 1000}
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

@@ -8,11 +8,12 @@ const APIHelperFunctions = new DatabaseAPIClass(User);
 
 
 passport.serializeUser((user, done) => {
-    done(null, user.userId)
+    done(null, user.id)
 });
 
 passport.deserializeUser(function (userid, done) {
-    APIHelperFunctions.getSpecificData('userId', userid)
+    //reimplement it using FindById function of mongoose
+    APIHelperFunctions.getSpecificData('_id', userid)
         .then((user) => {
             if (!user) {
                 done(new Error("no such user"))
@@ -32,28 +33,29 @@ passport.use(new FacebookStrategy({
     (accessToken, refreshToken, profile, done) => {
         // passport callback function
         let profileInfo = {};
-        profileInfo.fbId = profile.id;
-        profileInfo.userName = profile.displayName;
-        profileInfo.profilePic = profile.photos ? profile.photos[0].value : 'no pic uploaded';
+        profileInfo.facebookId = profile.id;
+        profileInfo.name = profile.displayName;
+        profileInfo.profilePicPath = profile.photos ? profile.photos[0].value : 'no pic uploaded';
         if (profile.emails !== undefined) {
-            profileInfo.email = profile.emails[0].value;
+            profileInfo.primaryEmail = profile.emails[0].value;
         }
         // profileInfo.about = profile._json.tagline;
-        APIHelperFunctions.getSpecificData('fbId', profileInfo.fbId)
+        APIHelperFunctions.getSpecificData('facebookId', profileInfo.facebookId)
             .then((currentUser) => {
                 if (currentUser) {
                     // means we already have a account linked with google
-                    console.log('already linked with:');
-                    console.log(currentUser);
+                    // console.log('user already linked with facebook');
+                    //send it to serialize phase
                     done(null, currentUser);
                 } else {
                     // means we will now save this account
-                    console.log("creating new record");
+                    // console.log("creating new record");
                     //we haven't saved phoneNumber and password yet
-                    APIHelperFunctions.addRow(profileInfo)
+                    APIHelperFunctions.addCollection(profileInfo)
                         .then((newUser) => {
-                            console.log('newUser created is: ');
-                            console.log(newUser);
+                            /*console.log('newUser created is: ');
+                            console.log(newUser);*/
+                            //send it to serialize phase
                             done(null, newUser);
                         });
                 }

@@ -1,5 +1,4 @@
 const route = require('express').Router();
-const passport = require('passport');
 
 route.get('/logout', (req, res) => {
     req.logout();
