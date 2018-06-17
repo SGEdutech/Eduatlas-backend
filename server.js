@@ -3,6 +3,8 @@ const path = require('path');
 const PORT = require('./config').SERVER.PORT;
 const storageEngion = require('./storage-engine');
 require('./database/connection');
+const winston = require('winston');
+require('winston-email');
 
 const routes = {
     blog: require('./database/api/blog'),
@@ -11,6 +13,26 @@ const routes = {
     tuition: require('./database/api/tuition'),
     user: require('./database/api/user')
 };
+
+//by default logger exit on error, if you want to change it, add a key:value while creating logger
+//{ exitOnError: true }
+const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.json(),
+    transports: [
+        //
+        // - Write to all logs with level `info` and below to `combined.log`
+        // - Write all logs error (and below) to `error.log`.
+        //
+        new winston.transports.File({filename: 'error.log', level: 'error'}),
+        new winston.transports.File({filename: 'combined.log'})
+    ]
+});
+
+
+logger.on('error', function (err) {
+    console.log(err)
+});
 
 const app = express();
 
