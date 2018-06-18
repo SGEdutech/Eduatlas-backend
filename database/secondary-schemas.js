@@ -27,12 +27,24 @@ const CourseSchema = new Schema({
     title: String,
     duration: String,
     fee: Number,
-    startDate: Date
+    nextBatch: Date
 });
 
 const FacilitiesAndBraggingSchema = new Schema({
     title: String,
     image: String
+});
+
+const TeamSchema = new Schema({
+    name: String,
+    description: String,
+    img_path: String
+});
+
+const TimeAndDateSchema = new Schema({
+    day: String,
+    fromTime: String,
+    toTime: String
 });
 
 exports = module.exports = {
@@ -41,5 +53,7 @@ exports = module.exports = {
     ReviewSchema,
     GallerySchema,
     CourseSchema,
-    FacilitiesAndBraggingSchema
+    FacilitiesAndBraggingSchema,
+    TeamSchema,
+    TimeAndDateSchema
 };

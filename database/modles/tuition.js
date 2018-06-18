@@ -6,6 +6,9 @@ const ContactSchema = secondarySchemas.ContactSchema;
 const ReviewSchema = secondarySchemas.ReviewSchema;
 const GallerySchema = secondarySchemas.GallerySchema;
 const CourseSchema = secondarySchemas.CourseSchema;
+const TeamSchema = secondarySchemas.TeamSchema;
+const FacilitiesAndBraggingSchema = secondarySchemas.FacilitiesAndBraggingSchema;
+const TimeAndDateSchema = secondarySchemas.TimeAndDateSchema;
 
 const TuitionSchema = new Schema({
     name: String,
@@ -16,11 +19,8 @@ const TuitionSchema = new Schema({
     state: String,
     country: String,
     pin: Number,
-    fromTime: String,
-    toTime: String,
-    fromDay: String,
-    toDay: String,
-    team: [String],  //Make schema
+    dayAndTimeOfOperation: [TimeAndDateSchema],
+    team: [TeamSchema],
     description: String,
     contactNumber1: Number,
     contactNumber2: Number,
@@ -31,10 +31,10 @@ const TuitionSchema = new Schema({
     twitter: String,
     youtubeLink: String,
     instaLink: String,
-    facilities: String,   // image name discription array  // drop down
+    facilities: String,
     coverPic: String,
     gallery: [GallerySchema],
-    bragging: [String],   // mutiple
+    bragging: [FacilitiesAndBraggingSchema],   // mutiple
     courses: [CourseSchema],
     reviews: [ReviewSchema],
     views: Number,
