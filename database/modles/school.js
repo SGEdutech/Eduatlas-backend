@@ -6,23 +6,21 @@ const ContactSchema = secondarySchemas.ContactSchema;
 const ReviewSchema = secondarySchemas.ReviewSchema;
 const ImportantDateSchema = secondarySchemas.ImportantDateSchema;
 const GallerySchema = secondarySchemas.GallerySchema;
-const FacilitiesAndBraggingSchema = secondarySchemas.FacilitiesSchema;
+const FacilitiesAndBraggingSchema = secondarySchemas.FacilitiesAndBraggingSchema;
+const TimeAndDateSchema = secondarySchemas.TimeAndDateSchema;
 
 const SchoolSchema = new Schema({
     coverPic: String,
-    gallery: [String], //array
-    bragging: [String],  //make a schema
+    gallery: [GallerySchema],
+    bragging: [FacilitiesAndBraggingSchema],
     description: String,
-    curriculum: String,  //dropdown- CBSE, ICSE, State board, IB, IGCSC
-    fromGrade: String,  //prenurcery - 12 drop down
+    curriculum: String,
+    fromGrade: String,
     toGrade: String,
-    type: String,  // see that pic  // day , day boarding boarding
+    type: String,
     principalName: String,
     yearFounded: Number,
-    fromTime: String,  //date and time
-    toTime: String,
-    fromDay: String,
-    toDay: String,
+    dayAndTimeOfOperation: [TimeAndDateSchema],
     name: String,
     addressLine1: String,
     addressLine2: String,
@@ -31,14 +29,14 @@ const SchoolSchema = new Schema({
     state: String,
     country: String,
     pin: Number,
-    facilities: String, // image and title
+    facilities: String,
     activities: String,
     reviews: [ReviewSchema],
     fee: Number,
-    admissionProcess: String,  // fee details see the photo
+    admissionProcess: String,
     startTime: Date,
     endTime: Date,
-    importantDates: [ImportantDateSchema],  //3 info see pic
+    importantDates: [ImportantDateSchema],
     views: Number,
     bookmarks: Number,
     claimedBy: String,
@@ -51,10 +49,9 @@ const SchoolSchema = new Schema({
     twitter: String,
     youtubeLink: String,
     instaLink: String,
-    catagoty: String,  // pre/play school, day care, formal school
+    category: String,
     updated: { type: Date, default: Date.now },
 });
-//website social fb twitter youtube insta
 
 const School = mongoose.model('school', SchoolSchema);
 

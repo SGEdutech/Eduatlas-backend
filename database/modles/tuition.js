@@ -34,7 +34,7 @@ const TuitionSchema = new Schema({
     facilities: String,
     coverPic: String,
     gallery: [GallerySchema],
-    bragging: [FacilitiesAndBraggingSchema],   // mutiple
+    bragging: [FacilitiesAndBraggingSchema],
     courses: [CourseSchema],
     reviews: [ReviewSchema],
     views: Number,
