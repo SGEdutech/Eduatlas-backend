@@ -1,3 +1,5 @@
+require('../scripts/fsunlink');
+
 class databaseAPI {
     constructor(model) {
         this.model = model;
@@ -35,6 +37,31 @@ class databaseAPI {
             let deletedRow;
             this.model.findOne(searchParameter)
                 .then(collectionToBeDeleted => {
+
+                    //
+                    //for deleting images from server file system
+
+                    //if image path is not nested. Example- img_coverPic
+                    Object.keys(collectionToBeDeleted).forEach((a) => {
+                       if(a.startsWith('img_')){
+                           deleteFile(collectionToBeDeleted[a])
+                       }
+                    });
+                    //finding nested images. Example - gallery
+                    collectionToBeDeleted.forEach((item) => {
+                        if (typeof item === "object") {
+                            Object.keys(item).forEach((nestedKey) => {
+                                if (nestedKey.startsWith('img_path')) {
+                                    deleteFile(collectionToBeDeleted[item][nestedKey])
+                                }
+                            })
+                        }
+                    });
+
+
+                    //
+                    //
+
                     deletedRow = collectionToBeDeleted;
                     return this.model.findOneAndRemove(searchParameter)
                 })
@@ -62,6 +89,21 @@ class databaseAPI {
                     let elementIdentifierKey = Object.keys(elementIdentifier)[0];
                     data[arrayName].forEach((item, index) => {
                         if (item[elementIdentifierKey] === elementIdentifier[elementIdentifierKey]) {
+
+                            //
+                            //for deleting image from server file system
+
+
+                            Object.keys(item).forEach((nestedKey) => {
+                                if (data.startsWith('img_')) {
+                                    deleteFile(data[arrayName][nestedKey])
+                                }
+                            });
+
+
+                            //
+                            //
+
                             data[arrayName].splice(index, 1);
                         }
                     });
