@@ -1,10 +1,10 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const PORT = require('./config').SERVER.PORT;
 const storageEngion = require('./storage-engine');
 require('./database/connection');
 const winston = require('winston');
-require('winston-email');
 
 const routes = {
     blog: require('./database/api/blog'),
@@ -35,6 +35,8 @@ logger.on('error', function (err) {
 });
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

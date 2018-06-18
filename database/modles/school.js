@@ -9,7 +9,7 @@ const GallerySchema = secondarySchemas.GallerySchema;
 const FacilitiesAndBraggingSchema = secondarySchemas.FacilitiesSchema;
 
 const SchoolSchema = new Schema({
-    coverPic: String,
+    img_coverPic: String,
     gallery: [String], //array
     bragging: [String],  //make a schema
     description: String,
