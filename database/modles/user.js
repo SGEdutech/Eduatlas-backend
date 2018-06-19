@@ -12,7 +12,7 @@ const UserSchema = new Schema({
     name: String,
     email: String,  //should be unique also alternate
     phone: Number,
-    profilePicPath: String,
+    img_profilePicPath: String,
     dateOfBirth: Date,
     goingEvents: [String],
     mayBeGoingEvents: [String],

@@ -31,8 +31,8 @@ const TuitionSchema = new Schema({
     twitter: String,
     youtubeLink: String,
     instaLink: String,
-    facilities: String,
-    coverPic: String,
+    facilities: String,   // image name discription array  // drop down
+    img_coverPic: String,
     gallery: [GallerySchema],
     bragging: [FacilitiesAndBraggingSchema],
     courses: [CourseSchema],
