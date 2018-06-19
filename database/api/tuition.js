@@ -2,6 +2,7 @@ const route = require('express').Router();
 const Tuition = require('../modles/tuition');
 const DbAPIClass = require('../api-functions');
 const tuitionDbFunctions = new DbAPIClass(Tuition);
+const nestDayFunction = require('../../scripts/nest-day');
 
 route.get('/all', (req, res) => {
     tuitionDbFunctions.getAllData().then(data => res.send(data)).catch(err => console.error(err));
@@ -18,6 +19,7 @@ route.post('/add/:arrayName/:_id', (req, res) => {
 });
 
 route.post('/', (req, res) => {
+    nestDayFunction(req.body);
     if (req.file) req.body.coverPic = req.file.filename;
     tuitionDbFunctions.addCollection(req.body).then(data => res.send(data)).catch(err => console.error(err));
 });

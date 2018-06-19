@@ -9,7 +9,7 @@ const GallerySchema = secondarySchemas.GallerySchema;
 const FacilitiesAndBraggingSchema = secondarySchemas.FacilitiesAndBraggingSchema;
 const TimeAndDateSchema = secondarySchemas.TimeAndDateSchema;
 
-const SchoolSchema = new Schema({
+const object = {
     coverPic: String,
     gallery: [GallerySchema],
     bragging: [FacilitiesAndBraggingSchema],
@@ -51,7 +51,9 @@ const SchoolSchema = new Schema({
     instaLink: String,
     category: String,
     updated: { type: Date, default: Date.now },
-});
+};
+
+const SchoolSchema = new Schema();
 
 const School = mongoose.model('school', SchoolSchema);
 
