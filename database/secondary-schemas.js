@@ -43,8 +43,8 @@ const TeamSchema = new Schema({
 
 const TimeAndDateSchema = new Schema({
     day: String,
-    fromTime: String,
-    toTime: String
+    from: String,
+    to: String
 });
 
 exports = module.exports = {

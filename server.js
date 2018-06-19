@@ -42,11 +42,20 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.use('/blog', routes.blog);
-app.use('/event', storageEngion.eventCoverPicMiddleware, routes.event);
-app.use('/school', storageEngion.schoolCoverPicMiddleware, routes.school);
-app.use('/tuition', storageEngion.tuitionCoverPicMiddleware, routes.tuition);
+app.use('/event', storageEngion.eventCoverPicMiddleware, filterEmptyReqObjects, routes.event);
+app.use('/school', storageEngion.schoolCoverPicMiddleware, filterEmptyReqObjects, routes.school);
+app.use('/tuition', storageEngion.tuitionCoverPicMiddleware, filterEmptyReqObjects, routes.tuition);
 app.use('/user', routes.user);
 
 app.listen(PORT, () => {
     console.log(`Yo dawg! Server's at http://localhost:${PORT}`);
 });
+
+function filterEmptyReqObjects(req, res, next) {
+    Object.keys(req.body).forEach(element => {
+        if (req.body[element] === '') {
+            delete req.body[element];
+        }
+    });
+    next();
+}

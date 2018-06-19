@@ -9,7 +9,7 @@ function nesting(obj) {
             if (obj.dayAndTimeOfOperation) {
                 let done = false;
                 obj.dayAndTimeOfOperation.forEach(item => {
-                    if(item.day === day) {
+                    if (item.day === day) {
                         item[type] = value;
                         done = true;
                     }
