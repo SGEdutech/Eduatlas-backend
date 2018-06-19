@@ -2,7 +2,7 @@ const route = require('express').Router();
 const Tuition = require('../modles/tuition');
 const DbAPIClass = require('../api-functions');
 const tuitionDbFunctions = new DbAPIClass(Tuition);
-const nestDayFunction = require('../../scripts/nest-day');
+const nestDayFunction = require('../../scripts/nest-day').nestDay;
 
 route.get('/all', (req, res) => {
     tuitionDbFunctions.getAllData().then(data => res.send(data)).catch(err => console.error(err));
