@@ -12,6 +12,8 @@ const TimeAndDateSchema = secondarySchemas.TimeAndDateSchema;
 
 const TuitionSchema = new Schema({
     name: String,
+    fromAge: Number,
+    toAge: Number,
     addressLine1: String,
     addressLine2: String,
     city: String,
@@ -38,7 +40,8 @@ const TuitionSchema = new Schema({
     courses: [CourseSchema],
     reviews: [ReviewSchema],
     views: Number,
-    bookmarks: Number
+    bookmarks: Number,
+    signedBy: String
 });
 
 const Tuition = mongoose.model('tuition', TuitionSchema);
