@@ -12,6 +12,7 @@ const TimeAndDateSchema = secondarySchemas.TimeAndDateSchema;
 
 const TuitionSchema = new Schema({
     name: String,
+    category: String,
     fromAge: Number,
     toAge: Number,
     addressLine1: String,
@@ -30,7 +31,7 @@ const TuitionSchema = new Schema({
     email: String,
     website: String,
     fbLink: String,
-    twitter: String,
+    twitterLink: String,
     youtubeLink: String,
     instaLink: String,
     facilities: String,   // image name discription array  // drop down
