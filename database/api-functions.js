@@ -1,4 +1,4 @@
-require('../scripts/fsunlink');
+let deleteFile = require('../scripts/fsunlink').deleteFile;
 
 class databaseAPI {
     constructor(model) {
@@ -37,33 +37,70 @@ class databaseAPI {
             let deletedRow;
             this.model.findOne(searchParameter)
                 .then(collectionToBeDeleted => {
+                    //checking if we got any hit in database or not
+                    if (collectionToBeDeleted) {
+                        collectionToBeDeleted = collectionToBeDeleted.toObject();
 
-                    //
-                    //for deleting images from server file system
+                        //
+                        //for deleting images from server file system
+                        //if image path is not nested. Example- img_coverPic
+                        for (const key in collectionToBeDeleted) {
+                            if (collectionToBeDeleted.hasOwnProperty(key)) {
+                                // console.log(key + " -> " + collectionToBeDeleted[key]);
 
-                    //if image path is not nested. Example- img_coverPic
-                    Object.keys(collectionToBeDeleted).forEach((a) => {
-                       if(a.startsWith('img_')){
-                           deleteFile(collectionToBeDeleted[a])
-                       }
-                    });
-                    //finding nested images. Example - gallery
-                    collectionToBeDeleted.forEach((item) => {
-                        if (typeof item === "object") {
-                            Object.keys(item).forEach((nestedKey) => {
-                                if (nestedKey.startsWith('img_path')) {
-                                    deleteFile(collectionToBeDeleted[item][nestedKey])
+                                if (key.startsWith('img_')) {
+                                    let path = `public/images/`;
+                                    if (collectionToBeDeleted[key].startsWith('event')) {
+                                        path = path + 'eventCoverPics/' + collectionToBeDeleted[key];
+                                        deleteFile(path)
+                                            .then((data) => {
+                                                console.log(data)
+                                            })
+                                            .catch((err) => {
+                                                console.log(err)
+                                            })
+                                    } else if (collectionToBeDeleted[key].startsWith('school')) {
+                                        path = path + 'schoolCoverPics/' + collectionToBeDeleted[key];
+                                        deleteFile(path)
+                                            .then((data) => {
+                                                console.log(data)
+                                            })
+                                            .catch((err) => {
+                                                console.log(err)
+                                            })
+                                    } else if (collectionToBeDeleted[key].startsWith('tuition')) {
+                                        path = path + 'tuitionCoverPics/' + collectionToBeDeleted[key];
+                                        // console.log(path);
+                                        deleteFile(path)
+                                            .then((data) => {
+                                                console.log(data)
+                                            })
+                                            .catch((err) => {
+                                                console.log(err)
+                                            })
+                                    }
                                 }
-                            })
+                            }
                         }
-                    });
+
+                        //finding nested images. Example - gallery
+                        /*collectionToBeDeleted.forEach((item) => {
+                            if (typeof item === "object") {
+                                Object.keys(item).forEach((nestedKey) => {
+                                    if (nestedKey.startsWith('img_path')) {
+                                        deleteFile(collectionToBeDeleted[item][nestedKey])
+                                    }
+                                })
+                            }
+                        });*/
 
 
-                    //
-                    //
+                        //
+                        //
 
-                    deletedRow = collectionToBeDeleted;
-                    return this.model.findOneAndRemove(searchParameter)
+                        deletedRow = collectionToBeDeleted;
+                        return this.model.findOneAndRemove(searchParameter)
+                    }
                 })
                 .then(() => resolve(deletedRow))
                 .catch(err => reject(err));
