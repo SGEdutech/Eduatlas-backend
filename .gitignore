@@ -1,6 +1,5 @@
 .idea
 /node_modules
-/public/images
+/public
 combined\.log
-
 error\.log
