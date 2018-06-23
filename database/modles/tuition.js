@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 const secondarySchemas = require('../secondary-schemas');
 const ContactSchema = secondarySchemas.ContactSchema;
 const ReviewSchema = secondarySchemas.ReviewSchema;
-const GallerySchema = secondarySchemas.GallerySchema;
 const CourseSchema = secondarySchemas.CourseSchema;
 const TeamSchema = secondarySchemas.TeamSchema;
 const FacilitiesAndBraggingSchema = secondarySchemas.FacilitiesAndBraggingSchema;
@@ -36,7 +35,7 @@ const TuitionSchema = new Schema({
     instaLink: String,
     facilities: String,   // image name discription array  // drop down
     img_coverPic: String,
-    gallery: [GallerySchema],
+    gallery: [String],
     bragging: [FacilitiesAndBraggingSchema],
     courses: [CourseSchema],
     reviews: [ReviewSchema],

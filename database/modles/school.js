@@ -5,13 +5,12 @@ const secondarySchemas = require('../secondary-schemas');
 const ContactSchema = secondarySchemas.ContactSchema;
 const ReviewSchema = secondarySchemas.ReviewSchema;
 const ImportantDateSchema = secondarySchemas.ImportantDateSchema;
-const GallerySchema = secondarySchemas.GallerySchema;
 const FacilitiesAndBraggingSchema = secondarySchemas.FacilitiesAndBraggingSchema;
 const TimeAndDateSchema = secondarySchemas.TimeAndDateSchema;
 
 const SchoolSchema = new Schema({
     coverPic: String,
-    gallery: [GallerySchema],
+    gallery: [String],
     bragging: [FacilitiesAndBraggingSchema],
     description: String,
     curriculum: String,
