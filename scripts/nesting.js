@@ -15,12 +15,12 @@ function nestingMiddleware(req, res, next) {
             const hostKey = splitArr[1];
             const keyToBeInserted = splitArr[2];
             const valueToBeInserted = obj[key];
-            const identifierValue = splitArr[3];
+            const identifier = splitArr[3];
             let isWorkDone = false;
 
             if (obj[hostKey] === undefined) obj[hostKey] = [];
             obj[hostKey].forEach(nestedObject => {
-                if (nestedObject.identifierKey === identifierValue) {
+                if (nestedObject.identifierKey === identifier) {
                     nestedObject[keyToBeInserted] = valueToBeInserted;
                     isWorkDone = true;
                 }
@@ -28,7 +28,7 @@ function nestingMiddleware(req, res, next) {
             if (isWorkDone === false) {
                 const objToBeInserted = {};
                 objectsThatThisFunctionHasCreated.push(objToBeInserted);
-                objToBeInserted.identifierKey = identifierValue;
+                objToBeInserted.identifierKey = identifier;
                 objToBeInserted[keyToBeInserted] = valueToBeInserted;
                 obj[hostKey].push(objToBeInserted);
             }
@@ -38,5 +38,18 @@ function nestingMiddleware(req, res, next) {
     objectsThatThisFunctionHasCreated.forEach(object => delete object.identifierKey);
     next();
 }
+
+let req = {};
+
+req.body = {
+    name: 'Obama',
+    n_impDates_addmissionStartDate_1: '22',
+    n_impDates_addmissionEndDate_1: '23',
+};
+
+nestingMiddleware(req, '', () => {})
+
+console.log(req.body);
+
 
 exports.nestingMiddleware = nestingMiddleware;

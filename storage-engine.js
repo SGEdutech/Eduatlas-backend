@@ -43,7 +43,10 @@ const uploadSchoolCoverPic = multer({
     storage: schoolCoverPicStorage,
     // limits: {fileSize: 10},  // Unit Bytes
     fileFilter: checkFileType
-}).single('schoolCoverPic');
+}).fields([
+    { name: 'schoolCoverPic', maxCount: 1 },
+    { name: 'schoolGalleryPic', maxCount: 10 }
+]);
 
 function schoolCoverPicMiddleware(req, res, next) {
     uploadSchoolCoverPic(req, res, err => {
@@ -73,5 +76,5 @@ function tuitionCoverPicMiddleware(req, res, next) {
 exports = module.exports = {
     eventCoverPicMiddleware,
     schoolCoverPicMiddleware,
-    tuitionCoverPicMiddleware
+    tuitionCoverPicMiddleware,
 };
