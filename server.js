@@ -3,6 +3,7 @@ const path = require('path');
 const cors = require('cors');
 const PORT = require('./config').SERVER.PORT;
 const storageEngion = require('./storage-engine');
+const {nestingMiddleware} = require('./scripts/nesting');
 require('./database/connection');
 const winston = require('winston');
 
@@ -43,11 +44,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.use('/blog', routes.blog);
-app.use('/event', storageEngion.eventCoverPicMiddleware, routes.event);
-app.use('/school', storageEngion.schoolCoverPicMiddleware, routes.school);
-app.use('/tuition', storageEngion.tuitionCoverPicMiddleware, routes.tuition);
-app.use('/user', routes.user);
+app.use('/blog', nestingMiddleware, routes.blog);
+app.use('/event', storageEngion.eventCoverPicMiddleware, nestingMiddleware, routes.event);
+app.use('/school', storageEngion.schoolCoverPicMiddleware, nestingMiddleware, routes.school);
+app.use('/tuition', storageEngion.tuitionCoverPicMiddleware, nestingMiddleware, routes.tuition);
+app.use('/user', nestingMiddleware, routes.user);
 
 app.listen(PORT, () => {
     console.log(`Yo dawg! Server's at http://localhost:${PORT}`);
