@@ -34,7 +34,7 @@ const UserSchema = new Schema({
     linkedinLink: String,
     bookmarks: [String]
 });
-//privacy
+// Privacy
 
 const User = mongoose.model('user', UserSchema);
 

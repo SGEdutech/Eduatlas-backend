@@ -19,8 +19,8 @@ const ReviewSchema = new Schema({
 });
 
 const GallerySchema = new Schema({
-    title: String,
-    img_path: String
+    img_path: String,
+    album: String
 });
 
 const CourseSchema = new Schema({
