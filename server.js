@@ -37,7 +37,10 @@ logger.on('error', function (err) {
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/app', express.static(path.join(__dirname, 'public')));
+
+app.use('/add/tuition', (req, res) => res.redirect('/app/add-tuition.html'));
+app.use('/add/school', (req, res) => res.redirect('/app/add-school.html'));
 
 app.use(cors());
 
