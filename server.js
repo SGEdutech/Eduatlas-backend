@@ -2,7 +2,8 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const PORT = require('./config').SERVER.PORT;
-const storageEngion = require('./storage-engine');
+const {eventCoverPicMiddleware, schoolCoverPicMiddleware, tuitionCoverPicMiddleware} =
+    require('./storage-engine');
 const {nestingMiddleware} = require('./scripts/nesting');
 require('./database/connection');
 const winston = require('winston');
@@ -39,8 +40,10 @@ const app = express();
 
 app.use('/app', express.static(path.join(__dirname, 'public')));
 
+//temp routes
 app.use('/add/tuition', (req, res) => res.redirect('/app/add-tuition.html'));
 app.use('/add/school', (req, res) => res.redirect('/app/add-school.html'));
+app.use('/admin/tuition', (req, res) => res.redirect('/app/Admin-tuition'))
 
 app.use(cors());
 
@@ -48,9 +51,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.use('/blog', nestingMiddleware, routes.blog);
-app.use('/event', storageEngion.eventCoverPicMiddleware, nestingMiddleware, routes.event);
-app.use('/school', storageEngion.schoolCoverPicMiddleware, nestingMiddleware, routes.school);
-app.use('/tuition', storageEngion.tuitionCoverPicMiddleware, nestingMiddleware, routes.tuition);
+app.use('/event', eventCoverPicMiddleware, nestingMiddleware, routes.event);
+app.use('/school', schoolCoverPicMiddleware, nestingMiddleware, routes.school);
+app.use('/tuition', tuitionCoverPicMiddleware, nestingMiddleware, routes.tuition);
 app.use('/user', nestingMiddleware, routes.user);
 
 app.listen(PORT, () => {
