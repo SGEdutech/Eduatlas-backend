@@ -25,6 +25,7 @@ const GallerySchema = new Schema({
 
 const CourseSchema = new Schema({
     title: String,
+    ageGroup: String,
     duration: String,
     fee: Number,
     nextBatch: Date
@@ -32,12 +33,14 @@ const CourseSchema = new Schema({
 
 const FacilitiesAndBraggingSchema = new Schema({
     title: String,
+    description: String,
     img_path: String
 });
 
 const TeamSchema = new Schema({
     name: String,
     description: String,
+    qualification: String,
     img_path: String
 });
 
