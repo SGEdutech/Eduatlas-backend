@@ -132,7 +132,7 @@ class databaseAPI {
 
 
                             Object.keys(item).forEach((nestedKey) => {
-                                if (data.startsWith('img_')) {
+                                if (nestedKey.startsWith('img_')) {
                                     deleteFile(data[arrayName][nestedKey])
                                 }
                             });
