@@ -43,7 +43,7 @@ app.use('/app', express.static(path.join(__dirname, 'public')));
 //temp routes
 app.use('/add/tuition', (req, res) => res.redirect('/app/add-tuition.html'));
 app.use('/add/school', (req, res) => res.redirect('/app/add-school.html'));
-app.use('/admin/tuition', (req, res) => res.redirect('/app/Admin-tuition'))
+app.use('/admin/tuition', (req, res) => res.redirect('/app/Admin-tuition.html'))
 
 app.use(cors());
 
