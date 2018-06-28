@@ -2,6 +2,12 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const PORT = require('./config').SERVER.PORT;
+const session = require('express-session');
+const passport = require('passport');
+require('./oauth/local');
+require('./oauth/google');
+require('./oauth/facebook');
+const keys = require('./oauth/_config').keys;
 const {eventCoverPicMiddleware, schoolCoverPicMiddleware, tuitionCoverPicMiddleware} =
     require('./storage-engine');
 const {nestingMiddleware} = require('./scripts/nesting');
@@ -13,7 +19,8 @@ const routes = {
     event: require('./database/api/event'),
     school: require('./database/api/school'),
     tuition: require('./database/api/tuition'),
-    user: require('./database/api/user')
+    user: require('./database/api/user'),
+    auth: require('./oauth/auth_routes')
 };
 
 //by default logger exit on error, if you want to change it, add a key:value while creating logger
@@ -37,6 +44,14 @@ logger.on('error', function (err) {
 });
 
 const app = express();
+
+//cookie stuff
+app.use(session({
+    secret: keys.CookieKey,
+    cookie: {maxAge: 7 * 24 * 60 * 60 * 1000}
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/app', express.static(path.join(__dirname, 'public')));
 
