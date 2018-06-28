@@ -23,7 +23,7 @@ const eventCoverPicStorage = multer.diskStorage({
 
 const uploadEventCoverPic = multer({
     storage: eventCoverPicStorage,
-    // limits: {fileSize: 10},  // Unit Bytes
+    limits: {fileSize: 1024 * 1024},  // Unit Bytes
     fileFilter: checkFileType
 }).single('eventCoverPic');
 
@@ -41,9 +41,12 @@ const schoolCoverPicStorage = multer.diskStorage({
 
 const uploadSchoolCoverPic = multer({
     storage: schoolCoverPicStorage,
-    // limits: {fileSize: 10},  // Unit Bytes
+    limits: {fileSize: 1024 * 1024},  // Unit Bytes
     fileFilter: checkFileType
-}).single('schoolCoverPic');
+}).fields([
+    { name: 'schoolCoverPic', maxCount: 1 },
+    { name: 'schoolGalleryPic', maxCount: 10 }
+]);
 
 function schoolCoverPicMiddleware(req, res, next) {
     uploadSchoolCoverPic(req, res, err => {
@@ -59,7 +62,7 @@ const tuitionCoverPicStorage = multer.diskStorage({
 
 const uploadTuitionCoverPic = multer({
     storage: tuitionCoverPicStorage,
-    // limits: {fileSize: 10},  // Unit Bytes
+    limits: {fileSize: 1024 * 1024},  // Unit Bytes
     fileFilter: checkFileType
 }).single('tuitionCoverPic');
 
@@ -73,5 +76,5 @@ function tuitionCoverPicMiddleware(req, res, next) {
 exports = module.exports = {
     eventCoverPicMiddleware,
     schoolCoverPicMiddleware,
-    tuitionCoverPicMiddleware
+    tuitionCoverPicMiddleware,
 };

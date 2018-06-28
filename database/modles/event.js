@@ -25,7 +25,7 @@ const eventSchema = new Schema({
     country: String,
     pin: Number,
     gallery: [GallerySchema],
-    coverPic: String,
+    img_coverPic: String,
     going: Number,
     notGoing: Number,
     mayBeGoing: Number,

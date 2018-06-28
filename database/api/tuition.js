@@ -12,27 +12,27 @@ route.get('/', (req, res) => {
 });
 
 route.post('/add/:arrayName/:_id', (req, res) => {
-    schoolDbFunctions.addElementToArray({_id: req.params._id}, req.params.arrayName, req.body)
+    tuitionDbFunctions.addElementToArray({_id: req.params._id}, req.params.arrayName, req.body)
         .then(data => res.send(data))
         .catch(err => console.error(err));
 });
 
 route.post('/', (req, res) => {
-    if (req.file) req.body.coverPic = req.file.filename;
+    if (req.file) req.body.img_coverPic = req.file.filename;
     tuitionDbFunctions.addCollection(req.body).then(data => res.send(data)).catch(err => console.error(err));
 });
 
-route.put('/:userId', (req, res) => {
+route.put('/:_id', (req, res) => {
     tuitionDbFunctions.updateOneRow(req.params, req.body).then(data => res.send(data)).catch(err => console.error(err));
 });
 
 route.delete('/delete/:arrayName/:_id', (req, res) => {
-    schoolDbFunctions.deleteElementFromArray({_id: req.params._id}, req.params.arrayName, req.body)
+    tuitionDbFunctions.deleteElementFromArray({_id: req.params._id}, req.params.arrayName, req.body)
         .then(data => res.send(data))
         .catch(err => console.error(err));
 });
 
-route.delete('/:userId', (req, res) => {
+route.delete('/:_id', (req, res) => {
     tuitionDbFunctions.deleteOneRow(req.params).then(data => res.send(data)).catch(err => console.error(err));
 });
 

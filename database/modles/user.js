@@ -10,20 +10,37 @@ const UserSchema = new Schema({
     eventsOwned: [String],
     tuitionsOwned: [String],
     schoolsOwned: [String],
+    primaryRole: String, // Institute, student, parent
     isMale: Boolean,
-    address: String,  //you knwo the drill
-    name: String,
-    primaryEmail: String,  //should be unique
+    addressLine1: String,
+    addressLine2: String,
+    city: String,
+    district: String,
+    state: String,
+    country: String,
+    pin: Number,
+    firstName: String,
+    middleName: String,
+    lastName: String,
+    primaryEmail: String,  //should be unique also alternate
     secondaryEmail: String,
     phone: Number,
-    profilePicPath: String,
+    img_profilePicPath: String,
     dateOfBirth: Date,
     goingEvents: [String],
     mayBeGoingEvents: [String],
     schoolStuding: String,  //history
-    bookmarks: [String]
+    fbLink: String,
+    twitterLink: String,
+    youtubeLink: String,
+    instaLink: String,
+    linkedinLink: String,
+    bookmarkTuitions: [String],
+    bookmarkSchools: [String],
+    bookmarkEvents: [String],
+    bookmarkBlogs: [String]
 });
-//privacy
+// Privacy
 
 const User = mongoose.model('user', UserSchema);
 

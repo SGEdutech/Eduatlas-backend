@@ -5,24 +5,24 @@ const secondarySchemas = require('../secondary-schemas');
 const ContactSchema = secondarySchemas.ContactSchema;
 const ReviewSchema = secondarySchemas.ReviewSchema;
 const ImportantDateSchema = secondarySchemas.ImportantDateSchema;
-const GallerySchema = secondarySchemas.GallerySchema;
 const FacilitiesAndBraggingSchema = secondarySchemas.FacilitiesAndBraggingSchema;
+const TimeAndDateSchema = secondarySchemas.TimeAndDateSchema;
 
 const SchoolSchema = new Schema({
     coverPic: String,
-    gallery: [String], //array
-    bragging: [FacilitiesAndBraggingSchema],  //make a schema
+    gallery: [String],
+    bragging: [FacilitiesAndBraggingSchema],
     description: String,
-    curriculum: String,  //dropdown- CBSE, ICSE, State board, IB, IGCSC
-    fromGrade: String,  //prenurcery - 12 drop down
-    toGrade: String,
-    type: String,  // see that pic  // day , day boarding boarding
+    otherInfo: String,
+    curriculum: String,
+    grades: String,
+    type: String,
     principalName: String,
     yearFounded: Number,
-    fromTime: String,  //date and time
-    toTime: String,
-    fromDay: String,
-    toDay: String,
+    startTimeSchool: String,
+    endTimeSchool: String,
+    startTimeOffice: String,
+    endTimeOffice: String,
     name: String,
     addressLine1: String,
     addressLine2: String,
@@ -31,30 +31,31 @@ const SchoolSchema = new Schema({
     state: String,
     country: String,
     pin: Number,
-    facilities: String, // image and title
+    facilities: String,
     activities: String,
     reviews: [ReviewSchema],
     fee: Number,
-    admissionProcess: String,  // fee details see the photo
+    admissionProcess: String,
+    eligibilityCriteria: String,
     startTime: Date,
     endTime: Date,
-    importantDates: [ImportantDateSchema],  //3 info see pic
+    importantDates: [ImportantDateSchema],
     views: Number,
     bookmarks: Number,
     claimedBy: String,
-    contactNumber1: Number,
-    contactNumber2: Number,
-    contactNumber3: Number,
+    contactPerson: String,
+    primaryNumber: Number,
+    secondaryNumber: Number,
     email: String,
     website: String,
     fbLink: String,
-    twitter: String,
+    twitterLink: String,
     youtubeLink: String,
     instaLink: String,
-    catagoty: String,  // pre/play school, day care, formal school
+    category: String,
+    signedBy: String,
     updated: { type: Date, default: Date.now },
 });
-//website social fb twitter youtube insta
 
 const School = mongoose.model('school', SchoolSchema);
 
