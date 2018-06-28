@@ -32,7 +32,10 @@ const UserSchema = new Schema({
     youtubeLink: String,
     instaLink: String,
     linkedinLink: String,
-    bookmarks: [String]
+    bookmarkTuitions: [String],
+    bookmarkSchools: [String],
+    bookmarkEvents: [String],
+    bookmarkBlogs: [String]
 });
 // Privacy
 
