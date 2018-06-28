@@ -70,6 +70,7 @@ app.use('/event', eventCoverPicMiddleware, nestingMiddleware, routes.event);
 app.use('/school', schoolCoverPicMiddleware, nestingMiddleware, routes.school);
 app.use('/tuition', tuitionCoverPicMiddleware, nestingMiddleware, routes.tuition);
 app.use('/user', nestingMiddleware, routes.user);
+app.use('/auth', routes.auth);
 
 app.listen(PORT, () => {
     console.log(`Yo dawg! Server's at http://localhost:${PORT}`);
