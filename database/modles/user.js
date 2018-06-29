@@ -22,7 +22,7 @@ const UserSchema = new Schema({
     primaryEmail: String,  //should be unique also alternate
     secondaryEmail: String,
     phone: Number,
-    img_profilePicPath: String,
+    img_userProfilePic: String,
     dateOfBirth: Date,
     goingEvents: [String],
     mayBeGoingEvents: [String],

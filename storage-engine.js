@@ -62,7 +62,7 @@ const tuitionCoverPicStorage = multer.diskStorage({
 
 const uploadTuitionCoverPic = multer({
     storage: tuitionCoverPicStorage,
-    limits: {fileSize: 1024 * 1024},  // Unit Bytes
+    // limits: {fileSize: 1024 * 1024},  // Unit Bytes
     fileFilter: checkFileType
 }).single('tuitionCoverPic');
 
@@ -76,5 +76,5 @@ function tuitionCoverPicMiddleware(req, res, next) {
 exports = module.exports = {
     eventCoverPicMiddleware,
     schoolCoverPicMiddleware,
-    tuitionCoverPicMiddleware,
+    tuitionCoverPicMiddleware
 };

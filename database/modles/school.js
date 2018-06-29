@@ -54,7 +54,7 @@ const SchoolSchema = new Schema({
     instaLink: String,
     category: String,
     signedBy: String,
-    updated: { type: Date, default: Date.now },
+    updated: {type: Date, default: Date.now},
 });
 
 const School = mongoose.model('school', SchoolSchema);

@@ -34,14 +34,15 @@ const TuitionSchema = new Schema({
     youtubeLink: String,
     instaLink: String,
     facilities: String,   // image name discription array  // drop down
-    img_coverPic: String,
+    img_tuitionCoverPic: String,
     gallery: [String],
     bragging: [FacilitiesAndBraggingSchema],
     courses: [CourseSchema],
     reviews: [ReviewSchema],
     views: Number,
     bookmarks: Number,
-    signedBy: String
+    signedBy: String,
+    updatedOn: {type: Date, default: Date.now()}
 });
 
 const Tuition = mongoose.model('tuition', TuitionSchema);

@@ -1,16 +1,10 @@
 const fs = require('fs');
+const path = require('path');
 
-function deleteFile(path) {
+function deleteThisShit(path) {
     return new Promise((resolve, reject) => {
-        fs.unlink(path, (err) => {
-            if (err) {
-                // throw err;
-                reject(err)
-            } else {
-                resolve('successfully deleted-' + path)
-            }
-        });
+        fs.unlink(path, err => err ? reject(err) : resolve(`scuessfully deleted- ${path}`));
     })
 }
 
-exports.deleteFile = deleteFile;
+module.exports = deleteThisShit;
