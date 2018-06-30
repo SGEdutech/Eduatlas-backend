@@ -22,6 +22,11 @@ route.post('/', (req, res) => {
     tuitionDbFunctions.addCollection(req.body).then(data => res.send(data)).catch(err => console.error(err));
 });
 
+route.put('/update/:idOfCollection/:arrayName/:idOfNestedObject', (req, res) => {
+    tuitionDbFunctions.updateElementInArray({_id: req.params.idOfCollection}, req.params.arrayName,
+        req.params.idOfNestedObject, req.body).then(data => res.send(data)).catch(err => console.error(err));
+});
+
 route.put('/:_id', (req, res) => {
     tuitionDbFunctions.updateOneRow(req.params, req.body).then(data => res.send(data)).catch(err => console.error(err));
 });

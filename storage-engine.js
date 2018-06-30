@@ -2,7 +2,7 @@ const path = require('path');
 const multer = require('multer');
 
 function nameThatBitch(req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    cb(null, file.originalname + '-' + Date.now() + path.extname(file.originalname))
 }
 
 function checkFileType(req, file, cb) {
@@ -23,9 +23,9 @@ const eventCoverPicStorage = multer.diskStorage({
 
 const uploadEventCoverPic = multer({
     storage: eventCoverPicStorage,
-    limits: {fileSize: 1024 * 1024},  // Unit Bytes
+    // limits: {fileSize: 1024 * 1024},  // Unit Bytes
     fileFilter: checkFileType
-}).single('eventCoverPic');
+}).any();
 
 function eventCoverPicMiddleware(req, res, next) {
     uploadEventCoverPic(req, res, err => {
@@ -41,12 +41,9 @@ const schoolCoverPicStorage = multer.diskStorage({
 
 const uploadSchoolCoverPic = multer({
     storage: schoolCoverPicStorage,
-    limits: {fileSize: 1024 * 1024},  // Unit Bytes
+    // limits: {fileSize: 1024 * 1024},  // Unit Bytes
     fileFilter: checkFileType
-}).fields([
-    { name: 'schoolCoverPic', maxCount: 1 },
-    { name: 'schoolGalleryPic', maxCount: 10 }
-]);
+}).any();
 
 function schoolCoverPicMiddleware(req, res, next) {
     uploadSchoolCoverPic(req, res, err => {
@@ -64,7 +61,7 @@ const uploadTuitionCoverPic = multer({
     storage: tuitionCoverPicStorage,
     // limits: {fileSize: 1024 * 1024},  // Unit Bytes
     fileFilter: checkFileType
-}).single('tuitionCoverPic');
+}).any();
 
 function tuitionCoverPicMiddleware(req, res, next) {
     uploadTuitionCoverPic(req, res, err => {

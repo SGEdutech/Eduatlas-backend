@@ -20,6 +20,11 @@ route.post('/add/:arrayName/:_id', (req, res) => {
 route.post('/', (req, res) => {
     schoolDbFunctions.addCollection(req.body).then(data => res.send(data)).catch(err => console.error(err));
 });
+route.put('/update/:idOfCollection/:arrayName/:idOfNestedObject', (req, res) => {
+    schoolDbFunctions.updateElementInArray({_id: req.params.idOfCollection}, req.params.arrayName,
+        req.params.idOfNestedObject, req.body).then(data => res.send(data)).catch(err => console.error(err));
+});
+
 
 route.put('/:_id', (req, res) => {
     schoolDbFunctions.updateOneRow(req.params, req.body).then(data => res.send(data)).catch(err => console.error(err));

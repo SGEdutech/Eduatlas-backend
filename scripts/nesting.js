@@ -41,24 +41,32 @@ function nestingMiddleware(req, res, next) {
             delete obj[key];
         }
     });
+    console.log(obj);
+    console.log(req.files);
     if (req.files) {
         req.files.forEach(file => {
             const infoArr = file.fieldname.split('_');
             const hostKeyName = infoArr[1];
             const directoryName = infoArr[2];
-            const identifierKey = infoArr[3];
-            const arrayToBeInserted = obj[hostKeyName];
-            if (arrayToBeInserted) {
-                if (Array.isArray(arrayToBeInserted) === false) throw new Error('Image: Key to be inserted is not an array');
-                arrayToBeInserted.forEach(nestedObj => {
-                    if (nestedObj.identifierKey === identifierKey) {
-                        nestedObj[`img_${directoryName}_path`] = file.filename
-                    }
-                })
-            } else {
-                obj[identifierKey] = [{
-                    [`img_${directoryName}_path`]: file.filename
-                }]
+            if (file.fieldname.startsWith('n_')){
+                const identifierKey = infoArr[3];
+                const arrayToBeInserted = obj[hostKeyName];
+                if (arrayToBeInserted) {
+                    if (Array.isArray(arrayToBeInserted) === false) throw new Error('Image: Key to be inserted is not an array');
+                    arrayToBeInserted.forEach(nestedObj => {
+                        if (nestedObj.identifierKey === identifierKey) {
+                            nestedObj[`img_${directoryName}`] = file.filename
+                        }
+                    })
+                } else {
+                    obj[identifierKey] = [{
+                        [`img_${directoryName}`]: file.filename
+                    }]
+                }
+            } else if (file.fieldname.startsWith('o_')) {
+                const infoArr = file.fieldname.split('_');
+                const directoryName = infoArr[1];
+                obj[`img_${directoryName}`] = file.filename
             }
         })
     }

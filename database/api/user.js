@@ -21,6 +21,11 @@ route.post('/add/:arrayName/:_id', (req, res) => {
         .catch(err => console.error(err));
 });
 
+route.put('/update/:idOfCollection/:arrayName/:idOfNestedObject', (req, res) => {
+    userDbFunctions.updateElementInArray({_id: req.params.idOfCollection}, req.params.arrayName,
+        req.params.idOfNestedObject, req.body).then(data => res.send(data)).catch(err => console.error(err));
+});
+
 route.put('/:_id', (req, res) => {
     userDbFunctions.updateOneRow(req.params, req.body).then(data => res.send(data)).catch(err => console.error(err));
 });

@@ -13,7 +13,7 @@ route.get('/', (req, res) => {
 
 
 route.post('/add/:arrayName/:_id', (req, res) => {
-    schoolDbFunctions.addElementToArray({_id: req.params._id}, req.params.arrayName, req.body)
+    eventDbFunctions.addElementToArray({_id: req.params._id}, req.params.arrayName, req.body)
         .then(data => res.send(data))
         .catch(err => console.error(err));
 });
@@ -21,6 +21,11 @@ route.post('/add/:arrayName/:_id', (req, res) => {
 route.post('/', (req, res) => {
     if (req.file) req.body.coverPic = req.file.filename;
     eventDbFunctions.addCollection(req.body).then(data => res.send(data)).catch(err => console.error(err));
+});
+
+route.put('/update/:idOfCollection/:arrayName/:idOfNestedObject', (req, res) => {
+    schoolDbFunctions.updateElementInArray({_id: req.params.idOfCollection}, req.params.arrayName,
+        req.params.idOfNestedObject, req.body).then(data => res.send(data)).catch(err => console.error(err));
 });
 
 route.put('/:_id', (req, res) => {

@@ -86,6 +86,19 @@ class databaseAPI {
         })
     }
 
+    updateElementInArray(modelSearchParameter, arrayName, nestedObjectId, updatedInformation) {
+        return new Promise((resolve, reject) => {
+            this.model.findOne(modelSearchParameter)
+                .then(data => {
+                    const nestedObject = data[arrayName].id(nestedObjectId);
+                    const keys = Object.keys(updatedInformation);
+                    keys.forEach(key => nestedObject[key] = updatedInformation[key]);
+                    return data.save();
+                }).then(data => resolve(data))
+                .catch(err => reject(err));
+        })
+    }
+
     deleteElementFromArray(modelSearchParameter, arrayName, nestedObjectIdentifier) {
         return new Promise((resolve, reject) => {
             if (modelSearchParameter === 'undefined') throw new Error('Model search parameter not provided');
