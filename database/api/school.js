@@ -18,8 +18,6 @@ route.post('/add/:arrayName/:_id', (req, res) => {
 });
 
 route.post('/', (req, res) => {
-    if (req.file) req.body.img_coverPic = req.file.filename;
-    console.log(req.files);
     schoolDbFunctions.addCollection(req.body).then(data => res.send(data)).catch(err => console.error(err));
 });
 

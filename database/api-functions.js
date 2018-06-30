@@ -33,10 +33,10 @@ class databaseAPI {
         })
     }
 
-    static _deleteIfImage(keyName, imgName) {
+    static _deleteIfImage(keyName, possibleImgName) {
         if (keyName.startsWith('img_')) {
-            const directoryOfImage = keyName.split('_')[1];
-            deleteThisShit(path.join('.', 'public', 'images', directoryOfImage, imgName));
+            const directoryOfImage = keyName.split('_')[2];
+            deleteThisShit(path.join('.', 'public', 'images', directoryOfImage, possibleImgName));
             return true;
         }
         return false;
@@ -86,28 +86,20 @@ class databaseAPI {
         })
     }
 
-    deleteElementFromArray(modelSearchParameter, arrayName, elementIdentifier) {
+    deleteElementFromArray(modelSearchParameter, arrayName, nestedObjectIdentifier) {
         return new Promise((resolve, reject) => {
+            if (modelSearchParameter === 'undefined') throw new Error('Model search parameter not provided');
+            if (arrayName === 'undefined') throw new Error('Array name not provided');
+            if (nestedObjectIdentifier === 'undefined') throw new Error('Nested object identifier not provided');
+            let nestedObjectIdentifierKey = Object.keys(nestedObjectIdentifier)[0];
             this.model.findOne(modelSearchParameter)
                 .then(data => {
-                    let elementIdentifierKey = Object.keys(elementIdentifier)[0];
                     data[arrayName].forEach((item, index) => {
-                        if (item[elementIdentifierKey] === elementIdentifier[elementIdentifierKey]) {
-
-                            //
-                            //for deleting image from server file system
-
-
-                            Object.keys(item).forEach((nestedKey) => {
-                                if (nestedKey.startsWith('img_')) {
-                                    deleteFile(data[arrayName][nestedKey])
-                                }
+                        if (item[nestedObjectIdentifierKey] === nestedObjectIdentifier[nestedObjectIdentifierKey]) {
+                            const nestedObjectKeys = Object.keys(item);
+                            nestedObjectKeys.forEach(nestedKey => {
+                               this.constructor._deleteIfImage(nestedKey, item[nestedKey]);
                             });
-
-
-                            //
-                            //
-
                             data[arrayName].splice(index, 1);
                         }
                     });
