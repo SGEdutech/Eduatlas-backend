@@ -4,3 +4,5 @@
 /config.json
 combined\.log
 error\.log
+
+oauth/_config\.js
