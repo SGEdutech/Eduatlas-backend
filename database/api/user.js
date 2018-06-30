@@ -3,6 +3,18 @@ const User = require('../modles/user');
 const DbAPIClass = require('../api-functions');
 const userDbFunctions = new DbAPIClass(User);
 
+// hiding user
+
+route.get('/', (req, res) => {
+    if(req.user){
+        res.send(req.user);
+    }else{
+        res.send('LogIn')
+    }
+});
+
+// hiding user
+
 route.get('/all', (req, res) => {
     userDbFunctions.getAllData().then(data => res.send(data)).catch(err => console.error(err));
 });

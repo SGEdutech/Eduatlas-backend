@@ -44,26 +44,27 @@ logger.on('error', function (err) {
 });
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
+app.use('/app', express.static(path.join(__dirname, 'public')));
 
 //cookie stuff
 app.use(session({
     secret: keys.CookieKey,
-    cookie: {maxAge: 7 * 24 * 60 * 60 * 1000}
+    cookie: {maxAge: 7 * 24 * 60 * 60 * 1000},
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/app', express.static(path.join(__dirname, 'public')));
-
 //temp routes
 app.use('/add/tuition', (req, res) => res.redirect('/app/add-tuition.html'));
 app.use('/add/school', (req, res) => res.redirect('/app/add-school.html'));
-app.use('/admin/tuition', (req, res) => res.redirect('/app/Admin-tuition.html'));
+app.use('/admin/tuition', (req, res) => res.redirect('/app/Admin-tuition.html'))
 
 app.use(cors());
 
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+
 
 app.use('/blog', nestingMiddleware, routes.blog);
 app.use('/event', eventCoverPicMiddleware, nestingMiddleware, routes.event);
