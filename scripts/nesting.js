@@ -3,7 +3,14 @@ function nestingMiddleware(req, res, next) {
 
     if (obj === undefined) next();
 
-    const keys = Object.keys(obj);
+    let keys = Object.keys(obj);
+
+    keys.forEach(key => {
+        if (obj[key] === '') delete obj[key]
+    });
+
+    keys = Object.keys(obj);
+
     let objectsThatThisFunctionHasCreated = [];
     keys.forEach(key => {
         if (key.startsWith('n_')) {
@@ -34,7 +41,29 @@ function nestingMiddleware(req, res, next) {
             delete obj[key];
         }
     });
+    if (req.files) {
+        req.files.forEach(file => {
+            const infoArr = file.fieldname.split('_');
+            const hostKeyName = infoArr[1];
+            const directoryName = infoArr[2];
+            const identifierKey = infoArr[3];
+            const arrayToBeInserted = obj[hostKeyName];
+            if (arrayToBeInserted) {
+                if (Array.isArray(arrayToBeInserted) === false) throw new Error('Image: Key to be inserted is not an array');
+                arrayToBeInserted.forEach(nestedObj => {
+                    if (nestedObj.identifierKey === identifierKey) {
+                        nestedObj[`img_${directoryName}_path`] = file.filename
+                    }
+                })
+            } else {
+                obj[identifierKey] = [{
+                    [`img_${directoryName}_path`]: file.filename
+                }]
+            }
+        })
+    }
     objectsThatThisFunctionHasCreated.forEach(object => delete object.identifierKey);
+    console.log(obj);
     next();
 }
 
