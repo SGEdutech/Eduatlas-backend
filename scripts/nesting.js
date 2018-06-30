@@ -41,8 +41,6 @@ function nestingMiddleware(req, res, next) {
             delete obj[key];
         }
     });
-    console.log(obj);
-    console.log(req.files);
     if (req.files) {
         req.files.forEach(file => {
             const infoArr = file.fieldname.split('_');
@@ -67,11 +65,12 @@ function nestingMiddleware(req, res, next) {
                 const infoArr = file.fieldname.split('_');
                 const directoryName = infoArr[1];
                 obj[`img_${directoryName}`] = file.filename
+            } else if (file.fieldname.startsWith('a_')) {
+
             }
         })
     }
     objectsThatThisFunctionHasCreated.forEach(object => delete object.identifierKey);
-    console.log(obj);
     next();
 }
 

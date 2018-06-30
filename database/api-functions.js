@@ -35,7 +35,7 @@ class databaseAPI {
 
     static _deleteIfImage(keyName, possibleImgName) {
         if (keyName.startsWith('img_')) {
-            const directoryOfImage = keyName.split('_')[2];
+            const directoryOfImage = keyName.split('_')[1];
             deleteThisShit(path.join('.', 'public', 'images', directoryOfImage, possibleImgName));
             return true;
         }
