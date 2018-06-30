@@ -66,7 +66,10 @@ function nestingMiddleware(req, res, next) {
                 const directoryName = infoArr[1];
                 obj[`img_${directoryName}`] = file.filename
             } else if (file.fieldname.startsWith('a_')) {
-
+                const infoArr = file.fieldname.split('_');
+                const directoryName = infoArr[1];
+                const keyName = infoArr[2];
+                obj[`img_${directoryName}_${keyName}`] = file.filename;
             }
         })
     }
