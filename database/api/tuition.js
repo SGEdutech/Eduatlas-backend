@@ -3,12 +3,22 @@ const Tuition = require('../modles/tuition');
 const DbAPIClass = require('../api-functions');
 const tuitionDbFunctions = new DbAPIClass(Tuition);
 
+
 route.get('/all', (req, res) => {
     tuitionDbFunctions.getAllData().then(data => res.send(data)).catch(err => console.error(err));
 });
 
 route.get('/', (req, res) => {
-    tuitionDbFunctions.getSpecificData(req.query).then(data => res.send(data)).catch(err => console.error(err));
+    if (req.query.search) {
+        Tuition.find({$text: {$search: req.query.search}}).then(data => res.send(data)).catch(err => console.log(err))
+        /*.skip(20)
+        .limit(10)
+        .exec(function (err, docs) {
+        console.log(docs)
+        })*/
+    } else {
+        tuitionDbFunctions.getSpecificData(req.query).then(data => res.send(data)).catch(err => console.error(err));
+    }
 });
 
 route.post('/add/:arrayName/:_id', (req, res) => {

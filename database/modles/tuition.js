@@ -45,6 +45,9 @@ const TuitionSchema = new Schema({
     updatedOn: {type: Date, default: Date.now()}
 });
 
+TuitionSchema.index({name: 'text', state: 'text'});
+// TuitionSchema.index({'$**': 'text'});
+
 const Tuition = mongoose.model('tuition', TuitionSchema);
 
 module.exports = Tuition;
