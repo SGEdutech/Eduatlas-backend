@@ -1,14 +1,21 @@
 const route = require('express').Router();
 const Event = require('../modles/event');
 const DbAPIClass = require('../api-functions');
+const sendSlicedArrIfRequested = require('../../scripts/pagination');
 const eventDbFunctions = new DbAPIClass(Event);
 
 route.get('/all', (req, res) => {
-    eventDbFunctions.getAllData().then(data => res.send(data)).catch(err => console.error(err));
+    eventDbFunctions.getAllData().then(data => {
+        const done = sendSlicedArrIfRequested(req, res, data);
+        if (done === false) res.send(data);
+    }).catch(err => console.error(err));
 });
 
 route.get('/', (req, res) => {
-    eventDbFunctions.getSpecificData(req.query).then(data => res.send(data)).catch(err => console.error(err));
+    eventDbFunctions.getSpecificData(req.query).then(data => {
+        const done = sendSlicedArrIfRequested(req, res, data);
+        if (done === false) res.send(data);
+    }).catch(err => console.error(err));
 });
 
 

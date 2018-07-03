@@ -1,14 +1,21 @@
 const route = require('express').Router();
 const Blog = require('../modles/blog');
 const DbAPIClass = require('../api-functions');
+const sendSlicedArrIfRequested = require('../../scripts/pagination');
 const blogDbFunctions = new DbAPIClass(Blog);
 
 route.get('/all', (req, res) => {
-    blogDbFunctions.getAllData().then(data => res.send(data)).catch(err => console.error(err));
+    blogDbFunctions.getAllData().then(data => {
+        const done = sendSlicedArrIfRequested(req, res, data);
+        if (done === false) res.send(data);
+    }).catch(err => console.error(err));
 });
 
 route.get('/', (req, res) => {
-    blogDbFunctions.getSpecificData(req.query).then(data => res.send(data)).catch(err => console.error(err));
+    blogDbFunctions.getSpecificData(req.query).then(data => {
+        const done = sendSlicedArrIfRequested(req, res, data);
+        if (done === false) res.send(data);
+    }).catch(err => console.error(err));
 });
 
 route.post('/add/:arrayName/:_id', (req, res) => {

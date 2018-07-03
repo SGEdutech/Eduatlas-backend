@@ -1,6 +1,7 @@
 const route = require('express').Router();
 const User = require('../modles/user');
 const DbAPIClass = require('../api-functions');
+const sendSlicedArrIfRequested = require('../../scripts/pagination');
 const userDbFunctions = new DbAPIClass(User);
 
 // hiding user
@@ -16,11 +17,17 @@ route.get('/', (req, res) => {
 // hiding user
 
 route.get('/all', (req, res) => {
-    userDbFunctions.getAllData().then(data => res.send(data)).catch(err => console.error(err));
+    userDbFunctions.getAllData().then(data => {
+        const done = sendSlicedArrIfRequested(req, res, data);
+        if (done === false) res.send(data);
+    }).catch(err => console.error(err));
 });
 
 route.get('/', (req, res) => {
-    userDbFunctions.getSpecificData(req.query).then(data => res.send(data)).catch(err => console.error(err));
+    userDbFunctions.getSpecificData(req.query).then(data => {
+        const done = sendSlicedArrIfRequested(req, res, data);
+        if (done === false) res.send(data);
+    }).catch(err => console.error(err));
 });
 
 route.post('/', (req, res) => {
