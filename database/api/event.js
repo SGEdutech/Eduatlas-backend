@@ -1,5 +1,6 @@
 const route = require('express').Router();
 const Event = require('../modles/event');
+const escapeRegex = require('../../scripts/escape-regex');
 const DbAPIClass = require('../api-functions');
 const eventDbFunctions = new DbAPIClass(Event);
 
@@ -9,6 +10,11 @@ route.get('/all', (req, res) => {
     eventDbFunctions.getAllData(req.query.demands, skip, limit)
         .then(data => res.send(data))
         .catch(err => console.error(err));
+});
+
+route.get('/search', (req, res) => {
+    const regex = new RegExp(escapeRegex(req.query.search), 'i');
+    eventDbFunctions.getMultipleData({name: regex}, 'name').then(data => res.send(data));
 });
 
 route.get('/', (req, res) => {

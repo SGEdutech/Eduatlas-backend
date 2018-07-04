@@ -1,7 +1,7 @@
 const route = require('express').Router();
 const User = require('../modles/user');
+const escapeRegex = require('../../scripts/escape-regex');
 const DbAPIClass = require('../api-functions');
-const sendSlicedArrIfRequested = require('../../scripts/pagination');
 const userDbFunctions = new DbAPIClass(User);
 
 // hiding user

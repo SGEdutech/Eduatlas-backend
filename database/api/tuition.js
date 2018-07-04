@@ -1,8 +1,8 @@
 const route = require('express').Router();
 const Tuition = require('../modles/tuition');
+const escapeRegex = require('../../scripts/escape-regex');
 const DbAPIClass = require('../api-functions');
 const tuitionDbFunctions = new DbAPIClass(Tuition);
-
 
 route.get('/all', (req, res) => {
     const skip = (req.query.page - 1) * req.query.items;
@@ -20,12 +20,8 @@ route.get('/', (req, res) => {
 });
 
 route.get('/search', (req, res) => {
-    Tuition.find({$text: {$search: req.query.search}}).then(data => res.send(data)).catch(err => console.log(err))
-    /*.skip(20)
-    .limit(10)
-    .exec(function (err, docs) {
-    console.log(docs)
-    })*/
+    const regex = new RegExp(escapeRegex(req.query.search), 'i');
+    tuitionDbFunctions.getMultipleData({name: regex}, 'name').then(data => res.send(data));
 });
 
 route.post('/add/:arrayName/:_id', (req, res) => {
@@ -60,3 +56,5 @@ route.delete('/:_id', (req, res) => {
 });
 
 module.exports = route;
+
+require('../connection')

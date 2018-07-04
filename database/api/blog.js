@@ -1,5 +1,6 @@
 const route = require('express').Router();
 const Blog = require('../modles/blog');
+const escapeRegex = require('../../scripts/escape-regex');
 const DbAPIClass = require('../api-functions');
 const blogDbFunctions = new DbAPIClass(Blog);
 
@@ -16,6 +17,11 @@ route.get('/', (req, res) => {
         const done = sendSlicedArrIfRequested(req, res, data);
         if (done === false) res.send(data);
     }).catch(err => console.error(err));
+});
+
+route.get('/search', (req, res) => {
+    const regex = new RegExp(escapeRegex(req.query.search), 'i');
+    blogDbFunctions.getMultipleData({name: regex}, 'name').then(data => res.send(data));
 });
 
 route.post('/add/:arrayName/:_id', (req, res) => {

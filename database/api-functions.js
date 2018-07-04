@@ -10,9 +10,8 @@ class databaseAPI {
         return this.model.find({}, demands).skip(skip).limit(limit);
     }
 
-    getMultipleData(searchParameters) {
-        // if (typeof searchParameters != 'object') throw new Error();
-        return this.model.find(searchParameters);
+    getMultipleData(searchParameters, demands) {
+        return this.model.find(searchParameters, demands);
     }
 
     getSpecificData(searchParameters) {
