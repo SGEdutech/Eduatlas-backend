@@ -17,10 +17,11 @@ route.get('/', (req, res) => {
 // hiding user
 
 route.get('/all', (req, res) => {
-    userDbFunctions.getAllData(req.query.demands).then(data => {
-        const done = sendSlicedArrIfRequested(req, res, data);
-        if (done === false) res.send(data);
-    }).catch(err => console.error(err));
+    const skip = (req.query.page - 1) * req.query.items;
+    const limit = parseInt(req.query.items);
+    userDbFunctions.getAllData(req.query.demands, skip, limit)
+        .then(data => res.send(data))
+        .catch(err => console.error(err));
 });
 
 route.get('/', (req, res) => {

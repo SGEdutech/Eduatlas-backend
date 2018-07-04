@@ -6,8 +6,8 @@ class databaseAPI {
         this.model = model;
     }
 
-    getAllData(demands) {
-        return this.model.find({}, demands);
+    getAllData(demands, skip, limit) {
+        return this.model.find({}, demands).skip(skip).limit(limit);
     }
 
     getMultipleData(searchParameters) {
