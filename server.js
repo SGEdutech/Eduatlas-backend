@@ -64,8 +64,6 @@ app.use('/admin/tuition', (req, res) => res.redirect('/app/Admin-tuition.html'))
 
 app.use(cors());
 
-
-
 app.use('/blog', nestingMiddleware, routes.blog);
 app.use('/event', eventCoverPicMiddleware, nestingMiddleware, routes.event);
 app.use('/school', schoolCoverPicMiddleware, nestingMiddleware, routes.school);
