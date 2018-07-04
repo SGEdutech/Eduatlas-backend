@@ -9,15 +9,15 @@ const APIHelperFunctions = new DatabaseAPIClass(User);
 
 passport.serializeUser(function (user, done) {
     //userid will be stuffed in cookie
-    done(null, user.id)
+    done(null, user)
 });
 
-passport.deserializeUser(function (id, done) {
+passport.deserializeUser(function (user, done) {
     //reimplement it using FindById function of mongoose
-    APIHelperFunctions.getSpecificData('_id', id).then(user => {
+    APIHelperFunctions.getSpecificData('_id', user._id).then(user => {
         if (!user) {
             return done(new Error("no such user"))
-        }else {
+        } else {
             console.log("user logged in with google id")
         }
         done(null, user)
@@ -30,8 +30,8 @@ passport.deserializeUser(function (id, done) {
 passport.use(new GoogleStrategy({
         clientID: config.google.clientID,
         clientSecret: config.google.clientSecret,
-    //below is the path where google consent screen will redirect user to
-    //same redirect address must be saved in console.developer.google in order to work
+        //below is the path where google consent screen will redirect user to
+        //same redirect address must be saved in console.developer.google in order to work
         callbackURL: config.google.callbackURL
     },
     (accessToken, refreshToken, profile, done) => {
@@ -46,20 +46,36 @@ passport.use(new GoogleStrategy({
         }
         profileInfo.about = profile._json.tagline;
 
-        console.log("*******");
+        /*console.log("*******");
         console.log(profileInfo);
-        console.log("*******");
+        console.log("*******");*/
 
         APIHelperFunctions.getSpecificData({'googleId': profileInfo.googleId})
             .then(currentUser => {
                 if (currentUser) {
+
+                    // save extra information to ease API checks
+                    let newObj = {
+                        _id: currentUser._id,
+                        blogsOwned: currentUser.blogsOwned,
+                        tuitionsOwned: currentUser.tuitionsOwned,
+                        schoolsOwned: currentUser.schoolsOwned,
+                        eventsOwned: currentUser.eventsOwned,
+                    };
                     //below line will pass user to serialize user phase
-                    done(null, currentUser);
+                    done(null, newObj);
                 } else {
                     APIHelperFunctions.addCollection(profileInfo)
                         .then(newUser => {
+                            let newObj = {
+                                _id: newUser._id,
+                                blogsOwned: newUser.blogsOwned,
+                                tuitionsOwned: newUser.tuitionsOwned,
+                                schoolsOwned: newUser.schoolsOwned,
+                                eventsOwned: newUser.eventsOwned,
+                            };
                             //below line will pass user to serialize user phase
-                            done(null, newUser);
+                            done(null, newObj);
                         });
                 }
             });
@@ -73,7 +89,7 @@ route.get('/', passport.authenticate('google', {scope: config.google.scope}));
 //here google will send a code(in uri) which we will use to get user info
 route.get('/redirect', passport.authenticate('google'),
     (req, res) => {
-        res.redirect('/profile')
+        res.redirect('/app/User-dashboard.html')
     });
 
 exports = module.exports = {

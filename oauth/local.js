@@ -7,12 +7,12 @@ const APIHelperFunctions = new DatabaseAPIClass(User);
 
 passport.serializeUser((user, done) => {
     //userid will be stuffed in cookie
-    done(null, user.id)
+    done(null, user)
 });
 
-passport.deserializeUser((userid, done) => {
+passport.deserializeUser((user, done) => {
     //reimplement it using FindById function of mongoose
-    APIHelperFunctions.getSpecificData({'_id': userid})
+    APIHelperFunctions.getSpecificData({'_id': user._id})
         .then((user) => {
             if (!user) {
                 done(new Error("no such user"))
@@ -36,8 +36,17 @@ passport.use(new LocalStrategy((username, password, done) => {
                     console.log("successful local login");
                 }
             }
+
+            // save extra information to ease API checks
+            let newObj = {
+                _id: user._id,
+                blogsOwned:user.blogsOwned,
+                tuitionsOwned:user.tuitionsOwned,
+                schoolsOwned:user.schoolsOwned,
+                eventsOwned:user.eventsOwned,
+            };
             //below line will pass user to serialize user phase
-            done(null, user)
+            done(null, newObj)
         })
         .catch(err => {
             done(err)
@@ -45,7 +54,6 @@ passport.use(new LocalStrategy((username, password, done) => {
 }));
 
 route.get('/login', (req, res) => {
-
     if (req.user) {
         res.send("already logged in");
     }

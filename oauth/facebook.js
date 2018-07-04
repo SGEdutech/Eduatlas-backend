@@ -45,8 +45,18 @@ passport.use(new FacebookStrategy({
                 if (currentUser) {
                     // means we already have a account linked with google
                     // console.log('user already linked with facebook');
+
+
+                    // save extra information to ease API checks
+                    let newObj = {
+                        _id: currentUser._id,
+                        blogsOwned: currentUser.blogsOwned,
+                        tuitionsOwned: currentUser.tuitionsOwned,
+                        schoolsOwned: currentUser.schoolsOwned,
+                        eventsOwned: currentUser.eventsOwned,
+                    };
                     //send it to serialize phase
-                    done(null, currentUser);
+                    done(null, newObj);
                 } else {
                     // means we will now save this account
                     // console.log("creating new record");
@@ -55,8 +65,16 @@ passport.use(new FacebookStrategy({
                         .then((newUser) => {
                             /*console.log('newUser created is: ');
                             console.log(newUser);*/
+
+                            let newObj = {
+                                _id: newUser._id,
+                                blogsOwned: newUser.blogsOwned,
+                                tuitionsOwned: newUser.tuitionsOwned,
+                                schoolsOwned: newUser.schoolsOwned,
+                                eventsOwned: newUser.eventsOwned,
+                            };
                             //send it to serialize phase
-                            done(null, newUser);
+                            done(null, newObj);
                         });
                 }
             });
@@ -69,7 +87,7 @@ route.get('/', passport.authenticate('facebook'));
 route.get('/redirect', passport.authenticate('facebook', {scope: config.facebook.scope}),
     (req, res) => {
         // res.send(req.user);
-        res.redirect('/profile')
+        res.redirect('/app/User-dashboard.html')
     });
 
 exports = module.exports = {

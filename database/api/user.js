@@ -4,7 +4,7 @@ const escapeRegex = require('../../scripts/escape-regex');
 const DbAPIClass = require('../api-functions');
 const userDbFunctions = new DbAPIClass(User);
 
-// hiding user
+/*// hiding user
 
 route.get('/', (req, res) => {
     if(req.user){
@@ -14,7 +14,7 @@ route.get('/', (req, res) => {
     }
 });
 
-// hiding user
+// hiding user*/
 
 route.get('/all', (req, res) => {
     const skip = (req.query.page - 1) * req.query.items;
