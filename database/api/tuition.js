@@ -6,7 +6,7 @@ const tuitionDbFunctions = new DbAPIClass(Tuition);
 
 
 route.get('/all', (req, res) => {
-    tuitionDbFunctions.getAllData().then(data => {
+    tuitionDbFunctions.getAllData(req.query.demands).then(data => {
         const done = sendSlicedArrIfRequested(req, res, data);
         if (done === false) res.send(data);
     }).catch(err => console.error(err));

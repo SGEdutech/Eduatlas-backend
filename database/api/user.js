@@ -17,7 +17,7 @@ route.get('/', (req, res) => {
 // hiding user
 
 route.get('/all', (req, res) => {
-    userDbFunctions.getAllData().then(data => {
+    userDbFunctions.getAllData(req.query.demands).then(data => {
         const done = sendSlicedArrIfRequested(req, res, data);
         if (done === false) res.send(data);
     }).catch(err => console.error(err));

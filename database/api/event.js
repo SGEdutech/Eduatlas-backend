@@ -5,7 +5,7 @@ const sendSlicedArrIfRequested = require('../../scripts/pagination');
 const eventDbFunctions = new DbAPIClass(Event);
 
 route.get('/all', (req, res) => {
-    eventDbFunctions.getAllData().then(data => {
+    eventDbFunctions.getAllData(req.query.demands).then(data => {
         const done = sendSlicedArrIfRequested(req, res, data);
         if (done === false) res.send(data);
     }).catch(err => console.error(err));

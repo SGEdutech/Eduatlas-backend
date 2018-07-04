@@ -5,7 +5,7 @@ const sendSlicedArrIfRequested = require('../../scripts/pagination');
 const blogDbFunctions = new DbAPIClass(Blog);
 
 route.get('/all', (req, res) => {
-    blogDbFunctions.getAllData().then(data => {
+    blogDbFunctions.getAllData(req.query.demands).then(data => {
         const done = sendSlicedArrIfRequested(req, res, data);
         if (done === false) res.send(data);
     }).catch(err => console.error(err));
