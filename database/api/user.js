@@ -16,10 +16,7 @@ route.get('/all', (req, res) => {
 });
 
 route.get('/', (req, res) => {
-    userDbFunctions.getSpecificData(req.query).then(data => {
-        const done = sendSlicedArrIfRequested(req, res, data);
-        if (done === false) res.send(data);
-    }).catch(err => console.error(err));
+    userDbFunctions.getSpecificData(req.query).then(data => console.log(data));
 });
 
 route.post('/', (req, res) => {
