@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const BlogSchema = new Schema({
     blogId: String,
     owner: String,  //no owner
-    views: Number,
+    views: {type: Number, default: 0},
+    hits: {type: Number, default: 0},
     bookmarks: Number,
     title: String,
     dateUploaded: Date,

@@ -18,12 +18,8 @@ route.get('/search', (req, res) => {
 });
 
 route.get('/', (req, res) => {
-    eventDbFunctions.getSpecificData(req.query).then(data => {
-        const done = sendSlicedArrIfRequested(req, res, data);
-        if (done === false) res.send(data);
-    }).catch(err => console.error(err));
+    eventDbFunctions.getSpecificData(req.query, true).then(data => res.send(data)).catch(err => console.error(err));
 });
-
 
 route.post('/add/:arrayName/:_id', (req, res) => {
     eventDbFunctions.addElementToArray({_id: req.params._id}, req.params.arrayName, req.body)
