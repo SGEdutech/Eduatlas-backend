@@ -14,7 +14,7 @@ class databaseAPI {
         return this.model.find(searchParameters, demands);
     }
 
-    getSpecificData(searchParameters, incrementView) {
+    getSpecificData(searchParameters, incrementViewAndHit) {
         if (incrementView === undefined) return this.model.findOne(searchParameters);
         return new Promise((resolve, reject) => {
             this.model.findOne(searchParameters).then(data => {

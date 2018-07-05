@@ -3,18 +3,9 @@ const User = require('../modles/user');
 const escapeRegex = require('../../scripts/escape-regex');
 const DbAPIClass = require('../api-functions');
 const userDbFunctions = new DbAPIClass(User);
+const youShallNotPass = require('../../scripts/login-check');
 
-// hiding user
-
-route.get('/', (req, res) => {
-    if(req.user){
-        res.send(req.user);
-    }else{
-        res.send('LogIn')
-    }
-});
-
-// hiding user
+route.use(youShallNotPass);
 
 route.get('/all', (req, res) => {
     const skip = (req.query.page - 1) * req.query.items;
