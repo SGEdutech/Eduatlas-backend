@@ -1,13 +1,36 @@
-function youShallNotPass(req, res, next) {
-    if (!req.user) {
-        res.send("please login first")
+function youShallNotPass(user, _id) {
+    if (!user._id) {
+        console.log("please login first");
+        return false;
     } else {
-        let idToBeChecked = req.query._id || req.params._id || req.params.idOfCollection;
-        if (idToBeChecked === undefined) res.send('Id not found');
-        if (idToBeChecked === req.user._id) {
-            next();
+        if (_id === user._id) {
+            return true;
         } else {
-            res.send('Not Authorised');
+            let tuitionArray = user.tuitionsOwned.split(',');
+            let schoolsArray = user.schoolsOwned.split(',');
+            let eventsArray = user.eventsOwned.split(',');
+            let blogsArray = user.blogsOwned.split(',');
+            tuitionArray.forEach(ID => {
+                if (ID === _id) {
+                    return true;
+                }
+            });
+            schoolsArray.forEach(ID => {
+                if (ID === _id) {
+                    return true;
+                }
+            });
+            eventsArray.forEach(ID => {
+                if (ID === _id) {
+                    return true;
+                }
+            });
+            blogsArray.forEach(ID => {
+                if (ID === _id) {
+                    return true;
+                }
+            });
+            return false;
         }
     }
 }

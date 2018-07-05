@@ -5,7 +5,15 @@ const DbAPIClass = require('../api-functions');
 const userDbFunctions = new DbAPIClass(User);
 const youShallNotPass = require('../../scripts/login-check');
 
-route.use(youShallNotPass);
+// route.use(youShallNotPass);
+
+route.get('/check', (req, res) => {
+    if (!req.user) {
+        res.send('LogIn')
+    } else {
+        res.send(req.user)
+    }
+});
 
 route.get('/all', (req, res) => {
     const skip = (req.query.page - 1) * req.query.items;
@@ -16,7 +24,11 @@ route.get('/all', (req, res) => {
 });
 
 route.get('/', (req, res) => {
-    userDbFunctions.getSpecificData(req.query).then(data => console.log(data));
+    if (youShallNotPass(req.user, req.query._id)) {
+        userDbFunctions.getSpecificData(req.query).then(data => console.log(data));
+    } else {
+        res.send("youShallNotPass")
+    }
 });
 
 route.post('/', (req, res) => {
@@ -24,28 +36,48 @@ route.post('/', (req, res) => {
 });
 
 route.post('/add/:arrayName/:_id', (req, res) => {
-    userDbFunctions.addElementToArray({_id: req.params._id}, req.params.arrayName, req.body)
-        .then(data => res.send(data))
-        .catch(err => console.error(err));
+    if (youShallNotPass(req.user, req.params._id)) {
+        userDbFunctions.addElementToArray({_id: req.params._id}, req.params.arrayName, req.body)
+            .then(data => res.send(data))
+            .catch(err => console.error(err));
+    } else {
+        res.send("youShallNotPass")
+    }
 });
 
 route.put('/update/:idOfCollection/:arrayName/:idOfNestedObject', (req, res) => {
-    userDbFunctions.updateElementInArray({_id: req.params.idOfCollection}, req.params.arrayName,
-        req.params.idOfNestedObject, req.body).then(data => res.send(data)).catch(err => console.error(err));
+    if (youShallNotPass(req.user, req.params.idOfCollection)) {
+        userDbFunctions.updateElementInArray({_id: req.params.idOfCollection}, req.params.arrayName,
+            req.params.idOfNestedObject, req.body).then(data => res.send(data)).catch(err => console.error(err));
+    } else {
+        res.send("youShallNotPass")
+    }
 });
 
 route.put('/:_id', (req, res) => {
-    userDbFunctions.updateOneRow(req.params, req.body).then(data => res.send(data)).catch(err => console.error(err));
+    if (youShallNotPass(req.user, req.params._id)) {
+        userDbFunctions.updateOneRow(req.params, req.body).then(data => res.send(data)).catch(err => console.error(err));
+    } else {
+        res.send("youShallNotPass")
+    }
 });
 
 route.delete('/delete/:arrayName/:_id', (req, res) => {
-    userDbFunctions.deleteElementFromArray({_id: req.params._id}, req.params.arrayName, req.body)
-        .then(data => res.send(data))
-        .catch(err => console.error(err));
+    if (youShallNotPass(req.user, req.params._id)) {
+        userDbFunctions.deleteElementFromArray({_id: req.params._id}, req.params.arrayName, req.body)
+            .then(data => res.send(data))
+            .catch(err => console.error(err));
+    } else {
+        res.send("youShallNotPass")
+    }
 });
 
 route.delete('/:_id', (req, res) => {
-    userDbFunctions.deleteOneRow(req.params).then(data => res.send(data)).catch(err => console.error(err));
+    if (youShallNotPass(req.user, req.params._id)) {
+        userDbFunctions.deleteOneRow(req.params).then(data => res.send(data)).catch(err => console.error(err));
+    } else {
+        res.send("youShallNotPass")
+    }
 });
 
 module.exports = route;
