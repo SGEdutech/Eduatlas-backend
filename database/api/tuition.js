@@ -13,10 +13,7 @@ route.get('/all', (req, res) => {
 });
 
 route.get('/', (req, res) => {
-    tuitionDbFunctions.getSpecificData(req.query).then(data => {
-        const done = sendSlicedArrIfRequested(req, res, data);
-        if (done === false) res.send(data);
-    }).catch(err => console.error(err));
+    tuitionDbFunctions.getSpecificData(req.query, true).then(data => res.send(data)).catch(err => console.error(err));
 });
 
 route.get('/search', (req, res) => {
@@ -51,10 +48,8 @@ route.delete('/delete/:arrayName/:_id', (req, res) => {
 });
 
 route.delete('/:_id', (req, res) => {
-    if (req.params._id.match(/^[0-9a-fA-F]{24}$/) === null) res.send('Not a valid id');
+    // if (req.params._id.match(/^[0-9a-fA-F]{24}$/) === null) res.send('Not a valid id');
     tuitionDbFunctions.deleteOneRow(req.params).then(data => res.send(data)).catch(err => console.error(err));
 });
 
 module.exports = route;
-
-require('../connection')

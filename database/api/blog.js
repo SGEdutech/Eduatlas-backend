@@ -13,10 +13,7 @@ route.get('/all', (req, res) => {
 });
 
 route.get('/', (req, res) => {
-    blogDbFunctions.getSpecificData(req.query).then(data => {
-        const done = sendSlicedArrIfRequested(req, res, data);
-        if (done === false) res.send(data);
-    }).catch(err => console.error(err));
+    blogDbFunctions.getSpecificData(req.query, true).then(data => res.send(data)).catch(err => console.error(err));
 });
 
 route.get('/search', (req, res) => {

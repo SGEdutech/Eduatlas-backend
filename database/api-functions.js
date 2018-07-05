@@ -14,8 +14,15 @@ class databaseAPI {
         return this.model.find(searchParameters, demands);
     }
 
-    getSpecificData(searchParameters) {
-        return this.model.findOne(searchParameters);
+    getSpecificData(searchParameters, incrementView) {
+        if (incrementView === undefined) return this.model.findOne(searchParameters);
+        return new Promise((resolve, reject) => {
+            this.model.findOne(searchParameters).then(data => {
+                resolve(data);
+                data.views += 1;
+                data.save();
+            }).catch(err => reject(err));
+        });
     }
 
     addCollection(newRowInformation) {

@@ -18,10 +18,7 @@ route.get('/search', (req, res) => {
 });
 
 route.get('/', (req, res) => {
-    schoolDbFunctions.getSpecificData(req.query).then(data => {
-        const done = sendSlicedArrIfRequested(req, res, data);
-        if (done === false) res.send(data);
-    }).catch(err => console.error(err));
+    schoolDbFunctions.getSpecificData(req.query, true).then(data => res.send(data)).catch(err => console.error(err));
 });
 
 route.post('/add/:arrayName/:_id', (req, res) => {

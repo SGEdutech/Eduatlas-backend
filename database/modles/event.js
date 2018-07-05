@@ -29,7 +29,8 @@ const eventSchema = new Schema({
     going: Number,
     notGoing: Number,
     mayBeGoing: Number,
-    views: Number,
+    views: {type: Number, default: 0},
+    hits: {type: Number, default: 0},
     bookmarks: Number
 });
 
