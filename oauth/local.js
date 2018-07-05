@@ -5,14 +5,14 @@ const User = require('../database/modles/user');
 const DatabaseAPIClass = require('../database/api-functions');
 const APIHelperFunctions = new DatabaseAPIClass(User);
 
-passport.serializeUser((user, done) => {
+passport.serializeUser((userid, done) => {
     //userid will be stuffed in cookie
-    done(null, user)
+    done(null, userid)
 });
 
-passport.deserializeUser((user, done) => {
+passport.deserializeUser((userid, done) => {
     //reimplement it using FindById function of mongoose
-    APIHelperFunctions.getSpecificData({'_id': user._id})
+    APIHelperFunctions.getSpecificData({'_id': userid})
         .then((user) => {
             if (!user) {
                 done(new Error("no such user"))
@@ -36,17 +36,8 @@ passport.use(new LocalStrategy((username, password, done) => {
                     console.log("successful local login");
                 }
             }
-
-            // save extra information to ease API checks
-            let newObj = {
-                _id: user._id,
-                blogsOwned:user.blogsOwned,
-                tuitionsOwned:user.tuitionsOwned,
-                schoolsOwned:user.schoolsOwned,
-                eventsOwned:user.eventsOwned,
-            };
             //below line will pass user to serialize user phase
-            done(null, newObj)
+            done(null, user._id)
         })
         .catch(err => {
             done(err)

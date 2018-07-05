@@ -7,19 +7,20 @@ const DatabaseAPIClass = require('../database/api-functions');
 const APIHelperFunctions = new DatabaseAPIClass(User);
 
 
-passport.serializeUser(function (user, done) {
+passport.serializeUser(function (userid, done) {
     //userid will be stuffed in cookie
-    done(null, user)
+    done(null, userid)
 });
 
-passport.deserializeUser(function (user, done) {
+passport.deserializeUser(function (userid, done) {
     //reimplement it using FindById function of mongoose
-    APIHelperFunctions.getSpecificData('_id', user._id).then(user => {
+    APIHelperFunctions.getSpecificData('_id', userid).then(user => {
         if (!user) {
             return done(new Error("no such user"))
         } else {
             console.log("user logged in with google id")
         }
+        //todo - hide password from req.user
         done(null, user)
     })
         .catch(err => {
@@ -39,8 +40,8 @@ passport.use(new GoogleStrategy({
         //passport returns here with user info
         let profileInfo = {};
         profileInfo.googleId = profile.id;
-        profileInfo.name = profile.displayName;
-        profileInfo.profilePicPath = profile.photos ? profile.photos[0].value : 'no pic uploaded';
+        profileInfo.firstName = profile.displayName.split(' ')[0];
+        profileInfo.img_userProfilePic = profile.photos ? profile.photos[0].value : '';
         if (profile.emails) {
             profileInfo.primaryEmail = profile.emails[0].value;
         }
@@ -53,29 +54,13 @@ passport.use(new GoogleStrategy({
         APIHelperFunctions.getSpecificData({'googleId': profileInfo.googleId})
             .then(currentUser => {
                 if (currentUser) {
-
-                    // save extra information to ease API checks
-                    let newObj = {
-                        _id: currentUser._id,
-                        blogsOwned: currentUser.blogsOwned,
-                        tuitionsOwned: currentUser.tuitionsOwned,
-                        schoolsOwned: currentUser.schoolsOwned,
-                        eventsOwned: currentUser.eventsOwned,
-                    };
                     //below line will pass user to serialize user phase
-                    done(null, newObj);
+                    done(null, currentUser._id);
                 } else {
                     APIHelperFunctions.addCollection(profileInfo)
                         .then(newUser => {
-                            let newObj = {
-                                _id: newUser._id,
-                                blogsOwned: newUser.blogsOwned,
-                                tuitionsOwned: newUser.tuitionsOwned,
-                                schoolsOwned: newUser.schoolsOwned,
-                                eventsOwned: newUser.eventsOwned,
-                            };
                             //below line will pass user to serialize user phase
-                            done(null, newObj);
+                            done(null, newUser._id);
                         });
                 }
             });

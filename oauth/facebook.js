@@ -7,8 +7,8 @@ const DatabaseAPIClass = require('../database/api-functions');
 const APIHelperFunctions = new DatabaseAPIClass(User);
 
 
-passport.serializeUser((user, done) => {
-    done(null, user.id)
+passport.serializeUser((userid, done) => {
+    done(null, userid)
 });
 
 passport.deserializeUser(function (userid, done) {
@@ -34,8 +34,8 @@ passport.use(new FacebookStrategy({
         // passport callback function
         let profileInfo = {};
         profileInfo.facebookId = profile.id;
-        profileInfo.name = profile.displayName;
-        profileInfo.profilePicPath = profile.photos ? profile.photos[0].value : 'no pic uploaded';
+        profileInfo.firstName = profile.displayName.split(' ')[0];
+        profileInfo.img_userProfilePic = profile.photos ? profile.photos[0].value : '';
         if (profile.emails !== undefined) {
             profileInfo.primaryEmail = profile.emails[0].value;
         }
@@ -46,35 +46,16 @@ passport.use(new FacebookStrategy({
                     // means we already have a account linked with google
                     // console.log('user already linked with facebook');
 
-
-                    // save extra information to ease API checks
-                    let newObj = {
-                        _id: currentUser._id,
-                        blogsOwned: currentUser.blogsOwned,
-                        tuitionsOwned: currentUser.tuitionsOwned,
-                        schoolsOwned: currentUser.schoolsOwned,
-                        eventsOwned: currentUser.eventsOwned,
-                    };
                     //send it to serialize phase
-                    done(null, newObj);
+                    done(null, currentUser._id);
                 } else {
                     // means we will now save this account
                     // console.log("creating new record");
                     //we haven't saved phoneNumber and password yet
                     APIHelperFunctions.addCollection(profileInfo)
                         .then((newUser) => {
-                            /*console.log('newUser created is: ');
-                            console.log(newUser);*/
-
-                            let newObj = {
-                                _id: newUser._id,
-                                blogsOwned: newUser.blogsOwned,
-                                tuitionsOwned: newUser.tuitionsOwned,
-                                schoolsOwned: newUser.schoolsOwned,
-                                eventsOwned: newUser.eventsOwned,
-                            };
                             //send it to serialize phase
-                            done(null, newObj);
+                            done(null, newUser._id);
                         });
                 }
             });
