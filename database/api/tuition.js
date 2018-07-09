@@ -5,9 +5,8 @@ const DbAPIClass = require('../api-functions');
 const tuitionDbFunctions = new DbAPIClass(Tuition);
 
 route.get('/all', (req, res) => {
-    const skip = (req.query.page - 1) * req.query.items;
-    const limit = parseInt(req.query.items);
-    tuitionDbFunctions.getAllData(req.query.demands, skip, limit)
+    // const queryObject = req.query;
+    tuitionDbFunctions.getAllData(req.query.demands, req.query.skip, req.query.limit)
         .then(data => res.send(data))
         .catch(err => console.error(err));
 });
@@ -23,15 +22,17 @@ route.get('/search', (req, res) => {
     delete queryObject.demands;
     const searchCriteria = {};
     const queryKeys = Object.keys(queryObject);
-    keys.forEach(key => {
-        const value = JSON.parse(queryObject.key);
+    queryKeys.forEach(key => {
+        console.log(key);
+        console.log(queryObject[key]);
+        const value = JSON.parse(queryObject[key]);
         if (value.fullTextSearch) {
             searchCriteria[key] = new RegExp(`^${escapeRegex(value.search)}$`, 'i');
         } else {
             searchCriteria[key] = new RegExp(escapeRegex(value.search), 'i');
         }
     });
-    tuitionDbFunctions.getMultipleData(searchCriteria, req.query.demands).then(data => res.send(data));
+    tuitionDbFunctions.getMultipleData(searchCriteria, demands).then(data => res.send(data));
 });
 
 route.post('/add/:arrayName/:_id', (req, res) => {
