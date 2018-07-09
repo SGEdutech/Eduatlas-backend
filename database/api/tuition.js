@@ -24,6 +24,7 @@ route.get('/search', (req, res) => {
     let demands = '';
     let skip = 0;
     let limit = 0;
+    let sortBy = '';
     if (queryObject.demands) {
         demands = queryObject.demands;
         delete queryObject.demands;
@@ -35,6 +36,10 @@ route.get('/search', (req, res) => {
     if (queryObject.limit) {
         limit = queryObject.limit;
         delete queryObject.limit;
+    }
+    if (queryObject.sortBy) {
+        sortBy = queryObject.sortBy;
+        delete queryObject.sortBy;
     }
     delete queryObject.demands;
     const searchCriteria = {};
@@ -50,7 +55,7 @@ route.get('/search', (req, res) => {
             searchCriteria[key] = new RegExp(escapeRegex(value.search), 'i');
         }
     });
-    tuitionDbFunctions.getMultipleData(searchCriteria, demands, skip, limit).then(data => res.send(data));
+    tuitionDbFunctions.getMultipleData(searchCriteria, demands, skip, limit, sortBy).then(data => res.send(data));
 });
 
 route.post('/add/:arrayName/:_id', (req, res) => {
