@@ -30,7 +30,7 @@ route.get('/search', (req, res) => {
         delete queryObject.demands;
     }
     if (queryObject.skip) {
-        skip = queryObject.skip;
+        skip = parseInt(queryObject.skip);
         delete queryObject.skip;
     }
     if (queryObject.limit) {
@@ -38,7 +38,7 @@ route.get('/search', (req, res) => {
         delete queryObject.limit;
     }
     if (queryObject.sortBy) {
-        sortBy = parseInt(queryObject.sortBy);
+        sortBy = queryObject.sortBy;
         delete queryObject.sortBy;
     }
     delete queryObject.demands;
