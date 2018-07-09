@@ -17,8 +17,21 @@ route.get('/', (req, res) => {
 });
 
 route.get('/search', (req, res) => {
-    const regex = new RegExp(escapeRegex(req.query.search), 'i');
-    tuitionDbFunctions.getMultipleData({name: regex}, 'name').then(data => res.send(data));
+    const queryObject = req.query;
+    let demands;
+    queryObject.demands === undefined ? demands = queryObject.demands : demands = '';
+    delete queryObject.demands;
+    const searchCriteria = {};
+    const queryKeys = Object.keys(queryObject);
+    keys.forEach(key => {
+        const value = JSON.parse(queryObject.key);
+        if (value.fullTextSearch) {
+            searchCriteria[key] = new RegExp(`^${escapeRegex(value.search)}$`, 'i');
+        } else {
+            searchCriteria[key] = new RegExp(escapeRegex(value.search), 'i');
+        }
+    });
+    tuitionDbFunctions.getMultipleData(searchCriteria, req.query.demands).then(data => res.send(data));
 });
 
 route.post('/add/:arrayName/:_id', (req, res) => {
