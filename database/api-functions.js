@@ -10,7 +10,7 @@ class databaseAPI {
         return this.model.find({}, demands).skip(skip).limit(limit);
     }
 
-    getMultipleData(searchParameters, demands, sortBy, skip, limit) {
+    getMultipleData(searchParameters, demands, skip, limit, sortBy) {
         return this.model.find(searchParameters, demands).skip(skip).limit(limit).sort([[sortBy, 'descending']]);
     }
 
