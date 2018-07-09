@@ -24,7 +24,7 @@ route.get('/search', (req, res) => {
     let demands = '';
     let skip = 0;
     let limit = 0;
-    let sortBy = '';
+    let sortBy;
     if (queryObject.demands) {
         demands = queryObject.demands;
         delete queryObject.demands;
@@ -45,11 +45,8 @@ route.get('/search', (req, res) => {
     const searchCriteria = {};
     const queryKeys = Object.keys(queryObject);
     queryKeys.forEach(key => {
-        console.log(key);
-        console.log(queryObject[key]);
         const value = JSON.parse(queryObject[key]);
         if (value.fullTextSearch) {
-            console.log('hi');
             searchCriteria[key] = new RegExp(`^${escapeRegex(value.search)}$`, 'i');
         } else {
             searchCriteria[key] = new RegExp(escapeRegex(value.search), 'i');
