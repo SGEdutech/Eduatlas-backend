@@ -44,12 +44,6 @@ passport.use(new LocalStrategy((username, password, done) => {
         })
 }));
 
-route.get('/login', (req, res) => {
-    if (req.user) {
-        res.send("already logged in");
-    }
-});
-
 route.post('/login', passport.authenticate('local', {
     failureRedirect: '/login-page.html',
     successRedirect: '/User-dashboard.html',

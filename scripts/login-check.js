@@ -7,10 +7,10 @@ function youShallNotPass(user, _id) {
         if (_id == user._id) {
             return true;
         } else {
-            let tuitionArray = user.tuitionsOwned ? user.tuitionsOwned.split(',') : [];
-            let schoolsArray = user.schoolsOwned ? user.schoolsOwned.split(',') : [];
-            let eventsArray = user.eventsOwned ? user.eventsOwned.split(',') : [];
-            let blogsArray = user.blogsOwned ? user.blogsOwned.split(',') : [];
+            let tuitionArray = user.tuitionsOwned ? user.tuitionsOwned : [];
+            let schoolsArray = user.schoolsOwned ? user.schoolsOwned : [];
+            let eventsArray = user.eventsOwned ? user.eventsOwned : [];
+            let blogsArray = user.blogsOwned ? user.blogsOwned : [];
             tuitionArray.forEach(ID => {
                 if (ID === _id) {
                     return true;
