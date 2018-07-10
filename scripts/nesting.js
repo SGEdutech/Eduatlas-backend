@@ -66,11 +66,12 @@ function nestingMiddleware(req, res, next) {
                     }]
                 }
             } else {
-                bodyObj[`img_${file.filename}`] = img_path
+                bodyObj[`img_${file.fieldname}`] = img_path
             }
         })
     }
     objectsThatThisFunctionHasCreated.forEach(object => delete object.identifierKey);
+    console.log(bodyObj);
     next();
 }
 
