@@ -40,10 +40,9 @@ class databaseAPI {
         })
     }
 
-    static _deleteIfImage(keyName, possibleImgName) {
+    static _deleteIfImage(keyName, possibleImgPath) {
         if (keyName.startsWith('img_')) {
-            const directoryOfImage = keyName.split('_')[1];
-            deleteThisShit(path.join('.', 'public', 'images', directoryOfImage, possibleImgName));
+            deleteThisShit(path.join('.', 'public', 'images', possibleImgPath));
             return true;
         }
         return false;
@@ -71,8 +70,8 @@ class databaseAPI {
                     const keys = Object.keys(collectionToBeDeleted);
                     keys.forEach(key => {
                         if (this.constructor._deleteIfImage(key, collectionToBeDeleted[key])) return;
-                        const arrayOfNestedObjects = collectionToBeDeleted[key];
-                        this.constructor._deleteIfAnyNestedObjectsHasImage(arrayOfNestedObjects);
+                        const possibleArrayOfNestedObjects = collectionToBeDeleted[key];
+                        this.constructor._deleteIfAnyNestedObjectsHasImage(possibleArrayOfNestedObjects);
                     });
                     return this.model.findOneAndRemove(searchParameter);
                 })
