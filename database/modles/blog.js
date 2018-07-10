@@ -18,8 +18,6 @@ const BlogSchema = new Schema({
     body: String   //TODO: Figure out a markup for decoration
 });
 
-//catagory
-
 const Blog = mongoose.model('blog', BlogSchema);
 
 module.exports = Blog;

@@ -20,6 +20,7 @@ const routes = {
     school: require('./database/api/school'),
     tuition: require('./database/api/tuition'),
     user: require('./database/api/user'),
+    issue: require('./database/api/issue'),
     auth: require('./oauth/auth_routes')
 };
 
@@ -44,10 +45,11 @@ logger.on('error', function (err) {
 });
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 //cookie stuff
 app.use(session({
@@ -68,6 +70,7 @@ app.use('/blog', nestingMiddleware, routes.blog);
 app.use('/event', eventCoverPicMiddleware, nestingMiddleware, routes.event);
 app.use('/school', schoolCoverPicMiddleware, nestingMiddleware, routes.school);
 app.use('/tuition', tuitionCoverPicMiddleware, nestingMiddleware, routes.tuition);
+app.use('/issue', nestingMiddleware, routes.issue);
 app.use('/user', nestingMiddleware, routes.user);
 app.use('/auth', routes.auth);
 

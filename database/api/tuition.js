@@ -5,12 +5,12 @@ const DbAPIClass = require('../api-functions');
 const tuitionDbFunctions = new DbAPIClass(Tuition);
 
 route.get('/all', (req, res) => {
-    // const queryObject = req.query;
+    const queryObject = req.query;
     let skip;
     let limit;
-    req.query.skip ? skip = parseInt(req.query.skip) : skip = 0;
-    req.query.limit ? limit = parseInt(req.query.limit) : limit = 0;
-    tuitionDbFunctions.getAllData(req.query.demands, skip, limit)
+    queryObject.skip ? skip = parseInt(queryObject.skip) : skip = 0;
+    queryObject.limit ? limit = parseInt(queryObject.limit) : limit = 0;
+    tuitionDbFunctions.getAllData(queryObject.demands, skip, limit)
         .then(data => res.send(data))
         .catch(err => console.error(err));
 });

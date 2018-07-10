@@ -71,7 +71,6 @@ function nestingMiddleware(req, res, next) {
         })
     }
     objectsThatThisFunctionHasCreated.forEach(object => delete object.identifierKey);
-    console.log(bodyObj);
     next();
 }
 
