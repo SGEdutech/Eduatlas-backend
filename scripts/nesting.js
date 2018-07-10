@@ -1,15 +1,17 @@
+const path = require('path');
+
 function nestingMiddleware(req, res, next) {
-    const obj = req.body;
+    const bodyObj = req.body;
 
-    if (obj === undefined) next();
+    if (bodyObj === undefined) next();
 
-    let keys = Object.keys(obj);
+    let keys = Object.keys(bodyObj);
 
     keys.forEach(key => {
-        if (obj[key] === '') delete obj[key]
+        if (bodyObj[key] === '') delete bodyObj[key]
     });
 
-    keys = Object.keys(obj);
+    keys = Object.keys(bodyObj);
 
     let objectsThatThisFunctionHasCreated = [];
     keys.forEach(key => {
@@ -20,12 +22,12 @@ function nestingMiddleware(req, res, next) {
 
             const hostKey = splitArr[1];
             const keyToBeInserted = splitArr[2];
-            const valueToBeInserted = obj[key];
             const identifier = splitArr[3];
+            const valueToBeInserted = bodyObj[key];
             let isWorkDone = false;
 
-            if (obj[hostKey] === undefined) obj[hostKey] = [];
-            obj[hostKey].forEach(nestedObject => {
+            if (bodyObj[hostKey] === undefined) bodyObj[hostKey] = [];
+            bodyObj[hostKey].forEach(nestedObject => {
                 if (nestedObject.identifierKey === identifier) {
                     nestedObject[keyToBeInserted] = valueToBeInserted;
                     isWorkDone = true;
@@ -36,40 +38,35 @@ function nestingMiddleware(req, res, next) {
                 objectsThatThisFunctionHasCreated.push(objToBeInserted);
                 objToBeInserted.identifierKey = identifier;
                 objToBeInserted[keyToBeInserted] = valueToBeInserted;
-                obj[hostKey].push(objToBeInserted);
+                bodyObj[hostKey].push(objToBeInserted);
             }
-            delete obj[key];
+            delete bodyObj[key];
         }
     });
     if (req.files) {
         req.files.forEach(file => {
-            const infoArr = file.fieldname.split('_');
-            const hostKeyName = infoArr[1];
-            const directoryName = infoArr[2];
+            const pathInfoArr = file.path.split('/');
+            const img_path = path.join(pathInfoArr[pathInfoArr.length - 2], pathInfoArr[pathInfoArr.length - 1]);
             if (file.fieldname.startsWith('n_')){
+                const infoArr = file.fieldname.split('_');
+                const hostKeyName = infoArr[1];
+                const name = infoArr[2];
                 const identifierKey = infoArr[3];
-                const arrayToBeInserted = obj[hostKeyName];
+                const arrayToBeInserted = bodyObj[hostKeyName];
                 if (arrayToBeInserted) {
                     if (Array.isArray(arrayToBeInserted) === false) throw new Error('Image: Key to be inserted is not an array');
                     arrayToBeInserted.forEach(nestedObj => {
                         if (nestedObj.identifierKey === identifierKey) {
-                            nestedObj[`img_${directoryName}`] = file.filename
+                            nestedObj[`img_${name}`] = img_path;
                         }
                     })
                 } else {
-                    obj[identifierKey] = [{
-                        [`img_${directoryName}`]: file.filename
+                    bodyObj[identifierKey] = [{
+                        [`img_${name}`]: img_path
                     }]
                 }
-            } else if (file.fieldname.startsWith('o_')) {
-                const infoArr = file.fieldname.split('_');
-                const directoryName = infoArr[1];
-                obj[`img_${directoryName}`] = file.filename
-            } else if (file.fieldname.startsWith('a_')) {
-                const infoArr = file.fieldname.split('_');
-                const directoryName = infoArr[1];
-                const keyName = infoArr[2];
-                obj[`img_${directoryName}_${keyName}`] = file.filename;
+            } else {
+                bodyObj[`img_${file.filename}`] = img_path
             }
         })
     }
@@ -78,3 +75,4 @@ function nestingMiddleware(req, res, next) {
 }
 
 exports.nestingMiddleware = nestingMiddleware;
+
