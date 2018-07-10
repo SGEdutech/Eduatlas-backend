@@ -81,11 +81,11 @@ class databaseAPI {
         })
     }
 
-    addElementToArray(modelSearchParameter, arrayName, elementObject) {   //Needs optimisation
+    addElementToArray(modelSearchParameter, arrayName, elementToBePushed) {
         return new Promise((resolve, reject) => {
             this.model.findOne(modelSearchParameter)
                 .then(data => {
-                    data[arrayName].push(elementObject);
+                    data[arrayName].push(elementToBePushed);
                     return data.save();
                 })
                 .then(data => resolve(data))

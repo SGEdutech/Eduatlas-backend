@@ -22,7 +22,9 @@ route.get('/', (req, res) => {
 });
 
 route.post('/add/:arrayName/:_id', (req, res) => {
-    eventDbFunctions.addElementToArray({_id: req.params._id}, req.params.arrayName, req.body)
+    let elementToBePushed;
+    req.body.string ? elementToBePushed = req.body.string : elementToBePushed = req.body;
+    eventDbFunctions.addElementToArray({_id: req.params._id}, req.params.arrayName, elementToBePushed)
         .then(data => res.send(data))
         .catch(err => console.error(err));
 });

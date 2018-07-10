@@ -36,8 +36,10 @@ route.post('/', (req, res) => {
 });
 
 route.post('/add/:arrayName/:_id', (req, res) => {
+    let elementToBePushed;
+    req.body.string ? elementToBePushed = req.body.string : elementToBePushed = req.body;
     if (youShallNotPass(req.user, req.params._id)) {
-        userDbFunctions.addElementToArray({_id: req.params._id}, req.params.arrayName, req.body)
+        userDbFunctions.addElementToArray({_id: req.params._id}, req.params.arrayName, elementToBePushed)
             .then(data => res.send(data))
             .catch(err => console.error(err));
     } else {
