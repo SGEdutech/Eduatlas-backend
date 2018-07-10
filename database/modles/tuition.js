@@ -43,6 +43,7 @@ const TuitionSchema = new Schema({
     hits: {type: Number, default: 0},
     bookmarks: Number,
     signedBy: String,
+    claimedBy: String,
     updatedOn: {type: Date, default: Date.now()}
 });
 
