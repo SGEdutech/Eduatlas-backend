@@ -19,7 +19,8 @@ class databaseAPI {
         return new Promise((resolve, reject) => {
             this.model.findOne(searchParameters).then(data => {
                 resolve(data);
-                data.views += 1;
+                if (data.views) data.views += 1;
+                if (data.hits) data.hits += 1;
                 data.save();
             }).catch(err => reject(err));
         });

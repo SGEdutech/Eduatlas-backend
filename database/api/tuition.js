@@ -41,7 +41,6 @@ route.get('/search', (req, res) => {
         sortBy = queryObject.sortBy;
         delete queryObject.sortBy;
     }
-    delete queryObject.demands;
     const searchCriteria = {};
     const queryKeys = Object.keys(queryObject);
     queryKeys.forEach(key => {
