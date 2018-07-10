@@ -60,9 +60,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //temp routes
-app.use('/add/tuition', (req, res) => res.redirect('/app/add-tuition.html'));
-app.use('/add/school', (req, res) => res.redirect('/app/add-school.html'));
-app.use('/admin/tuition', (req, res) => res.redirect('/app/Admin-tuition.html'));
+app.use('/add/tuition', (req, res) => res.redirect('/add-tuition.html'));
+app.use('/add/school', (req, res) => res.redirect('/add-school.html'));
+app.use('/admin/tuition', (req, res) => res.redirect('/Admin-tuition.html'));
 
 app.use(cors());
 
