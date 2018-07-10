@@ -68,7 +68,7 @@ route.post('/signup', (req, res) => {
 
                 APIHelperFunctions.addCollection(req.body)
                     .then(createdUser => {
-                        res.redirect('/app/User-dashboard.html')
+                        res.redirect('/User-dashboard.html')
                     });
             }
         })
