@@ -68,7 +68,7 @@ route.get('/', passport.authenticate('facebook'));
 route.get('/redirect', passport.authenticate('facebook', {scope: config.facebook.scope}),
     (req, res) => {
         // res.send(req.user);
-        res.redirect('/app/User-dashboard.html')
+        res.redirect('/User-dashboard.html')
     });
 
 exports = module.exports = {

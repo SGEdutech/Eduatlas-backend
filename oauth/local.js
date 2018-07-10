@@ -51,8 +51,8 @@ route.get('/login', (req, res) => {
 });
 
 route.post('/login', passport.authenticate('local', {
-    failureRedirect: '/app/login-page.html',
-    successRedirect: '/app/User-dashboard.html',
+    failureRedirect: '/login-page.html',
+    successRedirect: '/User-dashboard.html',
 }));
 
 // post request to sign-up don't need passportJS
