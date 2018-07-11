@@ -65,10 +65,10 @@ passport.use(new FacebookStrategy({
 
 route.get('/', passport.authenticate('facebook'));
 
-route.get('/redirect', passport.authenticate('facebook', {scope: config.facebook.scope}),
-    (req, res) => {
-        // res.send(req.user);
-        res.redirect('/User-dashboard.html')
+route.get('/redirect', passport.authenticate('facebook', {scope: config.facebook.scope})
+    , function (req, res) {
+        res.redirect(req.session.returnTo || '/');
+        delete req.session.returnTo;
     });
 
 exports = module.exports = {
