@@ -25,22 +25,17 @@ route.get('/search', (req, res) => {
     let skip = 0;
     let limit = 0;
     let sortBy;
-    if (queryObject.demands) {
-        demands = queryObject.demands;
-        delete queryObject.demands;
-    }
-    if (queryObject.skip) {
-        skip = parseInt(queryObject.skip);
-        delete queryObject.skip;
-    }
-    if (queryObject.limit) {
-        limit = parseInt(queryObject.limit);
-        delete queryObject.limit;
-    }
-    if (queryObject.sortBy) {
-        sortBy = queryObject.sortBy;
-        delete queryObject.sortBy;
-    }
+
+    if (queryObject.demands) demands = queryObject.demands;
+    if (queryObject.skip) skip = parseInt(queryObject.skip);
+    if (queryObject.limit) limit = parseInt(queryObject.limit);
+    if (queryObject.sortBy) sortBy = queryObject.sortBy;
+
+    delete queryObject.demands;
+    delete queryObject.skip;
+    delete queryObject.limit;
+    delete queryObject.sortBy;
+
     const searchCriteria = {};
     const queryKeys = Object.keys(queryObject);
     queryKeys.forEach(key => {
