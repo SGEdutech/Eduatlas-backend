@@ -73,8 +73,9 @@ route.get('/', passport.authenticate('google', {scope: config.google.scope}));
 //callback route for google to redirect user
 //here google will send a code(in uri) which we will use to get user info
 route.get('/redirect', passport.authenticate('google'),
-    (req, res) => {
-        res.redirect('/User-dashboard.html')
+    function (req, res) {
+        res.redirect(req.session.returnTo || '/');
+        delete req.session.returnTo;
     });
 
 exports = module.exports = {

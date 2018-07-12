@@ -44,10 +44,19 @@ passport.use(new LocalStrategy((username, password, done) => {
         })
 }));
 
-route.post('/login', passport.authenticate('local', {
+route.post('/login', passport.authenticate('local'/*, {
     failureRedirect: '/login-page.html',
     successRedirect: '/User-dashboard.html',
-}));
+}*/), function (req, res) {
+    res.redirect(req.session.returnTo || '/');
+    delete req.session.returnTo;
+});
+
+route.use('/logout', (req, res) => {
+    req.session.destroy(function (err) {
+        res.send({done: true}); //Inside a callback… bulletproof!
+    });
+});
 
 // post request to sign-up don't need passportJS
 route.post('/signup', (req, res) => {
@@ -62,7 +71,7 @@ route.post('/signup', (req, res) => {
 
                 APIHelperFunctions.addCollection(req.body)
                     .then(createdUser => {
-                        res.redirect('/User-dashboard.html')
+                        res.redirect('/login-page.html')
                     });
             }
         })
