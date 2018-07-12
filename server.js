@@ -12,6 +12,7 @@ const {eventCoverPicMiddleware, schoolCoverPicMiddleware, tuitionCoverPicMiddlew
     require('./storage-engine');
 const {nestingMiddleware} = require('./scripts/nesting');
 require('./database/connection');
+const sanitizeDemandsMiddleware = require('./scripts/sanatize-demands');
 const winston = require('winston');
 
 const routes = {
@@ -24,8 +25,6 @@ const routes = {
     auth: require('./oauth/auth_routes')
 };
 
-//by default logger exit on error, if you want to change it, add a key:value while creating logger
-//{ exitOnError: true }
 const logger = winston.createLogger({
     level: 'info',
     format: winston.format.json(),
@@ -66,12 +65,21 @@ app.use('/admin/tuition', (req, res) => res.redirect('/Admin-tuition.html'));
 
 app.use(cors());
 
-app.use('/blog', nestingMiddleware, routes.blog);
-app.use('/event', eventCoverPicMiddleware, nestingMiddleware, routes.event);
-app.use('/school', schoolCoverPicMiddleware, nestingMiddleware, routes.school);
-app.use('/tuition', tuitionCoverPicMiddleware, nestingMiddleware, routes.tuition);
-app.use('/issue', nestingMiddleware, routes.issue);
-app.use('/user', userCoverPicMiddleware, nestingMiddleware, routes.user);
+app.use('/event', eventCoverPicMiddleware);
+app.use('/school', schoolCoverPicMiddleware);
+app.use('/tuition', tuitionCoverPicMiddleware);
+app.use('/user', userCoverPicMiddleware);
+
+app.get('/*', sanitizeDemandsMiddleware);
+
+app.use(nestingMiddleware);
+
+app.use('/blog', routes.blog);
+app.use('/event', routes.event);
+app.use('/school', routes.school);
+app.use('/tuition', routes.tuition);
+app.use('/issue', routes.issue);
+app.use('/user', routes.user);
 app.use('/auth', routes.auth);
 
 app.listen(PORT, () => console.log(`Yo dawg! Server's at http://localhost:${PORT}`));
