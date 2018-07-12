@@ -5,7 +5,7 @@ const UserSchema = new Schema({
     about: String,
     facebookId: String,
     googleId: String,
-    password: String,
+    password: {type: String, select: false},
     blogsOwned: [String],
     eventsOwned: [String],
     tuitionsOwned: [String],
@@ -22,8 +22,8 @@ const UserSchema = new Schema({
     firstName: String,
     middleName: String,
     lastName: String,
-    primaryEmail: String,  //should be unique also alternate
-    secondaryEmail: String,
+    primaryEmail: {type: String, lowercase: true}, //add unique validator
+    secondaryEmail: {type: String, lowercase: true},
     phone: Number,
     img_userProfilePic: String,
     dateOfBirth: Date,

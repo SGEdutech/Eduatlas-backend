@@ -27,7 +27,7 @@ const TuitionSchema = new Schema({
     contactPerson: String,
     primaryNumber: Number,
     secondaryNumber: Number,
-    email: String,
+    email: {type: String, lowercase: true},
     website: String,
     fbLink: String,
     twitterLink: String,

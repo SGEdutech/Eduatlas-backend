@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const IssueSchema = new Schema({
     name: String,
     contact: Number,
-    email: String,
+    email: {type: String, lowercase: true},
     description: String,
     type: String,
     id: String
