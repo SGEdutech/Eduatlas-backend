@@ -5,8 +5,6 @@ const DbAPIClass = require('../api-functions');
 const userDbFunctions = new DbAPIClass(User);
 const youShallNotPass = require('../../scripts/login-check');
 
-// route.use(youShallNotPass);
-
 route.get('/check', (req, res) => {
     if (!req.user) {
         req.session.returnTo = req.headers.referer;

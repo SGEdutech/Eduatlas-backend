@@ -14,10 +14,12 @@ class databaseAPI {
         return this.model.find(searchParameters, demands).skip(skip).limit(limit).sort([[sortBy, 'descending']]);
     }
 
-    getSpecificData(searchParameters, incrementView) {
+    getSpecificData(searchParameters, incrementView, returnPassword) {
+        let select;
+        returnPassword ? select = '+password' : select = '';
         if (incrementView === undefined) return this.model.findOne(searchParameters);
         return new Promise((resolve, reject) => {
-            this.model.findOne(searchParameters).then(data => {
+            this.model.findOne(searchParameters).select(select).then(data => {
                 resolve(data);
                 if (data.views) data.views += 1;
                 if (data.hits) data.hits += 1;

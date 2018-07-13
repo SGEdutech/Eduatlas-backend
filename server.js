@@ -4,15 +4,16 @@ const cors = require('cors');
 const PORT = require('./config').SERVER.PORT;
 const session = require('express-session');
 const passport = require('passport');
-require('./oauth/local');
-require('./oauth/google');
-require('./oauth/facebook');
 const keys = require('./oauth/_config').keys;
 const {eventCoverPicMiddleware, schoolCoverPicMiddleware, tuitionCoverPicMiddleware, userCoverPicMiddleware} =
     require('./storage-engine');
 const {nestingMiddleware} = require('./scripts/nesting');
-require('./database/connection');
 const sanitizeDemandsMiddleware = require('./scripts/sanatize-demands');
+const {dashboard, loginPage} = require('./public-paths.json');
+require('./oauth/local');
+require('./oauth/google');
+require('./oauth/facebook');
+require('./database/connection');
 
 const routes = {
     blog: require('./database/api/blog'),
@@ -27,12 +28,6 @@ const routes = {
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-
-//cookie stuff
 app.use(session({
     secret: keys.CookieKey,
     cookie: {maxAge: 7 * 24 * 60 * 60 * 1000},
@@ -40,6 +35,19 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(`/${dashboard}`, (req, res, next) => {
+    if (req.user === undefined) {
+        res.redirect(`/${loginPage}`);
+        return;
+    }
+    next();
+});
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 //temp routes
 app.use('/add/tuition', (req, res) => res.redirect('/add-tuition.html'));
