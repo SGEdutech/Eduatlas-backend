@@ -13,7 +13,6 @@ const {eventCoverPicMiddleware, schoolCoverPicMiddleware, tuitionCoverPicMiddlew
 const {nestingMiddleware} = require('./scripts/nesting');
 require('./database/connection');
 const sanitizeDemandsMiddleware = require('./scripts/sanatize-demands');
-const winston = require('winston');
 
 const routes = {
     blog: require('./database/api/blog'),
@@ -25,23 +24,6 @@ const routes = {
     auth: require('./oauth/auth_routes')
 };
 
-const logger = winston.createLogger({
-    level: 'info',
-    format: winston.format.json(),
-    transports: [
-        //
-        // - Write to all logs with level `info` and below to `combined.log`
-        // - Write all logs error (and below) to `error.log`.
-        //
-        new winston.transports.File({filename: 'error.log', level: 'error'}),
-        new winston.transports.File({filename: 'combined.log'})
-    ]
-});
-
-
-logger.on('error', function (err) {
-    console.log(err)
-});
 
 const app = express();
 
