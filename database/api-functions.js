@@ -50,7 +50,7 @@ class databaseAPI {
         return false;
     }
 
-    static _deleteIfAnyNestedObjectsHasImage(arrayOfObjects) {
+    static _deleteIfAnyNestedObjectsHasImage(arrayOfNestedObjects) {
         if (Array.isArray(arrayOfNestedObjects) && typeof arrayOfNestedObjects[0] === 'object') {
             arrayOfNestedObjects.forEach(nestedObject => {
                 const nestedKeys = Object.keys(nestedObject);
