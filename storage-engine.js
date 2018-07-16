@@ -71,7 +71,7 @@ function tuitionCoverPicMiddleware(req, res, next) {
 }
 
 const userCoverPicStorage = multer.diskStorage({
-    destination: './public/images/tuitionPics',
+    destination: './public/images/userPics',
     filename: nameThatBitch
 });
 
