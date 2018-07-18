@@ -7,7 +7,6 @@ const youShallNotPass = require('../../scripts/login-check');
 
 route.get('/check', (req, res) => {
     if (!req.user) {
-        req.session.returnTo = req.headers.referer;
         res.send('LogIn')
     } else {
         res.send(req.user)

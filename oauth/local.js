@@ -48,8 +48,7 @@ route.post('/login', passport.authenticate('local'/*, {
     failureRedirect: '/login-page.html',
     successRedirect: '/User-dashboard.html',
 }*/), function (req, res) {
-    res.redirect(req.session.returnTo || '/');
-    delete req.session.returnTo;
+    res.redirect('back');
 });
 
 route.use('/logout', (req, res) => {
