@@ -5,14 +5,14 @@ const hash = (() => {
         return crypto.createHash('sha256').update(data).digest('hex');
     };
 
-    return getSHA256;
+    return {getSHA256};
 
 })();
 
 function passwordHashMiddleware(req, res, next) {
     const salt = 'assassin';
     if (req.body && req.body.password) {
-        req.body.password = hash(salt + req.body.password);
+        req.body.password = hash.getSHA256(salt + req.body.password);
     }
     next();
 }

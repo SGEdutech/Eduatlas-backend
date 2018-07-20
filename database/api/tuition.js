@@ -6,10 +6,8 @@ const tuitionDbFunctions = new DbAPIClass(Tuition);
 
 route.get('/all', (req, res) => {
     const queryObject = req.query;
-    let skip;
-    let limit;
-    queryObject.skip ? skip = parseInt(queryObject.skip) : skip = 0;
-    queryObject.limit ? limit = parseInt(queryObject.limit) : limit = 0;
+    let skip = parseInt(queryObject.skip) || 0;
+    let limit = parseInt(queryObject.limit) || 0;
     tuitionDbFunctions.getAllData(queryObject.demands, skip, limit)
         .then(data => res.send(data))
         .catch(err => console.error(err));
@@ -21,15 +19,10 @@ route.get('/', (req, res) => {
 
 route.get('/search', (req, res) => {
     const queryObject = req.query;
-    let demands = '';
-    let skip = 0;
-    let limit = 0;
-    let sortBy;
-
-    if (queryObject.demands) demands = queryObject.demands;
-    if (queryObject.skip) skip = parseInt(queryObject.skip);
-    if (queryObject.limit) limit = parseInt(queryObject.limit);
-    if (queryObject.sortBy) sortBy = queryObject.sortBy;
+    const demands = queryObject.demands || '';
+    const skip = parseInt(queryObject.skip) || 0;
+    const limit = parseInt(queryObject.limit) || 0;
+    const sortBy = queryObject.sortBy || '';
 
     delete queryObject.demands;
     delete queryObject.skip;
