@@ -17,6 +17,7 @@ function passwordHashMiddleware(req, res, next) {
         req.body.password = hash(salt + req.body.password);
         console.log(req.body.password);
     }
+    next();
 }
 
 exports = module.exports = passwordHashMiddleware;
