@@ -29,8 +29,6 @@ const routes = {
 
 const app = express();
 
-app.use(passwordHashingMiddleware);
-
 app.use(session({
     secret: keys.CookieKey,
     cookie: {maxAge: 7 * 24 * 60 * 60 * 1000},
@@ -67,6 +65,8 @@ app.use('/user', userCoverPicMiddleware);
 app.get('/*', sanitizeDemandsMiddleware);
 
 app.use(nestingMiddleware);
+
+app.use(passwordHashingMiddleware);
 
 app.use('/blog', routes.blog);
 app.use('/event', routes.event);
