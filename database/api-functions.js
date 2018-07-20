@@ -107,23 +107,31 @@ class databaseAPI {
         })
     }
 
-    deleteElementFromArray(modelSearchParameter, arrayName, nestedObjectIdentifier) {
+    deleteElementFromArray(modelSearchParameter, arrayName, identifier) {
         return new Promise((resolve, reject) => {
             if (modelSearchParameter === 'undefined') throw new Error('Model search parameter not provided');
             if (arrayName === 'undefined') throw new Error('Array name not provided');
-            if (nestedObjectIdentifier === 'undefined') throw new Error('Nested object identifier not provided');
-            let nestedObjectIdentifierKey = Object.keys(nestedObjectIdentifier)[0];
+            if (identifier === 'undefined') throw new Error('Identifier not provided');
+            const nestedObjectIdentifierKey = Object.keys(identifier)[0];
             this.model.findOne(modelSearchParameter)
                 .then(data => {
-                    data[arrayName].forEach((item, index) => {
-                        if (item[nestedObjectIdentifierKey] === nestedObjectIdentifier[nestedObjectIdentifierKey]) {
-                            const nestedObjectKeys = Object.keys(item);
-                            nestedObjectKeys.forEach(nestedKey => {
-                               this.constructor._deleteIfImage(nestedKey, item[nestedKey]);
-                            });
-                            data[arrayName].splice(index, 1);
-                        }
-                    });
+                    if (typeof identifier === 'string') {
+                        data[arrayName].forEach((item, index) => {
+                            if (identifier === item) {
+                                data[arrayName].splice(index, 1);
+                            }
+                        })
+                    } else {
+                        data[arrayName].forEach((item, index) => {
+                            if (item[nestedObjectIdentifierKey] === identifier[nestedObjectIdentifierKey]) {
+                                const nestedObjectKeys = Object.keys(item);
+                                nestedObjectKeys.forEach(nestedKey => {
+                                    this.constructor._deleteIfImage(nestedKey, item[nestedKey]);
+                                });
+                                data[arrayName].splice(index, 1);
+                            }
+                        });
+                    }
                     return data.save();
                 })
                 .then(data => resolve(data))

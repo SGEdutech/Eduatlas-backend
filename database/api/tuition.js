@@ -43,8 +43,7 @@ route.get('/search', (req, res) => {
 });
 
 route.post('/add/:arrayName/:_id', (req, res) => {
-    let elementToBePushed;
-    req.body.string ? elementToBePushed = req.body.string : elementToBePushed = req.body;
+    let elementToBePushed = req.body.string || req.body;
     tuitionDbFunctions.addElementToArray({_id: req.params._id}, req.params.arrayName, elementToBePushed)
         .then(data => res.send(data))
         .catch(err => console.error(err));
@@ -65,7 +64,8 @@ route.put('/:_id', (req, res) => {
 });
 
 route.delete('/delete/:arrayName/:_id', (req, res) => {
-    tuitionDbFunctions.deleteElementFromArray({_id: req.params._id}, req.params.arrayName, req.body)
+    const identifier = req.body.string || req.body;
+    tuitionDbFunctions.deleteElementFromArray({_id: req.params._id}, req.params.arrayName, identifier)
         .then(data => res.send(data))
         .catch(err => console.error(err));
 });
