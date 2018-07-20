@@ -44,7 +44,8 @@ route.put('/:_id', (req, res) => {
 });
 
 route.delete('/delete/:_id/:arrayName', (req, res) => {
-    schoolDbFunctions.deleteElementFromArray({_id: req.params._id}, req.params.arrayName, req.body)
+    const identifier = req.body.string || req.body;
+    schoolDbFunctions.deleteElementFromArray({_id: req.params._id}, req.params.arrayName, identifier)
         .then(data => res.send(data))
         .catch(err => console.error(err));
 });

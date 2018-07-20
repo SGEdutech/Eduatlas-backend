@@ -64,7 +64,8 @@ route.put('/:_id', (req, res) => {
 
 route.delete('/delete/:arrayName/:_id', (req, res) => {
     if (youShallNotPass(req.user, req.params._id)) {
-        userDbFunctions.deleteElementFromArray({_id: req.params._id}, req.params.arrayName, req.body)
+        const identifier = req.body.string || req.body;
+        userDbFunctions.deleteElementFromArray({_id: req.params._id}, req.params.arrayName, identifier)
             .then(data => res.send(data))
             .catch(err => console.error(err));
     } else {
