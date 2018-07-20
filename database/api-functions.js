@@ -36,7 +36,7 @@ class databaseAPI {
     updateOneRow(searchParameters, newInformation) {
         return new Promise((resolve, reject) => {
             this.model.findOneAndUpdate(searchParameters, newInformation)
-                .then(() => this.model.findOne(newInformation))
+                .then(() => this.model.findOne(searchParameters))
                 .then(data => resolve(data))
                 .catch(err => reject(err));
         })
