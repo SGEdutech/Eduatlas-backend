@@ -13,8 +13,9 @@ const hash = (() => {
 
 function passwordHashMiddleware(req, res, next) {
     const salt = 'assassin';
-    if (req.body.password) {
-        req.body.password = hash(salt + req.body.password)
+    if (req.body && req.body.password) {
+        req.body.password = hash(salt + req.body.password);
+        console.log(req.body.password);
     }
 }
 
