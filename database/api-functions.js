@@ -145,14 +145,14 @@ class databaseAPI {
             this.model.findOne(modelSearchParameter)
                 .then(collection => {
                     if (collection[key] === undefined) throw new Error('Key not found');
-                    Array.isArray(collection[key]) === true ? collection[key] = [] : delete collection[key];
+                    Array.isArray(collection[key]) ? collection[key] = [] : collection[key] = undefined;
+                    console.log(collection[key]);
                     return collection.save();
                 })
                 .then(data => resolve(data))
                 .catch(err => reject(err));
         })
     }
-
 }
 
 
