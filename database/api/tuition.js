@@ -60,6 +60,7 @@ route.put('/update/:idOfCollection/:arrayName/:idOfNestedObject', (req, res) => 
 });
 
 route.put('/:_id', (req, res) => {
+    console.log(req.params)
     tuitionDbFunctions.updateOneRow(req.params, req.body).then(data => res.send(data)).catch(err => console.error(err));
 });
 
