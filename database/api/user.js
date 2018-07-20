@@ -72,6 +72,10 @@ route.delete('/delete/:arrayName/:_id', (req, res) => {
     }
 });
 
+route.delete('/empty/:keyname', (req, res) => {
+    userDbFunctions.emptyKey(req.body, req.params.keyname).then(data => res.send(data)).catch(err => console.error(err));
+});
+
 route.delete('/:_id', (req, res) => {
     if (youShallNotPass(req.user, req.params._id)) {
         userDbFunctions.deleteOneRow(req.params).then(data => res.send(data)).catch(err => console.error(err));

@@ -112,7 +112,6 @@ class databaseAPI {
             if (modelSearchParameter === 'undefined') throw new Error('Model search parameter not provided');
             if (arrayName === 'undefined') throw new Error('Array name not provided');
             if (identifier === 'undefined') throw new Error('Identifier not provided');
-            const nestedObjectIdentifierKey = Object.keys(identifier)[0];
             this.model.findOne(modelSearchParameter)
                 .then(data => {
                     if (typeof identifier === 'string') {
@@ -122,6 +121,7 @@ class databaseAPI {
                             }
                         })
                     } else {
+                        const nestedObjectIdentifierKey = Object.keys(identifier)[0];
                         data[arrayName].forEach((item, index) => {
                             if (item[nestedObjectIdentifierKey] === identifier[nestedObjectIdentifierKey]) {
                                 const nestedObjectKeys = Object.keys(item);
@@ -133,6 +133,20 @@ class databaseAPI {
                         });
                     }
                     return data.save();
+                })
+                .then(data => resolve(data))
+                .catch(err => reject(err));
+        })
+    }
+
+    emptyKey(modelSearchParameter, key) {
+        return new Promise((resolve, reject) => {
+            if (typeof modelSearchParameter !== 'object') throw new Error('Model search parameter not an object');
+            this.model.findOne(modelSearchParameter)
+                .then(collection => {
+                    if (collection[key] === undefined) throw new Error('Key not found');
+                    Array.isArray(collection[key]) === true ? collection[key] = [] : delete collection[key];
+                    return collection.save();
                 })
                 .then(data => resolve(data))
                 .catch(err => reject(err));

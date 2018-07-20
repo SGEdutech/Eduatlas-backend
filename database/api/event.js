@@ -44,10 +44,13 @@ route.put('/:_id', (req, res) => {
 });
 
 route.delete('/delete/:arrayName/:_id', (req, res) => {
-
     eventDbFunctions.deleteElementFromArray({_id: req.params._id}, req.params.arrayName, req.body)
         .then(data => res.send(data))
         .catch(err => console.error(err));
+});
+
+route.delete('/empty/:keyname', (req, res) => {
+    eventDbFunctions.emptyKey(req.body, req.params.keyname).then(data => res.send(data)).catch(err => console.error(err));
 });
 
 route.delete('/:_id', (req, res) => {

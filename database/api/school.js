@@ -49,6 +49,10 @@ route.delete('/delete/:_id/:arrayName', (req, res) => {
         .catch(err => console.error(err));
 });
 
+route.delete('/empty/:keyname', (req, res) => {
+    schoolDbFunctions.emptyKey(req.body, req.params.keyname).then(data => res.send(data)).catch(err => console.error(err));
+});
+
 route.delete('/:_id', (req, res) => {
     schoolDbFunctions.deleteOneRow(req.params).then(data => res.send(data)).catch(err => console.error(err));
 });

@@ -70,6 +70,10 @@ route.delete('/delete/:arrayName/:_id', (req, res) => {
         .catch(err => console.error(err));
 });
 
+route.delete('/empty/:keyname', (req, res) => {
+   tuitionDbFunctions.emptyKey(req.body, req.params.keyname).then(data => res.send(data)).catch(err => console.error(err));
+});
+
 route.delete('/:_id', (req, res) => {
     // if (req.params._id.match(/^[0-9a-fA-F]{24}$/) === null) res.send('Not a valid id');
     tuitionDbFunctions.deleteOneRow(req.params).then(data => res.send(data)).catch(err => console.error(err));

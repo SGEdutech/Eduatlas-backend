@@ -48,6 +48,10 @@ route.delete('/delete/:arrayName/:_id', (req, res) => {
         .catch(err => console.error(err));
 });
 
+route.delete('/empty/:keyname', (req, res) => {
+    blogDbFunctions.emptyKey(req.body, req.params.keyname).then(data => res.send(data)).catch(err => console.error(err));
+});
+
 route.delete('/:_id', (req, res) => {
     blogDbFunctions.deleteOneRow(req.params).then(data => res.send(data)).catch(err => console.error(err));
 });
