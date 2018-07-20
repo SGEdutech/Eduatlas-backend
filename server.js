@@ -8,6 +8,7 @@ const keys = require('./oauth/_config').keys;
 const {eventCoverPicMiddleware, schoolCoverPicMiddleware, tuitionCoverPicMiddleware, userCoverPicMiddleware} =
     require('./storage-engine');
 const {nestingMiddleware} = require('./scripts/nesting');
+const passwordHashingMiddleware = require('./scripts/hashPassword');
 const sanitizeDemandsMiddleware = require('./scripts/sanatize-demands');
 const {dashboard, loginPage} = require('./public-paths.json');
 require('./oauth/local');
@@ -27,6 +28,8 @@ const routes = {
 
 
 const app = express();
+
+app.use(passwordHashingMiddleware);
 
 app.use(session({
     secret: keys.CookieKey,

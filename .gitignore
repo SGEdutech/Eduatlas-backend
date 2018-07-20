@@ -3,5 +3,3 @@ package-lock.json
 /node_modules
 /public
 /config.json
-combined\.log
-error\.log
