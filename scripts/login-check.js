@@ -1,6 +1,6 @@
 function youShallNotPass(user, _id) {
     // console.log(user._id + '-' + _id)
-    if (!user._id) {
+    if (user._id === undefined || user._id === '') {
         console.log("please login first");
         return false;
     } else {

@@ -27,7 +27,7 @@ const CourseSchema = new Schema({
     title: String,
     ageGroup: String,
     duration: String,
-    fee: Number,
+    fee: String,
     nextBatch: Date
 });
 
