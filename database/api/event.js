@@ -35,7 +35,7 @@ route.post('/', (req, res) => {
 });
 
 route.put('/update/:idOfCollection/:arrayName/:idOfNestedObject', (req, res) => {
-    schoolDbFunctions.updateElementInArray({_id: req.params.idOfCollection}, req.params.arrayName,
+    eventDbFunctions.updateElementInArray({_id: req.params.idOfCollection}, req.params.arrayName,
         req.params.idOfNestedObject, req.body).then(data => res.send(data)).catch(err => console.error(err));
 });
 

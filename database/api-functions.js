@@ -1,7 +1,7 @@
 const deleteThisShit = require('../scripts/fsunlink');
 const path = require('path');
 
-class databaseAPI {
+class DatabaseAPI {
     constructor(model) {
         this.model = model;
     }
@@ -39,7 +39,7 @@ class databaseAPI {
                 .then(() => this.model.findOne(searchParameters))
                 .then(data => resolve(data))
                 .catch(err => reject(err));
-        })
+        });
     }
 
     static _deleteIfImage(keyName, possibleImgPath) {
@@ -56,8 +56,8 @@ class databaseAPI {
                 const nestedKeys = Object.keys(nestedObject);
                 nestedKeys.forEach(nestedKey => {
                     this._deleteIfImage(nestedKey, nestedObject[nestedKey]);
-                })
-            })
+                });
+            });
         }
     }
 
@@ -79,7 +79,7 @@ class databaseAPI {
                 })
                 .then(() => resolve(deletedRow))
                 .catch(err => reject(err));
-        })
+        });
     }
 
     addElementToArray(modelSearchParameter, arrayName, elementToBePushed) {
@@ -91,7 +91,7 @@ class databaseAPI {
                 })
                 .then(data => resolve(data))
                 .catch(err => reject(err));
-        })
+        });
     }
 
     updateElementInArray(modelSearchParameter, arrayName, nestedObjectId, updatedInformation) {
@@ -104,7 +104,7 @@ class databaseAPI {
                     return data.save();
                 }).then(data => resolve(data))
                 .catch(err => reject(err));
-        })
+        });
     }
 
     deleteElementFromArray(modelSearchParameter, arrayName, identifier) {
@@ -119,7 +119,7 @@ class databaseAPI {
                             if (identifier === item) {
                                 data[arrayName].splice(index, 1);
                             }
-                        })
+                        });
                     } else {
                         const nestedObjectIdentifierKey = Object.keys(identifier)[0];
                         data[arrayName].forEach((item, index) => {
@@ -136,7 +136,7 @@ class databaseAPI {
                 })
                 .then(data => resolve(data))
                 .catch(err => reject(err));
-        })
+        });
     }
 
     emptyKey(modelSearchParameter, key) {
@@ -150,9 +150,9 @@ class databaseAPI {
                 })
                 .then(data => resolve(data))
                 .catch(err => reject(err));
-        })
+        });
     }
 }
 
 
-module.exports = databaseAPI;
+module.exports = DatabaseAPI;

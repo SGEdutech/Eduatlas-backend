@@ -80,5 +80,3 @@ route.delete('/:_id', (req, res) => {
 });
 
 module.exports = route;
-
-const hi = "adad";

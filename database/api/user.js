@@ -1,15 +1,14 @@
 const route = require('express').Router();
 const User = require('../modles/user');
-const escapeRegex = require('../../scripts/escape-regex');
 const DbAPIClass = require('../api-functions');
 const userDbFunctions = new DbAPIClass(User);
 const youShallNotPass = require('../../scripts/login-check');
 
 route.get('/check', (req, res) => {
     if (!req.user) {
-        res.send('LogIn')
+        res.send('LogIn');
     } else {
-        res.send(req.user)
+        res.send(req.user);
     }
 });
 
@@ -25,7 +24,7 @@ route.get('/', (req, res) => {
     if (youShallNotPass(req.user, req.query._id)) {
         userDbFunctions.getSpecificData(req.query).then(data => console.log(data));
     } else {
-        res.send("youShallNotPass")
+        res.send('youShallNotPass');
     }
 });
 
@@ -34,14 +33,13 @@ route.post('/', (req, res) => {
 });
 
 route.post('/add/:arrayName/:_id', (req, res) => {
-    let elementToBePushed;
-    req.body.string ? elementToBePushed = req.body.string : elementToBePushed = req.body;
+    let elementToBePushed = req.body.string || req.body;
     if (youShallNotPass(req.user, req.params._id)) {
         userDbFunctions.addElementToArray({_id: req.params._id}, req.params.arrayName, elementToBePushed)
             .then(data => res.send(data))
             .catch(err => console.error(err));
     } else {
-        res.send("youShallNotPass")
+        res.send('youShallNotPass');
     }
 });
 
@@ -50,7 +48,7 @@ route.put('/update/:idOfCollection/:arrayName/:idOfNestedObject', (req, res) => 
         userDbFunctions.updateElementInArray({_id: req.params.idOfCollection}, req.params.arrayName,
             req.params.idOfNestedObject, req.body).then(data => res.send(data)).catch(err => console.error(err));
     } else {
-        res.send("youShallNotPass")
+        res.send('youShallNotPass');
     }
 });
 
@@ -58,7 +56,7 @@ route.put('/:_id', (req, res) => {
     if (youShallNotPass(req.user, req.params._id)) {
         userDbFunctions.updateOneRow(req.params, req.body).then(data => res.send(data)).catch(err => console.error(err));
     } else {
-        res.send("youShallNotPass")
+        res.send('youShallNotPass');
     }
 });
 
@@ -69,7 +67,7 @@ route.delete('/delete/:arrayName/:_id', (req, res) => {
             .then(data => res.send(data))
             .catch(err => console.error(err));
     } else {
-        res.send("youShallNotPass")
+        res.send('youShallNotPass');
     }
 });
 
@@ -81,7 +79,7 @@ route.delete('/:_id', (req, res) => {
     if (youShallNotPass(req.user, req.params._id)) {
         userDbFunctions.deleteOneRow(req.params).then(data => res.send(data)).catch(err => console.error(err));
     } else {
-        res.send("youShallNotPass")
+        res.send('youShallNotPass');
     }
 });
 

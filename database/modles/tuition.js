@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const secondarySchemas = require('../secondary-schemas');
-const ContactSchema = secondarySchemas.ContactSchema;
 const ReviewSchema = secondarySchemas.ReviewSchema;
 const CourseSchema = secondarySchemas.CourseSchema;
 const TeamSchema = secondarySchemas.TeamSchema;

@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-//TODO: Editor
 const BlogSchema = new Schema({
     blogId: String,
     owner: String,  //no owner
@@ -15,7 +14,7 @@ const BlogSchema = new Schema({
     authorFacebookLink: String,
     authorTwitterLink: String,
     authorQuoraLink: String,   // connect with user
-    body: String   //TODO: Figure out a markup for decoration
+    body: String
 });
 
 const Blog = mongoose.model('blog', BlogSchema);
