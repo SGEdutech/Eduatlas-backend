@@ -6,8 +6,8 @@ const tuitionDbFunctions = new DbAPIClass(Tuition);
 
 route.get('/all', (req, res) => {
     const queryObject = req.query;
-    let skip = parseInt(queryObject.skip) || 0;
-    let limit = parseInt(queryObject.limit) || 0;
+    const skip = parseInt(queryObject.skip) || 0;
+    const limit = parseInt(queryObject.limit) || 0;
     tuitionDbFunctions.getAllData(queryObject.demands, skip, limit)
         .then(data => res.send(data))
         .catch(err => console.error(err));
@@ -80,3 +80,5 @@ route.delete('/:_id', (req, res) => {
 });
 
 module.exports = route;
+
+const hi = "adad";
