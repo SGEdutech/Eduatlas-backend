@@ -146,7 +146,6 @@ class databaseAPI {
                 .then(collection => {
                     if (collection[key] === undefined) throw new Error('Key not found');
                     Array.isArray(collection[key]) ? collection[key] = [] : collection[key] = undefined;
-                    console.log(collection[key]);
                     return collection.save();
                 })
                 .then(data => resolve(data))

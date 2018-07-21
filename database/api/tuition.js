@@ -22,7 +22,7 @@ route.get('/search', (req, res) => {
     const demands = queryObject.demands || '';
     const skip = parseInt(queryObject.skip) || 0;
     const limit = parseInt(queryObject.limit) || 0;
-    const sortBy = queryObject.sortBy || '';
+    const sortBy = queryObject.sortBy || undefined;
 
     delete queryObject.demands;
     delete queryObject.skip;
@@ -39,18 +39,18 @@ route.get('/search', (req, res) => {
             searchCriteria[key] = new RegExp(escapeRegex(value.search), 'i');
         }
     });
-    tuitionDbFunctions.getMultipleData(searchCriteria, demands, skip, limit, sortBy).then(data => res.send(data));
+    tuitionDbFunctions.getMultipleData(searchCriteria, demands, skip, limit, sortBy).then(data => res.send(data))
+        .catch(err => console.error(err));
 });
 
 route.post('/add/:arrayName/:_id', (req, res) => {
-    let elementToBePushed = req.body.string || req.body;
+    const elementToBePushed = req.body.string || req.body;
     tuitionDbFunctions.addElementToArray({_id: req.params._id}, req.params.arrayName, elementToBePushed)
         .then(data => res.send(data))
         .catch(err => console.error(err));
 });
 
 route.post('/', (req, res) => {
-    if (req.file) req.body.img_coverPic = req.file.filename;
     tuitionDbFunctions.addCollection(req.body).then(data => res.send(data)).catch(err => console.error(err));
 });
 
@@ -60,7 +60,6 @@ route.put('/update/:idOfCollection/:arrayName/:idOfNestedObject', (req, res) => 
 });
 
 route.put('/:_id', (req, res) => {
-    console.log(req.params)
     tuitionDbFunctions.updateOneRow(req.params, req.body).then(data => res.send(data)).catch(err => console.error(err));
 });
 
@@ -72,7 +71,7 @@ route.delete('/delete/:arrayName/:_id', (req, res) => {
 });
 
 route.delete('/empty/:keyname', (req, res) => {
-   tuitionDbFunctions.emptyKey(req.body, req.params.keyname).then(data => res.send(data)).catch(err => console.error(err));
+    tuitionDbFunctions.emptyKey(req.body, req.params.keyname).then(data => res.send(data)).catch(err => console.error(err));
 });
 
 route.delete('/:_id', (req, res) => {
