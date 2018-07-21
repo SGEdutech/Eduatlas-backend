@@ -13,7 +13,7 @@
   // with different skill levels.
 
   "bitwise"       : true,     // Prohibit bitwise operators (&, |, ^, etc.).
-  "curly"         : true,     // Require {} for every new block or scope.
+  "curly"         : false,     // Require {} for every new block or scope.
   "eqeqeq"        : true,     // Require triple equals i.e. `===`.
   "forin"         : false,     // Tolerate `for in` loops without `hasOwnPrototype`.
   "freeze"        : true,     // Prohibits overwriting prototypes of native objects such as Array, Date
@@ -26,7 +26,7 @@
   "plusplus"      : false,     // Prohibit use of `++` & `--`.
   "quotmark"      : true,     // Force consistency of quotemarks
   "undef"         : true,     // Require all non-global variables be declared before they are used.
-  "strict"        : true,     // Require `use strict` pragma in every file.
+  "strict"        : false,     // Require `use strict` pragma in every file.
   "trailing"      : true,     // Prohibit trailing whitespaces.
   "unused"        : true,     // Warn when you define and never use your variables
 
@@ -43,9 +43,9 @@
   "eqnull"        : false,    // Tolerate use of `== null`.
   "esnext"        : true,    // Allow ES.next specific features such as `const` and `let`.
   "evil"          : false,    // Tolerate use of `eval`.
-  "expr"          : false,    // Tolerate `ExpressionStatement` as Programs.
-  "funcscope"     : true,    // Tolerate declarations of variables inside of control structures while accessing them later from the outside.
-  "globalstrict"  : true,    // Allow global "use strict" (also enables 'strict').
+  "expr"          : true,    // Tolerate `ExpressionStatement` as Programs.
+  "funcscope"     : false,    // Tolerate declarations of variables inside of control structures while accessing them later from the outside.
+  "globalstrict"  : false,    // Allow global "use strict" (also enables 'strict').
   "iterator"      : false,    // Allow usage of __iterator__ property.
   "lastsemic"     : false,    // Tolerate missing semicolons when the it is omitted for the last statement in a one-line block.
   "laxbreak"      : false,    // Tolerate unsafe line breaks e.g. `return [\n] x` without semicolons.
