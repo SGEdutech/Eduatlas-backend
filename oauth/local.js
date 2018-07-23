@@ -28,10 +28,10 @@ passport.use(new LocalStrategy((username, password, done) => {
     APIHelperFunctions.getSpecificData({'primaryEmail': username}, false, true)
         .then(user => {
             if (!user) {
-                done(new Error('No such user'))
+                done('No such user')
             } else {
                 if (user.password !== password) {
-                    done(new Error('Wrong password'))
+                    done('Wrong password')
                 } else {
                     console.log("successful local login");
                 }
@@ -58,12 +58,12 @@ route.use('/logout', (req, res) => {
 });
 
 // post request to sign-up don't need passportJS
-route.post('/signup', (req, res) => {
+route.post('/signup', (req, res,next) => {
     APIHelperFunctions.getSpecificData({primaryEmail: req.body.primaryEmail}) // regex to check if _id is valid mongo id- /^[0-9a-fA-F]{24}$/
         .then(currentUser => {
 
             if (currentUser) {
-                res.send("email already linked with a account")
+                res.status(400).send("email already linked with a account")
                 // disable sign-up button till username is unique
                 // create AJAX request(refresh button) from frontend to check for username uniqueness
             } else {
