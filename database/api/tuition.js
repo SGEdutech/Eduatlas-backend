@@ -13,6 +13,26 @@ route.get('/all', (req, res) => {
         .catch(err => console.error(err));
 });
 
+route.get('/claimed', (req, res) => {
+    const queryObject = req.query;
+    const skip = parseInt(queryObject.skip) || 0;
+    const limit = parseInt(queryObject.limit) || 0;
+    tuitionDbFunctions.getAllData(queryObject.demands, skip, limit)
+        .then((data) => {
+            let toReturn = [];
+            data.forEach(obj => {
+                let claimedBy = obj.claimedBy;
+                if (claimedBy === undefined || claimedBy === '') {
+                    //do nothing
+                } else {
+                    toReturn.push(obj)
+                }
+            });
+            res.send(toReturn)
+        })
+        .catch(err => console.error(err));
+});
+
 route.get('/', (req, res) => {
     tuitionDbFunctions.getSpecificData(req.query, true).then(data => res.send(data)).catch(err => console.error(err));
 });

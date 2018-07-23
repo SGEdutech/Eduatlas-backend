@@ -75,5 +75,6 @@ app.use('/tuition', routes.tuition);
 app.use('/issue', routes.issue);
 app.use('/user', routes.user);
 app.use('/auth', routes.auth);
+app.get('/*', (req, res) => res.redirect('/error-page.html'));
 
 app.listen(PORT, () => console.log(`Yo dawg! Server's at http://localhost:${PORT}`));
