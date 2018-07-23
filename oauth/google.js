@@ -9,7 +9,7 @@ const APIHelperFunctions = new DatabaseAPIClass(User);
 
 passport.serializeUser(function (userid, done) {
     //userid will be stuffed in cookie
-    done(null, userid)
+    done(null, userid);
 });
 
 passport.deserializeUser(function (userid, done) {
@@ -21,11 +21,9 @@ passport.deserializeUser(function (userid, done) {
             console.log("user logged in with google id")
         }
         //todo - hide password from req.user
-        done(null, user)
+        done(null, user);
     })
-        .catch(err => {
-            done(err)
-        })
+        .catch(err => done(err));
 });
 
 passport.use(new GoogleStrategy({

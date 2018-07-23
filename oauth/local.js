@@ -7,7 +7,7 @@ const APIHelperFunctions = new DatabaseAPIClass(User);
 
 passport.serializeUser((userid, done) => {
     //userid will be stuffed in cookie
-    done(null, userid)
+    done(null, userid);
 });
 
 passport.deserializeUser((userid, done) => {
@@ -15,12 +15,12 @@ passport.deserializeUser((userid, done) => {
     APIHelperFunctions.getSpecificData({'_id': userid})
         .then((user) => {
             if (!user) {
-                done(new Error("no such user"))
+                done(new Error('no such user'));
             }
-            done(null, user)
+            done(null, user);
         }).catch((err) => {
-        done(err)
-    })
+        done(err);
+    });
 });
 
 passport.use(new LocalStrategy((username, password, done) => {
@@ -28,20 +28,20 @@ passport.use(new LocalStrategy((username, password, done) => {
     APIHelperFunctions.getSpecificData({'primaryEmail': username}, false, true)
         .then(user => {
             if (!user) {
-                done(new Error('No such user'))
+                done(new Error('No such user'));
             } else {
                 if (user.password !== password) {
-                    done(new Error('Wrong password'))
+                    done(new Error('Wrong password'));
                 } else {
-                    console.log("successful local login");
+                    console.log('successful local login');
                 }
             }
             //below line will pass user to serialize user phase
-            done(null, user._id)
+            done(null, user._id);
         })
         .catch(err => {
-            done(err)
-        })
+            done(err);
+        });
 }));
 
 route.post('/login', passport.authenticate('local'/*, {
@@ -52,9 +52,7 @@ route.post('/login', passport.authenticate('local'/*, {
 });
 
 route.use('/logout', (req, res) => {
-    req.session.destroy(function (err) {
-        res.send({done: true}); //Inside a callback… bulletproof!
-    });
+    req.session.destroy(() => res.send({done: true})); //Inside a callback… bulletproof!
 });
 
 // post request to sign-up don't need passportJS
@@ -63,15 +61,13 @@ route.post('/signup', (req, res) => {
         .then(currentUser => {
 
             if (currentUser) {
-                res.send("email already linked with a account")
+                res.send('email already linked with a account');
                 // disable sign-up button till username is unique
                 // create AJAX request(refresh button) from frontend to check for username uniqueness
             } else {
 
                 APIHelperFunctions.addCollection(req.body)
-                    .then(createdUser => {
-                        res.redirect('/')
-                    });
+                    .then(() => res.redirect('/'));
             }
         })
         .catch(err => console.error(err));
