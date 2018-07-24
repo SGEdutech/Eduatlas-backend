@@ -8,7 +8,7 @@ function nestingMiddleware(req, res, next) {
     let keys = Object.keys(bodyObj);
 
     keys.forEach(key => {
-        if (bodyObj[key] === '') delete bodyObj[key]
+        if (bodyObj[key] === '') delete bodyObj[key];
     });
 
     keys = Object.keys(bodyObj);
@@ -46,7 +46,7 @@ function nestingMiddleware(req, res, next) {
     if (req.files) {
         req.files.forEach(file => {
             let pathInfoArr;
-            process.platform === 'win32' ? pathInfoArr = file.path.split('\\') : pathInfoArr = file.path.split('/')
+            process.platform === 'win32' ? pathInfoArr = file.path.split('\\') : pathInfoArr = file.path.split('/');
             const img_path = path.join(pathInfoArr[pathInfoArr.length - 2], pathInfoArr[pathInfoArr.length - 1]);
             if (file.fieldname.startsWith('n_')){
                 const infoArr = file.fieldname.split('_');
@@ -60,16 +60,16 @@ function nestingMiddleware(req, res, next) {
                         if (nestedObj.identifierKey === identifierKey) {
                             nestedObj[`img_${name}`] = img_path;
                         }
-                    })
+                    });
                 } else {
                     bodyObj[identifierKey] = [{
                         [`img_${name}`]: img_path
-                    }]
+                    }];
                 }
             } else {
-                bodyObj[`img_${file.fieldname}`] = img_path
+                bodyObj[`img_${file.fieldname}`] = img_path;
             }
-        })
+        });
     }
     objectsThatThisFunctionHasCreated.forEach(object => delete object.identifierKey);
     next();

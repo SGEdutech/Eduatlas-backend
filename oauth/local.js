@@ -4,6 +4,7 @@ const LocalStrategy = require('passport-local');
 const User = require('../database/modles/user');
 const DatabaseAPIClass = require('../database/api-functions');
 const APIHelperFunctions = new DatabaseAPIClass(User);
+const sendWelcomeMail = require('../scripts/send-welcome-mail');
 
 passport.serializeUser((userid, done) => {
     //userid will be stuffed in cookie
@@ -56,10 +57,9 @@ route.use('/logout', (req, res) => {
 });
 
 // post request to sign-up don't need passportJS
-route.post('/signup', (req, res,next) => {
+route.post('/signup', (req, res) => {
     APIHelperFunctions.getSpecificData({primaryEmail: req.body.primaryEmail}) // regex to check if _id is valid mongo id- /^[0-9a-fA-F]{24}$/
         .then(currentUser => {
-
             if (currentUser) {
                 res.status(400).send('email already linked with a account');
                 // disable sign-up button till username is unique
@@ -67,7 +67,10 @@ route.post('/signup', (req, res,next) => {
             } else {
 
                 APIHelperFunctions.addCollection(req.body)
-                    .then(() => res.redirect('/'));
+                    .then(data => {
+                        sendWelcomeMail(data.primaryEmail);
+                        res.redirect('/');
+                    });
             }
         })
         .catch(err => console.error(err));
