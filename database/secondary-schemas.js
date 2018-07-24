@@ -7,15 +7,22 @@ const ContactSchema = new Schema({
     email: String
 });
 
+const ReviewsOwnedSchema = new Schema({
+    category: String,
+    outerId: String,
+    innerId: String
+});
+
 const ImportantDateSchema = new Schema({
     title: String,
     date: Date
 });
 
 const ReviewSchema = new Schema({
-    likes: Number,
+    likes: {type: Number, default: 0},
     rating: Number,
-    owner: String
+    owner: String,
+    description: String,
 });
 
 const GallerySchema = new Schema({
@@ -52,6 +59,7 @@ const TimeAndDateSchema = new Schema({
 
 exports = module.exports = {
     ContactSchema,
+    ReviewsOwnedSchema,
     ImportantDateSchema,
     ReviewSchema,
     GallerySchema,
