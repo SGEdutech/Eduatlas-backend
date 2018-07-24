@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const secondarySchemas = require('../secondary-schemas');
+const ReviewsOwnedSchema = secondarySchemas.ReviewsOwnedSchema;
 
 const UserSchema = new Schema({
     about: String,
@@ -9,6 +11,7 @@ const UserSchema = new Schema({
     blogsOwned: [String],
     eventsOwned: [String],
     tuitionsOwned: [String],
+    reviewsOwned: [ReviewsOwnedSchema],
     schoolsOwned: [String],
     primaryRole: String, // Institute, student, parent
     isMale: Boolean,
@@ -38,7 +41,7 @@ const UserSchema = new Schema({
     bookmarkTuitions: [String],
     bookmarkSchools: [String],
     bookmarkEvents: [String],
-    bookmarkBlogs: [String]
+    bookmarkBlogs: [String],
 });
 // Privacy
 
