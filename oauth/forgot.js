@@ -37,8 +37,9 @@ route.post('/change-password', (req, res) => {
         });
     }
     userDbFunctions.updateOneRow({primaryEmail: email}, {password: req.body.password})
-        .then(data => {
+        .then(() => {
             res.send({done: true});
+            cache.del(req.body.token);
         })
         .catch(() => res.send({done: false}));
 });
