@@ -25,7 +25,7 @@ const UserSchema = new Schema({
     firstName: String,
     middleName: String,
     lastName: String,
-    primaryEmail: {type: String, lowercase: true}, //add unique validator
+    primaryEmail: {type: String, lowercase: true, unique: true},
     secondaryEmail: {type: String, lowercase: true},
     phone: Number,
     img_userProfilePic: String,

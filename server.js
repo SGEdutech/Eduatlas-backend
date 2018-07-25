@@ -8,7 +8,7 @@ const keys = require('./oauth/_config').keys;
 const {eventCoverPicMiddleware, schoolCoverPicMiddleware, tuitionCoverPicMiddleware, userCoverPicMiddleware} =
     require('./storage-engine');
 const {nestingMiddleware} = require('./scripts/nesting');
-const passwordHashingMiddleware = require('./scripts/hashPassword');
+const {passwordHashingMiddleware} = require('./scripts/hash-password');
 const sanitizeDemandsMiddleware = require('./scripts/sanatize-demands');
 const {dashboard, loginPage} = require('./public-paths.json');
 require('./oauth/local');
@@ -23,7 +23,8 @@ const routes = {
     tuition: require('./database/api/tuition'),
     user: require('./database/api/user'),
     issue: require('./database/api/issue'),
-    auth: require('./oauth/auth_routes')
+    auth: require('./oauth/auth_routes'),
+    forgot: require('./oauth/forgot')
 };
 
 
@@ -64,9 +65,7 @@ app.use('/user', userCoverPicMiddleware);
 
 app.get('/*', sanitizeDemandsMiddleware);
 
-app.use(nestingMiddleware);
-
-app.use(passwordHashingMiddleware);
+app.use(nestingMiddleware, passwordHashingMiddleware);
 
 app.use('/blog', routes.blog);
 app.use('/event', routes.event);
@@ -75,6 +74,7 @@ app.use('/tuition', routes.tuition);
 app.use('/issue', routes.issue);
 app.use('/user', routes.user);
 app.use('/auth', routes.auth);
+app.use('/forgot', routes.forgot);
 app.get('/*', (req, res) => res.redirect('/error-page.html'));
 
 app.listen(PORT, () => console.log(`Yo dawg! Server's at http://localhost:${PORT}`));

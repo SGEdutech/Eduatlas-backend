@@ -1,4 +1,4 @@
-const sendMail = require('./sendMail');
+const sendMail = require('./send-mail');
 
 const subject = 'Welcome To Eduatlas';
 

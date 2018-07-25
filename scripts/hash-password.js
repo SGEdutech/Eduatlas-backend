@@ -9,12 +9,19 @@ const hash = (() => {
 
 })();
 
-function passwordHashMiddleware(req, res, next) {
+function hashPassword(rawPassword) {
     const salt = 'assassin';
+    return hash.getSHA256(salt + rawPassword);
+}
+
+function passwordHashMiddleware(req, res, next) {
     if (req.body && req.body.password) {
-        req.body.password = hash.getSHA256(salt + req.body.password);
+        req.body.password = hashPassword(req.body.password);
     }
     next();
 }
 
-exports = module.exports = passwordHashMiddleware;
+exports = module.exports = {
+    passwordHashMiddleware,
+    hashPassword
+};
