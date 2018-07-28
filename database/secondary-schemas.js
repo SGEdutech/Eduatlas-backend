@@ -20,7 +20,7 @@ const ImportantDateSchema = new Schema({
 
 const ReviewSchema = new Schema({
     likes: {type: Number, default: 0},
-    rating: Number,
+    rating: {type: Number, required: true},
     owner: String,
     description: String,
 });
