@@ -82,15 +82,34 @@ const uploadUserCoverPic = multer({
 }).any();
 
 function userCoverPicMiddleware(req, res, next) {
-    uploadTuitionCoverPic(req, res, err => {
+    uploadUserCoverPic(req, res, err => {
         if (err) console.error(err);
         next();
-    })
+    });
 }
+const solutionPdfStorage = multer.diskStorage({
+    destination: './public/pdfs/solutions',
+    filename: nameThatBitch
+});
+
+const uploadsolutionPdf = multer({
+    storage: solutionPdfStorage,
+    // limits: {fileSize: 1024 * 1024},  // Unit Bytes
+    fileFilter: checkFileType
+}).any();
+
+function solutionPdfMiddleware(req, res, next) {
+    uploadsolutionPdf(req, res, err => {
+        if (err) console.error(err);
+        next();
+    });
+}
+
 
 exports = module.exports = {
     eventCoverPicMiddleware,
     schoolCoverPicMiddleware,
     tuitionCoverPicMiddleware,
-    userCoverPicMiddleware
+    userCoverPicMiddleware,
+    solutionPdfMiddleware
 };
