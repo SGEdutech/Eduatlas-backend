@@ -9,7 +9,8 @@ const {
     eventCoverPicMiddleware,
     schoolCoverPicMiddleware,
     tuitionCoverPicMiddleware,
-    userCoverPicMiddleware
+    userCoverPicMiddleware,
+    solutionPdfMiddleware
 } = require('./storage-engine');
 const {nestingMiddleware} = require('./scripts/nesting');
 const {passwordHashMiddleware} = require('./scripts/hash-password');
@@ -29,7 +30,7 @@ const routes = {
     issue: require('./database/api/issue'),
     auth: require('./oauth/auth_routes'),
     forgot: require('./oauth/forgot'),
-    sleptThroughClass: require('./database/api/slept-through-class')
+    solution: require('./database/api/solution')
 };
 
 const app = express();
@@ -66,6 +67,7 @@ app.use('/event', eventCoverPicMiddleware);
 app.use('/school', schoolCoverPicMiddleware);
 app.use('/tuition', tuitionCoverPicMiddleware);
 app.use('/user', userCoverPicMiddleware);
+app.use('/slept-through-class', solutionPdfMiddleware);
 
 app.get('/*', sanitizeDemandsMiddleware);
 
@@ -79,7 +81,7 @@ app.use('/issue', routes.issue);
 app.use('/user', routes.user);
 app.use('/auth', routes.auth);
 app.use('/forgot', routes.forgot);
-app.use('/slept-through-class', routes.sleptThroughClass);
+app.use('/slept-through-class', routes.solution);
 
 app.get('/*', (req, res) => res.redirect('/error-page.html'));
 
