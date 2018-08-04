@@ -1,4 +1,5 @@
 const express = require('express');
+const helmet = require('helmet');
 const path = require('path');
 const PORT = require('./config').SERVER.PORT;
 const session = require('express-session');
@@ -33,6 +34,7 @@ const routes = {
 };
 
 const app = express();
+app.use(helmet());
 
 app.use(session({
     secret: keys.CookieKey,
