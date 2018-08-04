@@ -1,5 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
+const ipfilter = require('express-ipfilter').IpFilter;
 const path = require('path');
 const PORT = require('./config').SERVER.PORT;
 const session = require('express-session');
@@ -33,10 +34,11 @@ const routes = {
     solution: require('./database/api/solution')
 };
 
+let ips = ['139.59.19.92'];
+
 const app = express();
 app.use(helmet());
-
-app.use(express.csrf());
+app.use(ipfilter(ips));
 
 app.use(session({
     secret: keys.CookieKey,
