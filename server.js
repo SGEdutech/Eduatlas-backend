@@ -14,6 +14,7 @@ const {
 } = require('./storage-engine');
 const {nestingMiddleware} = require('./scripts/nesting');
 const {passwordHashMiddleware} = require('./scripts/hash-password');
+const redirectUnknownHostMiddleware = require('./scripts/redirect-unknown-host-middleware');
 const sanitizeDemandsMiddleware = require('./scripts/sanatize-demands');
 const {dashboard, loginPage} = require('./public-paths.json');
 require('./oauth/local');
@@ -35,10 +36,7 @@ const routes = {
 
 const app = express();
 app.use(helmet());
-app.use((req, res, next) => {
-    console.log(req.get('host'));
-    next();
-});
+app.use(redirectUnknownHostMiddleware);
 
 app.use(session({
     secret: keys.CookieKey,
