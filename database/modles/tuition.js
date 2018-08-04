@@ -47,7 +47,6 @@ const TuitionSchema = new Schema({
 });
 
 TuitionSchema.index({name: 'text', state: 'text'});
-// TuitionSchema.index({'$**': 'text'});
 
 const Tuition = mongoose.model('tuition', TuitionSchema);
 

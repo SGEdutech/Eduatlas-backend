@@ -2,7 +2,7 @@ const path = require('path');
 const multer = require('multer');
 
 function nameThatBitch(req, file, cb) {
-    cb(null, file.originalname + '-' + Date.now() + path.extname(file.originalname))
+    cb(null, file.originalname + '-' + Date.now() + path.extname(file.originalname));
 }
 
 function checkFileType(req, file, cb) {
@@ -31,7 +31,7 @@ function eventCoverPicMiddleware(req, res, next) {
     uploadEventCoverPic(req, res, err => {
         if (err) console.error(err);
         next();
-    })
+    });
 }
 
 const schoolCoverPicStorage = multer.diskStorage({
@@ -49,7 +49,7 @@ function schoolCoverPicMiddleware(req, res, next) {
     uploadSchoolCoverPic(req, res, err => {
         if (err) console.error(err);
         next();
-    })
+    });
 }
 
 const tuitionCoverPicStorage = multer.diskStorage({
@@ -67,7 +67,7 @@ function tuitionCoverPicMiddleware(req, res, next) {
     uploadTuitionCoverPic(req, res, err => {
         if (err) console.error(err);
         next();
-    })
+    });
 }
 
 const userCoverPicStorage = multer.diskStorage({
@@ -82,15 +82,34 @@ const uploadUserCoverPic = multer({
 }).any();
 
 function userCoverPicMiddleware(req, res, next) {
-    uploadTuitionCoverPic(req, res, err => {
+    uploadUserCoverPic(req, res, err => {
         if (err) console.error(err);
         next();
-    })
+    });
 }
+const solutionPdfStorage = multer.diskStorage({
+    destination: './public/pdfs/solutions',
+    filename: nameThatBitch
+});
+
+const uploadSolutionPdf = multer({
+    storage: solutionPdfStorage,
+    // limits: {fileSize: 1024 * 1024},  // Unit Bytes
+    // fileFilter: checkFileType
+}).any();
+
+function solutionPdfMiddleware(req, res, next) {
+    uploadSolutionPdf(req, res, err => {
+        if (err) console.error(err);
+        next();
+    });
+}
+
 
 exports = module.exports = {
     eventCoverPicMiddleware,
     schoolCoverPicMiddleware,
     tuitionCoverPicMiddleware,
-    userCoverPicMiddleware
+    userCoverPicMiddleware,
+    solutionPdfMiddleware
 };
