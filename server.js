@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const cors = require('cors');
 const PORT = require('./config').SERVER.PORT;
 const session = require('express-session');
 const passport = require('passport');
@@ -61,8 +60,6 @@ app.use('/add/tuition', (req, res) => res.redirect('/add-tuition.html'));
 app.use('/add/school', (req, res) => res.redirect('/add-school.html'));
 app.use('/admin/tuition', (req, res) => res.redirect('/Admin-tuition.html'));
 app.use('/add/notes', (req, res) => res.redirect('/solution.html'));
-
-app.use(cors());
 
 app.use('/event', eventCoverPicMiddleware);
 app.use('/school', schoolCoverPicMiddleware);
