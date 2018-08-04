@@ -35,6 +35,10 @@ const routes = {
 
 const app = express();
 app.use(helmet());
+app.use((req, res, next) => {
+    console.log(req.get('host'));
+    next();
+});
 
 app.use(session({
     secret: keys.CookieKey,
