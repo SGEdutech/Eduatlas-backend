@@ -37,14 +37,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(`/${dashboard}`, (req, res, next) => {
-    if (req.user === undefined) {
-        res.redirect(`/${loginPage}`);
-        return;
-    }
-    next();
-});
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
