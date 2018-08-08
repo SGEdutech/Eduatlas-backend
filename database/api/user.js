@@ -4,13 +4,7 @@ const DbAPIClass = require('../api-functions');
 const userDbFunctions = new DbAPIClass(User);
 const youShallNotPass = require('../../scripts/login-check');
 
-route.get('/check', (req, res) => {
-    if (!req.user) {
-        res.send('LogIn');
-    } else {
-        res.send(req.user);
-    }
-});
+route.get('/info', (req, res) => res.send(req.user));
 
 route.get('/all', (req, res) => {
     const skip = (req.query.page - 1) * req.query.items;

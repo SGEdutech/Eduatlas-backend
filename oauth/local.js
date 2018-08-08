@@ -49,7 +49,8 @@ route.post('/login', passport.authenticate('local'/*, {
     failureRedirect: '/login-page.html',
     successRedirect: '/User-dashboard.html',
 }*/), function (req, res) {
-    res.redirect('back');
+    APIHelperFunctions.getSpecificData({_id: req.user})
+        .then(user => res.send(user));
 });
 
 route.use('/logout', (req, res) => {
