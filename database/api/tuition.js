@@ -25,10 +25,10 @@ route.get('/claimed', (req, res) => {
                 if (claimedBy === undefined || claimedBy === '') {
                     //do nothing
                 } else {
-                    toReturn.push(obj)
+                    toReturn.push(obj);
                 }
             });
-            res.send(toReturn)
+            res.send(toReturn);
         })
         .catch(err => console.error(err));
 });
