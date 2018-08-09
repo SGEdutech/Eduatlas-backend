@@ -5,6 +5,7 @@ const secondarySchemas = require('../secondary-schemas');
 const ReviewSchema = secondarySchemas.ReviewSchema;
 const ImportantDateSchema = secondarySchemas.ImportantDateSchema;
 const FacilitiesAndBraggingSchema = secondarySchemas.FacilitiesAndBraggingSchema;
+const TeamSchema = secondarySchemas.TeamSchema;
 const TimeAndDateSchema = secondarySchemas.TimeAndDateSchema;
 
 const SchoolSchema = new Schema({
@@ -29,9 +30,10 @@ const SchoolSchema = new Schema({
     country: String,
     pin: Number,
     facilities: String,
-    activities: String,
+    activities: [String],
+    team: [TeamSchema],
     reviews: [ReviewSchema],
-    fee: Number,
+    fee: String,
     admissionProcess: String,
     eligibilityCriteria: String,
     startTime: Date,
