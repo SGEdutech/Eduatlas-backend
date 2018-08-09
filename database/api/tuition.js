@@ -83,7 +83,7 @@ route.put('/:_id', (req, res) => {
     tuitionDbFunctions.updateOneRow(req.params, req.body).then(data => res.send(data)).catch(err => console.error(err));
 });
 
-route.delete('/delete/:arrayName/:_id', (req, res) => {
+route.delete('/delete/:_id/:arrayName', (req, res) => {
     const identifier = req.body.string || req.body;
     tuitionDbFunctions.deleteElementFromArray({_id: req.params._id}, req.params.arrayName, identifier)
         .then(data => res.send(data))

@@ -1,5 +1,5 @@
 module.exports = text => {
-    if (text === undefined) {
+    if (text === undefined || text === '') {
         console.info('No text provided');
         return;
     }
