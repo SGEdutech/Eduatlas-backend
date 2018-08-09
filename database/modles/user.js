@@ -10,7 +10,7 @@ const UserSchema = new Schema({
     password: {type: String, select: false},
     blogsOwned: [String],
     eventsOwned: [String],
-    tuitionsOwned: [String],
+    tuitionsOwned: [{type: String}],
     reviewsOwned: [ReviewsOwnedSchema],
     schoolsOwned: [String],
     primaryRole: String, // Institute, student, parent
@@ -38,10 +38,10 @@ const UserSchema = new Schema({
     youtubeLink: String,
     instaLink: String,
     linkedinLink: String,
-    bookmarkTuitions: [String],
-    bookmarkSchools: [String],
-    bookmarkEvents: [String],
-    bookmarkBlogs: [String],
+    bookmarkTuitions: [{type: String, unique: true}],
+    bookmarkSchools: [{type: String, unique: true}],
+    bookmarkEvents: [{type: String, unique: true}],
+    bookmarkBlogs: [{type: String, unique: true}]
 });
 // Privacy
 
