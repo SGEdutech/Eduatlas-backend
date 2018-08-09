@@ -16,7 +16,6 @@ const {nestingMiddleware} = require('./scripts/nesting');
 const {passwordHashMiddleware} = require('./scripts/hash-password');
 const redirectUnknownHostMiddleware = require('./scripts/redirect-unknown-host-middleware');
 const sanitizeDemandsMiddleware = require('./scripts/sanatize-demands');
-const {dashboard, loginPage} = require('./public-paths.json');
 require('./oauth/local');
 require('./oauth/google');
 require('./oauth/facebook');
@@ -77,6 +76,6 @@ app.use('/auth', routes.auth);
 app.use('/forgot', routes.forgot);
 app.use('/slept-through-class', routes.solution);
 
-app.get('/*', (req, res) => res.redirect('/error-page.html'));
+app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'public', 'error-page.html')));
 
 app.listen(PORT, () => console.log(`Yo dawg! Server's at http://localhost:${PORT}`));
