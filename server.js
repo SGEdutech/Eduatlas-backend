@@ -34,7 +34,7 @@ const routes = {
 };
 
 const app = express();
-app.use(helmet());
+
 app.use(redirectUnknownHostMiddleware);
 
 app.use(session({
@@ -49,6 +49,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+app.use(helmet());
 
 //temp routes
 app.use('/add/tuition', (req, res) => res.redirect('/add-tuition.html'));
@@ -76,6 +78,6 @@ app.use('/auth', routes.auth);
 app.use('/forgot', routes.forgot);
 app.use('/slept-through-class', routes.solution);
 
-app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'public', 'error-page.html')));
+app.get('/*', (req, res) => res.status(404).sendFile(path.join(__dirname, 'public', 'error-page.html')));
 
 app.listen(PORT, () => console.log(`Yo dawg! Server's at http://localhost:${PORT}`));
