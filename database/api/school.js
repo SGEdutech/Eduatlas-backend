@@ -5,9 +5,10 @@ const DbAPIClass = require('../api-functions');
 const schoolDbFunctions = new DbAPIClass(School);
 
 route.get('/all', (req, res) => {
-    const skip = (req.query.page - 1) * req.query.items;
-    const limit = parseInt(req.query.items);
-    schoolDbFunctions.getAllData(req.query.demands, skip, limit)
+    const queryObject = req.query;
+    const skip = parseInt(queryObject.skip) || 0;
+    const limit = parseInt(queryObject.limit) || 0;
+    schoolDbFunctions.getAllData(queryObject.demands, skip, limit)
         .then(data => res.send(data))
         .catch(err => console.error(err));
 });

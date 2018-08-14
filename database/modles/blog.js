@@ -8,13 +8,13 @@ const BlogSchema = new Schema({
     hits: {type: Number, default: 0},
     bookmarks: Number,
     title: String,
-    dateUploaded: Date,
     authorName: String,
     authorInfo: String,
     authorFacebookLink: String,
     authorTwitterLink: String,
     authorQuoraLink: String,   // connect with user
-    body: String
+    body: String,
+    dateUploaded: {type: Date, default: Date.now()}
 });
 
 const Blog = mongoose.model('blog', BlogSchema);
