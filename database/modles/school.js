@@ -34,6 +34,7 @@ const SchoolSchema = new Schema({
     team: [TeamSchema],
     reviews: [ReviewSchema],
     fee: String,
+    img_schoolCoverPic: String,
     admissionProcess: String,
     eligibilityCriteria: String,
     startTime: Date,
