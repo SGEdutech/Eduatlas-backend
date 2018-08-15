@@ -5,16 +5,38 @@ const DbAPIClass = require('../api-functions');
 const eventDbFunctions = new DbAPIClass(Event);
 
 route.get('/all', (req, res) => {
-    const skip = (req.query.page - 1) * req.query.items;
-    const limit = parseInt(req.query.items);
-    eventDbFunctions.getAllData(req.query.demands, skip, limit)
+    const queryObject = req.query;
+    const skip = parseInt(queryObject.skip) || 0;
+    const limit = parseInt(queryObject.limit) || 0;
+    eventDbFunctions.getAllData(queryObject.demands, skip, limit)
         .then(data => res.send(data))
         .catch(err => console.error(err));
 });
 
 route.get('/search', (req, res) => {
-    const regex = new RegExp(escapeRegex(req.query.search), 'i');
-    eventDbFunctions.getMultipleData({name: regex}, 'name').then(data => res.send(data));
+    const queryObject = req.query;
+    const demands = queryObject.demands || '';
+    const skip = parseInt(queryObject.skip) || 0;
+    const limit = parseInt(queryObject.limit) || 0;
+    const sortBy = queryObject.sortBy || undefined;
+
+    delete queryObject.demands;
+    delete queryObject.skip;
+    delete queryObject.limit;
+    delete queryObject.sortBy;
+
+    const searchCriteria = {};
+    const queryKeys = Object.keys(queryObject);
+    queryKeys.forEach(key => {
+        const value = JSON.parse(queryObject[key]);
+        if (value.fullTextSearch) {
+            searchCriteria[key] = new RegExp(`^${escapeRegex(value.search)}$`, 'i');
+        } else {
+            searchCriteria[key] = new RegExp(escapeRegex(value.search), 'i');
+        }
+    });
+    eventDbFunctions.getMultipleData(searchCriteria, demands, skip, limit, sortBy).then(data => res.send(data))
+        .catch(err => console.error(err));
 });
 
 route.get('/', (req, res) => {

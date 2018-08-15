@@ -46,7 +46,7 @@ function nestingMiddleware(req, res, next) {
     if (req.files) {
         req.files.forEach(file => {
             let pathInfoArr;
-            process.platform === 'win32' ? pathInfoArr = file.path.split('\\') : pathInfoArr = file.path.split('/');
+            pathInfoArr = file.path.split('/');
             const img_path = path.join(pathInfoArr[pathInfoArr.length - 2], pathInfoArr[pathInfoArr.length - 1]);
             if (file.fieldname.startsWith('n_')){
                 const infoArr = file.fieldname.split('_');
