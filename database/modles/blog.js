@@ -14,6 +14,7 @@ const BlogSchema = new Schema({
     authorTwitterLink: String,
     authorQuoraLink: String,   // connect with user
     body: String,
+    category: String,
     dateUploaded: {type: Date, default: Date.now()}
 });
 
