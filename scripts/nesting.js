@@ -13,7 +13,7 @@ function nestingMiddleware(req, res, next) {
 
     keys = Object.keys(bodyObj);
 
-    let objectsThatThisFunctionHasCreated = [];
+    const objectsThatThisFunctionHasCreated = [];
     keys.forEach(key => {
         if (key.startsWith('n_')) {
             const splitArr = key.split('_');
@@ -45,27 +45,21 @@ function nestingMiddleware(req, res, next) {
     });
     if (req.files) {
         req.files.forEach(file => {
-            let pathInfoArr;
-            pathInfoArr = file.path.split('/');
+            const pathInfoArr = file.path.split('/');
             const img_path = path.join(pathInfoArr[pathInfoArr.length - 2], pathInfoArr[pathInfoArr.length - 1]);
-            if (file.fieldname.startsWith('n_')){
+            if (file.fieldname.startsWith('n_')) {
                 const infoArr = file.fieldname.split('_');
+                if (infoArr.length !== 4) throw new Error('Image: Proper naming not followed');
                 const hostKeyName = infoArr[1];
-                const name = infoArr[2];
+                const imageName = infoArr[2];
                 const identifierKey = infoArr[3];
                 const arrayToBeInserted = bodyObj[hostKeyName];
-                if (arrayToBeInserted) {
-                    if (Array.isArray(arrayToBeInserted) === false) throw new Error('Image: Key to be inserted is not an array');
-                    arrayToBeInserted.forEach(nestedObj => {
-                        if (nestedObj.identifierKey === identifierKey) {
-                            nestedObj[`img_${name}`] = img_path;
-                        }
-                    });
-                } else {
-                    bodyObj[identifierKey] = [{
-                        [`img_${name}`]: img_path
-                    }];
-                }
+                if (Array.isArray(arrayToBeInserted) === false) throw new Error('Image: Key to be inserted is not an array');
+                arrayToBeInserted.forEach(nestedObj => {
+                    if (nestedObj.identifierKey === identifierKey) {
+                        nestedObj[`img_${imageName}`] = img_path;
+                    }
+                });
             } else {
                 bodyObj[`img_${file.fieldname}`] = img_path;
             }
@@ -77,3 +71,6 @@ function nestingMiddleware(req, res, next) {
 
 exports.nestingMiddleware = nestingMiddleware;
 
+// Syntax for text n_hostname_keyToBeInserted_identifier
+
+// Syntax for images n_hostname_imagename_identifier

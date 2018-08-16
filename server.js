@@ -2,13 +2,14 @@ const express = require('express');
 const helmet = require('helmet');
 const path = require('path');
 const PORT = require('./config').SERVER.PORT;
+const cors = require('cors');
 const session = require('express-session');
 const passport = require('passport');
 const keys = require('./oauth/_config').keys;
 const {
-    eventCoverPicMiddleware,
-    schoolCoverPicMiddleware,
-    tuitionCoverPicMiddleware,
+    eventPicsMiddleware,
+    schoolPicsMiddleware,
+    tuitionPicsMiddleware,
     userCoverPicMiddleware,
     solutionPdfMiddleware
 } = require('./storage-engine');
@@ -35,6 +36,8 @@ const routes = {
 
 const app = express();
 
+app.use(cors());
+
 app.use(redirectUnknownHostMiddleware);
 
 app.use(session({
@@ -58,9 +61,9 @@ app.use('/add/school', (req, res) => res.redirect('/add-school.html'));
 app.use('/admin/tuition', (req, res) => res.redirect('/Admin-tuition.html'));
 app.use('/add/notes', (req, res) => res.redirect('/solution.html'));
 
-app.use('/event', eventCoverPicMiddleware);
-app.use('/school', schoolCoverPicMiddleware);
-app.use('/tuition', tuitionCoverPicMiddleware);
+app.use('/event', eventPicsMiddleware);
+app.use('/school', schoolPicsMiddleware);
+app.use('/tuition', tuitionPicsMiddleware);
 app.use('/user', userCoverPicMiddleware);
 app.use('/slept-through-class', solutionPdfMiddleware);
 
@@ -76,7 +79,7 @@ app.use('/issue', routes.issue);
 app.use('/user', routes.user);
 app.use('/auth', routes.auth);
 app.use('/forgot', routes.forgot);
-app.use('/slept-through-class', routes.solution);
+app.use('/slept-through-classs', routes.solution);
 
 app.get('/*', (req, res) => res.status(404).sendFile(path.join(__dirname, 'public', 'error-page.html')));
 
