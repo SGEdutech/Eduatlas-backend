@@ -2,7 +2,8 @@ const path = require('path');
 const multer = require('multer');
 
 function nameThatBitch(req, file, cb) {
-    cb(null, file.originalname + '-' + Date.now() + path.extname(file.originalname));
+    const fileNameInfo = path.parse(file.originalname);
+    cb(null, fileNameInfo.name + '-' + Date.now() + fileNameInfo.ext);
 }
 
 function checkFileType(req, file, cb) {
