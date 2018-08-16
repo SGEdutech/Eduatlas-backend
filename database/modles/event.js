@@ -6,13 +6,15 @@ const GallerySchema = secondarySchemas.GallerySchema;
 
 const eventSchema = new Schema({
     name: String,
+    category: String,
     description: String,
+    fromAge: Number,
+    toAge: Number,
     organiserName: String,
     organiserPhone: String,
     organiserEmail: String,
-    organiserAddress: String,
+    lastDateRegistration: Date,
     website: String,
-    targetAge: String,
     fromDate: Date,
     toDate: Date,
     fromTime: String,
@@ -25,13 +27,16 @@ const eventSchema = new Schema({
     country: String,
     pin: Number,
     gallery: [GallerySchema],
-    img_coverPic: String,
-    going: Number,
-    notGoing: Number,
-    mayBeGoing: Number,
+    img_eventCoverPic: String,
+    going: {Number, default: 0},
+    notGoing: {Number, default: 0},
+    mayBeGoing: {Number, default: 0},
     views: {type: Number, default: 0},
     hits: {type: Number, default: 0},
-    bookmarks: Number
+    goingUsers: [String],
+    bookmarks: Number,
+    signedBy: String,
+    claimedBy: String,
 });
 
 const Event = mongoose.model('event', eventSchema);
