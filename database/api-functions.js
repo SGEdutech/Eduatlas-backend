@@ -44,14 +44,16 @@ class DatabaseAPI {
 
     static _deleteIfImage(keyName, possibleImgPath) {
         if (keyName.startsWith('img_')) {
-            deleteThisShit(path.join('.', 'public', 'images', possibleImgPath));
+            deleteThisShit(path.join('.', 'public', 'images', possibleImgPath))
+                .then(message => console.log(message))
+                .catch(err => console.warn(err));
             return true;
         }
         return false;
     }
 
     static _deleteIfAnyNestedObjectsHasImage(arrayOfNestedObjects) {
-        if (Array.isArray(arrayOfNestedObjects) && typeof arrayOfNestedObjects[0] === 'object') {
+        if (Array.isArray(arrayOfNestedObjects)) {
             arrayOfNestedObjects.forEach(nestedObject => {
                 const nestedKeys = Object.keys(nestedObject);
                 nestedKeys.forEach(nestedKey => {
@@ -68,7 +70,7 @@ class DatabaseAPI {
                 .then(collectionToBeDeleted => {
                     if (collectionToBeDeleted === null) reject('No collection found');
                     deletedRow = collectionToBeDeleted;
-                    collectionToBeDeleted = collectionToBeDeleted.toObject();
+                    collectionToBeDeleted = collectionToBeDeleted.toObject(); // Some mongoose bullshit
                     const keys = Object.keys(collectionToBeDeleted);
                     keys.forEach(key => {
                         if (this.constructor._deleteIfImage(key, collectionToBeDeleted[key])) return;
