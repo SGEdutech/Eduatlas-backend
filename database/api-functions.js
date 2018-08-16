@@ -147,7 +147,8 @@ class DatabaseAPI {
             this.model.findOne(modelSearchParameter)
                 .then(collection => {
                     if (collection[key] === undefined) throw new Error('Key not found');
-                    Array.isArray(collection[key]) ? collection[key] = [] : collection[key] = undefined;
+                    this.constructor._deleteIfAnyNestedObjectsHasImage(collection[key]);
+                    collection[key] = Array.isArray(collection[key]) ?  [] : undefined;
                     return collection.save();
                 })
                 .then(data => resolve(data))
