@@ -63,6 +63,7 @@ route.get('/search', (req, res) => {
         .catch(err => console.error(err));
 });
 
+// Todo: Fix routing
 route.post('/add/:arrayName/:_id', (req, res) => {
     const elementToBePushed = req.body.string || req.body;
     tuitionDbFunctions.addElementToArray({_id: req.params._id}, req.params.arrayName, elementToBePushed)
