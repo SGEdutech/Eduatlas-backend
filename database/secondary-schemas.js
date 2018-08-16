@@ -41,7 +41,7 @@ const CourseSchema = new Schema({
 const FacilitiesAndBraggingSchema = new Schema({
     title: String,
     description: String,
-    img_path: String
+    img_cover: String
 });
 
 const TeamSchema = new Schema({
