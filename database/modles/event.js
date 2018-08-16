@@ -36,7 +36,7 @@ const eventSchema = new Schema({
     goingUsers: [String],
     bookmarks: Number,
     signedBy: String,
-    ownerUserId: String,
+    claimedBy: String,
 });
 
 const Event = mongoose.model('event', eventSchema);
