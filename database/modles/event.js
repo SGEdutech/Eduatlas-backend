@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
+const arrayUniquePlugin = require('mongoose-unique-array');
 const Schema = mongoose.Schema;
 
 const secondarySchemas = require('../secondary-schemas');
 const GallerySchema = secondarySchemas.GallerySchema;
 
-const eventSchema = new Schema({
+const EventSchema = new Schema({
 	name: String,
 	category: String,
 	description: String,
@@ -39,6 +40,8 @@ const eventSchema = new Schema({
 	claimedBy: String
 });
 
-const Event = mongoose.model('event', eventSchema);
+EventSchema.plugin(arrayUniquePlugin);
+
+const Event = mongoose.model('event', EventSchema);
 
 module.exports = Event;

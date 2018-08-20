@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const arrayUniquePlugin = require('mongoose-unique-array');
 const Schema = mongoose.Schema;
 
 const secondarySchemas = require('../secondary-schemas');
@@ -57,6 +58,8 @@ const SchoolSchema = new Schema({
 	signedBy: String,
 	updated: { type: Date, default: Date.now }
 });
+
+SchoolSchema.plugin(arrayUniquePlugin);
 
 const School = mongoose.model('school', SchoolSchema);
 
