@@ -9,7 +9,7 @@ const ContactSchema = new Schema({
 
 const ReviewsOwnedSchema = new Schema({
 	category: String,
-	outerId: String,
+	outerId: { type: String, unique: true },
 	innerId: String
 });
 
