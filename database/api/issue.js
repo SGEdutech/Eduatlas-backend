@@ -1,26 +1,33 @@
-const route = require('express').Router();
+const route = require('express')
+	.Router();
 const Issue = require('../modles/issue');
 const DbAPIClass = require('../api-functions');
 const issueDbFunctions = new DbAPIClass(Issue);
 
 route.get('/all', (req, res) => {
-    const skip = (req.query.page - 1) * req.query.items;
-    const limit = parseInt(req.query.items);
-    issueDbFunctions.getAllData(req.query.demands, skip, limit)
-        .then(data => res.send(data))
-        .catch(err => console.error(err));
+	const skip = (req.query.page - 1) * req.query.items;
+	const limit = parseInt(req.query.items, 10);
+	issueDbFunctions.getAllData(req.query.demands, skip, limit)
+		.then(data => res.send(data))
+		.catch(err => console.error(err));
 });
 
 route.get('/', (req, res) => {
-    issueDbFunctions.getSpecificData(req.query, true).then(data => res.send(data)).catch(err => console.error(err));
+	issueDbFunctions.getSpecificData(req.query, true)
+		.then(data => res.send(data))
+		.catch(err => console.error(err));
 });
 
 route.post('/', (req, res) => {
-    issueDbFunctions.addCollection(req.body).then(data => res.send(data)).catch(err => console.error(err));
+	issueDbFunctions.addCollection(req.body)
+		.then(data => res.send(data))
+		.catch(err => console.error(err));
 });
 
 route.delete('/:_id', (req, res) => {
-    issueDbFunctions.deleteOneRow(req.params).then(data => res.send(data)).catch(err => console.error(err));
+	issueDbFunctions.deleteOneRow(req.params)
+		.then(data => res.send(data))
+		.catch(err => console.error(err));
 });
 
 module.exports = route;

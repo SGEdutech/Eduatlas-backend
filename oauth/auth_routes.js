@@ -1,14 +1,18 @@
-const route = require('express').Router();
+const route = require('express')
+	.Router();
 
 route.get('/logout', (req, res) => {
-    req.logout();
-    res.redirect('/login')
+	req.logout();
+	res.redirect('/login')
 });
 
 routes = {
-    google: require('./google').route,
-    facebook: require('./facebook').route,
-    local: require('./local').route
+	google: require('./google')
+		.route,
+	facebook: require('./facebook')
+		.route,
+	local: require('./local')
+		.route
 };
 
 route.use('/google', routes.google);
