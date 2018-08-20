@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const arrayUniquePlugin = require('mongoose-unique-array');
 const Schema = mongoose.Schema;
 const secondarySchemas = require('../secondary-schemas');
 const ReviewsOwnedSchema = secondarySchemas.ReviewsOwnedSchema;
@@ -43,6 +44,8 @@ const UserSchema = new Schema({
 	bookmarkEvents: [{ type: String, unique: true }],
 	bookmarkBlogs: [{ type: String, unique: true }]
 });
+
+UserSchema.plugin(arrayUniquePlugin);
 
 const User = mongoose.model('user', UserSchema);
 
