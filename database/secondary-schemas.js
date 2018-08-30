@@ -21,8 +21,8 @@ const ImportantDateSchema = new Schema({
 const ReviewSchema = new Schema({
 	likes: { type: Number, default: 0 },
 	rating: { type: Number, required: true },
-	owner: { type: String, unique: true },
-	description: String,
+	owner: { type: String, unique: true, sparse: true },
+	description: String
 });
 
 const GallerySchema = new Schema({
