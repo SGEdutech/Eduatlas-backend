@@ -22,18 +22,18 @@ const sanitizeDemandsMiddleware = require('./scripts/sanatize-demands');
 require('./oauth/local');
 require('./oauth/google');
 require('./oauth/facebook');
-require('./database/connection');
+require('../database/connection');
 
 const routes = {
-	blog: require('./database/api/blog'),
-	event: require('./database/api/event'),
-	school: require('./database/api/school'),
-	tuition: require('./database/api/tuition'),
-	user: require('./database/api/user'),
-	issue: require('./database/api/issue'),
+	blog: require('../database/api/blog'),
+	event: require('../database/api/event'),
+	school: require('../database/api/school'),
+	tuition: require('../database/api/tuition'),
+	user: require('../database/api/user'),
+	issue: require('../database/api/issue'),
 	auth: require('./oauth/auth_routes'),
 	forgot: require('./oauth/forgot'),
-	solution: require('./database/api/solution')
+	solution: require('../database/api/solution')
 };
 
 const app = express();

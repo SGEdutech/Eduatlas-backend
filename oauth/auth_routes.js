@@ -6,7 +6,7 @@ route.get('/logout', (req, res) => {
 	res.redirect('/login')
 });
 
-routes = {
+const routes = {
 	google: require('./google')
 		.route,
 	facebook: require('./facebook')
