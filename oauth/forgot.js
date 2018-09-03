@@ -2,8 +2,8 @@ const route = require('express').Router();
 const cache = require('memory-cache');
 const uid = require('uid');
 const sendMail = require('../scripts/send-mail');
-const User = require('../database/modles/user');
-const DbAPIClass = require('../database/api-functions');
+const User = require('../../database/modles/user');
+const DbAPIClass = require('../../database/api-functions');
 const userDbFunctions = new DbAPIClass(User);
 
 route.post('/request-email', (req, res) => {

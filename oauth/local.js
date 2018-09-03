@@ -1,8 +1,8 @@
 const route = require('express').Router();
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-const User = require('../database/modles/user');
-const DatabaseAPIClass = require('../database/api-functions');
+const User = require('../../database/modles/user');
+const DatabaseAPIClass = require('../../database/api-functions');
 const APIHelperFunctions = new DatabaseAPIClass(User);
 const sendWelcomeMail = require('../scripts/send-welcome-mail');
 
