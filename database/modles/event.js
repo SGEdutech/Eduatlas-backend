@@ -29,12 +29,15 @@ const EventSchema = new Schema({
 	pin: Number,
 	gallery: [GallerySchema],
 	img_eventCoverPic: String,
-	going: { Number, default: 0 },
+	/* going: { Number, default: 0 },
 	notGoing: { Number, default: 0 },
-	mayBeGoing: { Number, default: 0 },
+	mayBeGoing: { Number, default: 0 }, */
 	views: { type: Number, default: 0 },
 	hits: { type: Number, default: 0 },
+	// force unique
 	goingUsers: [String],
+	notGoingUsers: [String],
+	maybeGoingUsers: [String],
 	bookmarks: Number,
 	signedBy: String,
 	claimedBy: String
