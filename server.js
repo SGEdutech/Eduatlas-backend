@@ -71,6 +71,11 @@ app.get('/*', sanitizeDemandsMiddleware);
 
 app.use(nestingMiddleware, passwordHashMiddleware);
 
+app.use((req, res, next) => {
+    console.log(req.body);
+    next();
+});
+
 app.use('/blog', routes.blog);
 app.use('/event', routes.event);
 app.use('/school', routes.school);
