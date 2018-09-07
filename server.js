@@ -22,7 +22,10 @@ const {
 const redirectUnknownHostMiddleware = require('./scripts/redirect-unknown-host-middleware');
 const sanitizeDemandsMiddleware = require('./scripts/sanatize-demands');
 require('../database-and-auth/database/connection');
-const { passport, session } = require('../database-and-auth/oauth/init');
+const {
+	passport,
+	session
+} = require('../database-and-auth/oauth/passport-and-session');
 require('../database-and-auth/oauth/local');
 require('../database-and-auth/oauth/google');
 require('../database-and-auth/oauth/facebook');
@@ -46,11 +49,11 @@ app.use(cors());
 app.use(redirectUnknownHostMiddleware);
 
 app.use(session({
-    secret: keys.CookieKey,
-    cookie: {
-        maxAge: 7 * 24 * 60 * 60 * 1000
-    },
-    maxAge: Date.now() + (7 * 86400 * 1000)
+	secret: keys.CookieKey,
+	cookie: {
+		maxAge: 7 * 24 * 60 * 60 * 1000
+	},
+	maxAge: Date.now() + (7 * 86400 * 1000)
 }));
 app.use(passport.initialize());
 app.use(passport.session());
