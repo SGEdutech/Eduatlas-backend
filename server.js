@@ -1,14 +1,26 @@
 const express = require('express');
 const helmet = require('helmet');
 const path = require('path');
-const PORT = require('./config').SERVER.PORT;
+const PORT = require('./config')
+	.SERVER.PORT;
 const cors = require('cors');
 const session = require('express-session');
 const passport = require('passport');
-const keys = require('../database-and-auth/oauth/_config').keys;
-const {eventPicsMiddleware, schoolPicsMiddleware, tuitionPicsMiddleware, userCoverPicMiddleware, solutionPdfMiddleware} = require('./storage-engine');
-const {nestingMiddleware} = require('./scripts/nesting');
-const {passwordHashMiddleware} = require('./scripts/hash-password');
+const keys = require('../database-and-auth/oauth/_config')
+	.keys;
+const {
+	eventPicsMiddleware,
+	schoolPicsMiddleware,
+	tuitionPicsMiddleware,
+	userCoverPicMiddleware,
+	solutionPdfMiddleware
+} = require('./storage-engine');
+const {
+	nestingMiddleware
+} = require('./scripts/nesting');
+const {
+	passwordHashMiddleware
+} = require('./scripts/hash-password');
 const redirectUnknownHostMiddleware = require('./scripts/redirect-unknown-host-middleware');
 const sanitizeDemandsMiddleware = require('./scripts/sanatize-demands');
 require('../database-and-auth/oauth/local');
@@ -47,7 +59,9 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({
+	extended: true
+}));
 
 app.use(helmet());
 
@@ -81,6 +95,7 @@ app.use('/auth', routes.auth);
 app.use('/forgot', routes.forgot);
 app.use('/slept-through-classs', routes.solution);
 
-app.get('/*', (req, res) => res.status(404).sendFile(path.join(__dirname, 'public', 'error-page.html')));
+app.get('/*', (req, res) => res.status(404)
+	.sendFile(path.join(__dirname, 'public', 'error-page.html')));
 
 app.listen(PORT, () => console.log(`Yo dawg! Server's at http://localhost:${PORT}`));
