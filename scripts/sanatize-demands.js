@@ -1,3 +1,4 @@
+//TODO: Add return password and views and hits
 function sanitizeDemandsMiddleware(req, res, next) {
     const passwordRegex = new RegExp('password');
     if (req.query.demands) {
