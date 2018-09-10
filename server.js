@@ -42,7 +42,9 @@ const routes = {
 	solution: require('../database-and-auth/database/api/solution'),
     promotedHome: require('../database-and-auth/database/api/promoted-home'),
     promotedSearch: require('../database-and-auth/database/api/promoted-search'),
-    promotedRelated: require('../database-and-auth/database/api/promoted-related')
+    promotedRelated: require('../database-and-auth/database/api/promoted-related'),
+    course: require('../database-and-auth/database/api/course'),
+    batch: require('../database-and-auth/database/api/batch')
 };
 
 const app = express();
@@ -102,6 +104,8 @@ app.use('/slept-through-classs', routes.solution);
 app.use('/promoted-home', routes.promotedHome);
 app.use('/promoted-search', routes.promotedSearch);
 app.use('/promoted-related', routes.promotedRelated);
+app.use('/course', routes.course);
+app.use('/batch', routes.batch);
 
 app.get('/*', (req, res) => res.status(404)
 	.sendFile(path.join(__dirname, 'public', 'error-page.html')));
