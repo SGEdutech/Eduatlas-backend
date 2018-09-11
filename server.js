@@ -4,9 +4,7 @@ const path = require('path');
 const PORT = require('./config')
 	.SERVER.PORT;
 const cors = require('cors');
-const session = require('express-session');
-const passport = require('passport');
-const keys = require('./oauth/_config')
+const keys = require('../database-and-auth/oauth/_config')
 	.keys;
 const {
 	eventPicsMiddleware,
@@ -15,25 +13,38 @@ const {
 	userCoverPicMiddleware,
 	solutionPdfMiddleware
 } = require('./storage-engine');
-const { nestingMiddleware } = require('./scripts/nesting');
-const { passwordHashMiddleware } = require('./scripts/hash-password');
+const {
+	nestingMiddleware
+} = require('./scripts/nesting');
+const {
+	passwordHashMiddleware
+} = require('./scripts/hash-password');
 const redirectUnknownHostMiddleware = require('./scripts/redirect-unknown-host-middleware');
 const sanitizeDemandsMiddleware = require('./scripts/sanatize-demands');
-require('./oauth/local');
-require('./oauth/google');
-require('./oauth/facebook');
-require('../database/connection');
+require('../database-and-auth/database/connection');
+const {
+	passport,
+	session
+} = require('../database-and-auth/oauth/passport-and-session');
+require('../database-and-auth/oauth/local');
+require('../database-and-auth/oauth/google');
+require('../database-and-auth/oauth/facebook');
 
 const routes = {
-	blog: require('../database/api/blog'),
-	event: require('../database/api/event'),
-	school: require('../database/api/school'),
-	tuition: require('../database/api/tuition'),
-	user: require('../database/api/user'),
-	issue: require('../database/api/issue'),
-	auth: require('./oauth/auth_routes'),
-	forgot: require('./oauth/forgot'),
-	solution: require('../database/api/solution')
+	blog: require('../database-and-auth/database/api/blog'),
+	event: require('../database-and-auth/database/api/event'),
+	school: require('../database-and-auth/database/api/school'),
+	tuition: require('../database-and-auth/database/api/tuition'),
+	user: require('../database-and-auth/database/api/user'),
+	issue: require('../database-and-auth/database/api/issue'),
+	auth: require('../database-and-auth/oauth/auth_routes'),
+	forgot: require('../database-and-auth/oauth/forgot'),
+	solution: require('../database-and-auth/database/api/solution'),
+    promotedHome: require('../database-and-auth/database/api/promoted-home'),
+    promotedSearch: require('../database-and-auth/database/api/promoted-search'),
+    promotedRelated: require('../database-and-auth/database/api/promoted-related'),
+    course: require('../database-and-auth/database/api/course'),
+    batch: require('../database-and-auth/database/api/batch')
 };
 
 const app = express();
@@ -44,7 +55,9 @@ app.use(redirectUnknownHostMiddleware);
 
 app.use(session({
 	secret: keys.CookieKey,
-	cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 },
+	cookie: {
+		maxAge: 7 * 24 * 60 * 60 * 1000
+	},
 	maxAge: Date.now() + (7 * 86400 * 1000)
 }));
 app.use(passport.initialize());
@@ -53,7 +66,9 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+	extended: true
+}));
 
 app.use(helmet());
 
@@ -86,6 +101,11 @@ app.use('/user', routes.user);
 app.use('/auth', routes.auth);
 app.use('/forgot', routes.forgot);
 app.use('/slept-through-classs', routes.solution);
+app.use('/promoted-home', routes.promotedHome);
+app.use('/promoted-search', routes.promotedSearch);
+app.use('/promoted-related', routes.promotedRelated);
+app.use('/course', routes.course);
+app.use('/batch', routes.batch);
 
 app.get('/*', (req, res) => res.status(404)
 	.sendFile(path.join(__dirname, 'public', 'error-page.html')));
