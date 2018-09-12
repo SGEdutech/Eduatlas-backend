@@ -26,6 +26,7 @@ const {
 	passport,
 	session
 } = require('../database-and-auth/oauth/passport-and-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 require('../database-and-auth/oauth/local');
 require('../database-and-auth/oauth/google');
 require('../database-and-auth/oauth/facebook');
@@ -49,6 +50,15 @@ const routes = {
     forumComment: require('../database-and-auth/database/api/forum-comment')
 };
 
+const store = new MongoDBStore({
+    uri: 'mongodb://localhost:27017/tempDb',
+    collection: 'sessions'
+});
+
+store.on('connected', function() {
+	console.log('Connected');
+});
+
 const app = express();
 
 app.use(cors());
@@ -60,7 +70,8 @@ app.use(session({
 	cookie: {
 		maxAge: 7 * 24 * 60 * 60 * 1000
 	},
-	maxAge: Date.now() + (7 * 86400 * 1000)
+	maxAge: Date.now() + (7 * 86400 * 1000),
+    store: store
 }));
 app.use(passport.initialize());
 app.use(passport.session());
