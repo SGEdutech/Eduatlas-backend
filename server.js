@@ -26,6 +26,7 @@ const {
 	passport,
 	session
 } = require('../database-and-auth/oauth/passport-and-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 require('../database-and-auth/oauth/local');
 require('../database-and-auth/oauth/google');
 require('../database-and-auth/oauth/facebook');
@@ -44,8 +45,19 @@ const routes = {
     promotedSearch: require('../database-and-auth/database/api/promoted-search'),
     promotedRelated: require('../database-and-auth/database/api/promoted-related'),
     course: require('../database-and-auth/database/api/course'),
-    batch: require('../database-and-auth/database/api/batch')
+    batch: require('../database-and-auth/database/api/batch'),
+    forumPost: require('../database-and-auth/database/api/forum-post'),
+    forumComment: require('../database-and-auth/database/api/forum-comment')
 };
+
+const store = new MongoDBStore({
+    uri: 'mongodb://localhost:27017/tempDb',
+    collection: 'sessions'
+});
+
+store.on('connected', function() {
+	console.log('Connected');
+});
 
 const app = express();
 
@@ -58,7 +70,8 @@ app.use(session({
 	cookie: {
 		maxAge: 7 * 24 * 60 * 60 * 1000
 	},
-	maxAge: Date.now() + (7 * 86400 * 1000)
+	maxAge: Date.now() + (7 * 86400 * 1000),
+    store: store
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -88,10 +101,6 @@ app.get('/*', sanitizeDemandsMiddleware);
 
 app.use(nestingMiddleware, passwordHashMiddleware);
 
-app.use((req, res, next) => {
-	next();
-});
-
 app.use('/blog', routes.blog);
 app.use('/event', routes.event);
 app.use('/school', routes.school);
@@ -106,6 +115,8 @@ app.use('/promoted-search', routes.promotedSearch);
 app.use('/promoted-related', routes.promotedRelated);
 app.use('/course', routes.course);
 app.use('/batch', routes.batch);
+app.use('/forum-post', routes.forumPost);
+app.use('/forum-comment', routes.forumComment);
 
 app.get('/*', (req, res) => res.status(404)
 	.sendFile(path.join(__dirname, 'public', 'error-page.html')));
