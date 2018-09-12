@@ -68,7 +68,8 @@ app.use(redirectUnknownHostMiddleware);
 app.use(session({
 	secret: keys.CookieKey,
 	cookie: {
-		maxAge: 7 * 24 * 60 * 60 * 1000
+		maxAge: 7 * 24 * 60 * 60 * 1000,
+        domain: '.eduatlas.com'
 	},
 	maxAge: Date.now() + (7 * 86400 * 1000),
     store: store
