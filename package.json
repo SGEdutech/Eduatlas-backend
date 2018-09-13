@@ -22,15 +22,10 @@
     "cors": "^2.8.4",
     "csurf": "^1.9.0",
     "express": "^4.16.3",
-    "helmet": "^3.13.0",
     "memory-cache": "^0.2.0",
     "mongoose": "^5.2.14",
     "mongoose-unique-array": "^0.2.0",
-    "nodemailer": "^4.6.8",
     "uid": "0.0.2",
-    "winston": "^3.0.0"
-  },
-  "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "chai": "^4.1.2",
@@ -44,7 +39,6 @@
     "gulp-imagemin": "^4.1.0",
     "gulp-uglify": "^3.0.1",
     "gulp-useref": "^3.1.5",
-    "gulp-wrap": "^0.14.0",
-    "mocha": "^5.2.0"
+    "gulp-wrap": "^0.14.0"
   }
 }
