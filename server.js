@@ -3,6 +3,7 @@ const helmet = require('helmet');
 const path = require('path');
 const PORT = require('./config')
 	.SERVER.PORT;
+const cookieDomain = require('../database-and-auth/config.json').COOKIE.DOMAIN;
 const cors = require('cors');
 const keys = require('../database-and-auth/oauth/_config')
 	.keys;
@@ -41,21 +42,21 @@ const routes = {
 	auth: require('../database-and-auth/oauth/auth_routes'),
 	forgot: require('../database-and-auth/oauth/forgot'),
 	solution: require('../database-and-auth/database/api/solution'),
-    promotedHome: require('../database-and-auth/database/api/promoted-home'),
-    promotedSearch: require('../database-and-auth/database/api/promoted-search'),
-    promotedRelated: require('../database-and-auth/database/api/promoted-related'),
-    course: require('../database-and-auth/database/api/course'),
-    batch: require('../database-and-auth/database/api/batch'),
-    forumPost: require('../database-and-auth/database/api/forum-post'),
-    forumComment: require('../database-and-auth/database/api/forum-comment')
+	promotedHome: require('../database-and-auth/database/api/promoted-home'),
+	promotedSearch: require('../database-and-auth/database/api/promoted-search'),
+	promotedRelated: require('../database-and-auth/database/api/promoted-related'),
+	course: require('../database-and-auth/database/api/course'),
+	batch: require('../database-and-auth/database/api/batch'),
+	forumPost: require('../database-and-auth/database/api/forum-post'),
+	forumComment: require('../database-and-auth/database/api/forum-comment')
 };
 
 const store = new MongoDBStore({
-    uri: 'mongodb://localhost:27017/tempDb',
-    collection: 'sessions'
+	uri: cookieDomain,
+	collection: 'sessions'
 });
 
-store.on('connected', function() {
+store.on('connected', function () {
 	console.log('Connected');
 });
 
@@ -69,10 +70,10 @@ app.use(session({
 	secret: keys.CookieKey,
 	cookie: {
 		maxAge: 7 * 24 * 60 * 60 * 1000,
-        domain: '.eduatlas.com'
+		domain: '.eduatlas.com'
 	},
 	maxAge: Date.now() + (7 * 86400 * 1000),
-    store: store
+	store: store
 }));
 app.use(passport.initialize());
 app.use(passport.session());
