@@ -1,9 +1,11 @@
 const express = require('express');
-const helmet = require('helmet');
 const path = require('path');
 const PORT = require('./config')
 	.SERVER.PORT;
-const cookieDomain = require('../database-and-auth/config.json').COOKIE.DOMAIN;
+const cookieDomain = require('../database-and-auth/config.json')
+	.COOKIE.DOMAIN;
+const databaseURI = require('../database-and-auth/config.json')
+    .MONGO.URI;
 const cors = require('cors');
 const keys = require('../database-and-auth/oauth/_config')
 	.keys;
@@ -19,8 +21,9 @@ const {
 } = require('../database-and-auth/scripts/nesting');
 const {
 	passwordHashMiddleware
-} = require('../database-and-auth/scripts/hash-password');
-const redirectUnknownHostMiddleware = require('../database-and-auth/scripts/redirect-unknown-host-middleware');
+} = require(
+	'../database-and-auth/scripts/hash-password');
+const {redirectUnknownHostMiddlewareEduatlas} = require('../database-and-auth/scripts/redirect-unknown-host-middleware');
 const sanitizeDemandsMiddleware = require('../database-and-auth/scripts/sanatize-demands');
 require('../database-and-auth/database/connection');
 const {
@@ -52,7 +55,7 @@ const routes = {
 };
 
 const store = new MongoDBStore({
-	uri: cookieDomain,
+	uri: databaseURI,
 	collection: 'sessions'
 });
 
@@ -64,13 +67,13 @@ const app = express();
 
 app.use(cors());
 
-app.use(redirectUnknownHostMiddleware);
+app.use(redirectUnknownHostMiddlewareEduatlas);
 
 app.use(session({
 	secret: keys.CookieKey,
 	cookie: {
 		maxAge: 7 * 24 * 60 * 60 * 1000,
-		domain: '.eduatlas.com'
+		domain: cookieDomain
 	},
 	maxAge: Date.now() + (7 * 86400 * 1000),
 	store: store
@@ -84,8 +87,6 @@ app.use(express.json());
 app.use(express.urlencoded({
 	extended: true
 }));
-
-app.use(helmet());
 
 //temp routes
 app.use('/add/tuition', (req, res) => res.redirect('/add-tuition.html'));
