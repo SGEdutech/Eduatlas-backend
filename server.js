@@ -12,7 +12,7 @@ const {
 	tuitionPicsMiddleware,
 	userCoverPicMiddleware,
 	solutionPdfMiddleware
-} = require('./storage-engine');
+} = require('../database-and-auth/storage-engine');
 const {
 	nestingMiddleware
 } = require('./scripts/nesting');
