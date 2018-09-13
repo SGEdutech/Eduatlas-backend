@@ -15,12 +15,12 @@ const {
 } = require('../database-and-auth/storage-engine');
 const {
 	nestingMiddleware
-} = require('./scripts/nesting');
+} = require('../database-and-auth/scripts/nesting');
 const {
 	passwordHashMiddleware
-} = require('./scripts/hash-password');
-const redirectUnknownHostMiddleware = require('./scripts/redirect-unknown-host-middleware');
-const sanitizeDemandsMiddleware = require('./scripts/sanatize-demands');
+} = require('../database-and-auth/scripts/hash-password');
+const redirectUnknownHostMiddleware = require('../database-and-auth/scripts/redirect-unknown-host-middleware');
+const sanitizeDemandsMiddleware = require('../database-and-auth/scripts/sanatize-demands');
 require('../database-and-auth/database/connection');
 const {
 	passport,
