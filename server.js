@@ -36,8 +36,6 @@ const routes = {
 	promotedHome: require('../database-and-auth/database/api/promoted-home'),
 	promotedSearch: require('../database-and-auth/database/api/promoted-search'),
 	promotedRelated: require('../database-and-auth/database/api/promoted-related'),
-	course: require('../database-and-auth/database/api/course'),
-	batch: require('../database-and-auth/database/api/batch'),
 	forumPost: require('../database-and-auth/database/api/forum-post'),
 	forumComment: require('../database-and-auth/database/api/forum-comment')
 };
@@ -88,11 +86,6 @@ app.get('/*', sanitizeDemandsMiddleware);
 
 app.use(nestingMiddleware, passwordHashMiddleware);
 
-app.use((req, res, next) => {
-	console.log(req.body);
-	res.end('Done nigga!')
-})
-
 app.use('/blog', routes.blog);
 app.use('/event', routes.event);
 app.use('/school', routes.school);
@@ -105,8 +98,6 @@ app.use('/slept-through-classs', routes.solution);
 app.use('/promoted-home', routes.promotedHome);
 app.use('/promoted-search', routes.promotedSearch);
 app.use('/promoted-related', routes.promotedRelated);
-app.use('/course', routes.course);
-app.use('/batch', routes.batch);
 app.use('/forum-post', routes.forumPost);
 app.use('/forum-comment', routes.forumComment);
 
