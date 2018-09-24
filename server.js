@@ -1,14 +1,10 @@
 const express = require('express');
 const path = require('path');
-const PORT = require('./config')
-	.SERVER.PORT;
-const cookieDomain = require('../database-and-auth/config.json')
-	.COOKIE.DOMAIN;
-const databaseURI = require('../database-and-auth/config.json')
-    .MONGO.URI;
+const PORT = require('./config').SERVER.PORT;
+const cookieDomain = require('../database-and-auth/config.json').COOKIE.DOMAIN;
+const databaseURI = require('../database-and-auth/config.json').MONGO.URI;
 const cors = require('cors');
-const keys = require('../database-and-auth/oauth/_config')
-	.keys;
+const keys = require('../database-and-auth/oauth/_config').keys;
 const {
 	eventPicsMiddleware,
 	schoolPicsMiddleware,
@@ -16,20 +12,12 @@ const {
 	userCoverPicMiddleware,
 	solutionPdfMiddleware
 } = require('../database-and-auth/storage-engine');
-const {
-	nestingMiddleware
-} = require('../database-and-auth/scripts/nesting');
-const {
-	passwordHashMiddleware
-} = require(
-	'../database-and-auth/scripts/hash-password');
-const {redirectUnknownHostMiddlewareEduatlas} = require('../database-and-auth/scripts/redirect-unknown-host-middleware');
+const { nestingMiddleware } = require('../database-and-auth/scripts/nesting');
+const { passwordHashMiddleware } = require('../database-and-auth/scripts/hash-password');
+const { redirectUnknownHostMiddlewareEduatlas } = require('../database-and-auth/scripts/redirect-unknown-host-middleware');
 const sanitizeDemandsMiddleware = require('../database-and-auth/scripts/sanatize-demands');
 require('../database-and-auth/database/connection');
-const {
-	passport,
-	session
-} = require('../database-and-auth/oauth/passport-and-session');
+const { passport, session } = require('../database-and-auth/oauth/passport-and-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 require('../database-and-auth/oauth/local');
 require('../database-and-auth/oauth/google');
@@ -59,9 +47,7 @@ const store = new MongoDBStore({
 	collection: 'sessions'
 });
 
-store.on('connected', function () {
-	console.log('Connected');
-});
+store.on('connected', () => console.log('Sessions have connected to the database!'));
 
 const app = express();
 
@@ -75,8 +61,8 @@ app.use(session({
 		maxAge: 7 * 24 * 60 * 60 * 1000,
 		domain: cookieDomain
 	},
-	maxAge: Date.now() + (7 * 86400 * 1000),
-	store: store
+	maxAge: Date.now() + 7 * 86400 * 1000,
+	store
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -84,9 +70,7 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
-app.use(express.urlencoded({
-	extended: true
-}));
+app.use(express.urlencoded({ extended: true }));
 
 //temp routes
 app.use('/add/tuition', (req, res) => res.redirect('/add-tuition.html'));
@@ -103,6 +87,11 @@ app.use('/slept-through-class', solutionPdfMiddleware);
 app.get('/*', sanitizeDemandsMiddleware);
 
 app.use(nestingMiddleware, passwordHashMiddleware);
+
+app.use((req, res, next) => {
+	console.log(req.body);
+	res.end('Done nigga!')
+})
 
 app.use('/blog', routes.blog);
 app.use('/event', routes.event);
@@ -121,7 +110,6 @@ app.use('/batch', routes.batch);
 app.use('/forum-post', routes.forumPost);
 app.use('/forum-comment', routes.forumComment);
 
-app.get('/*', (req, res) => res.status(404)
-	.sendFile(path.join(__dirname, 'public', 'error-page.html')));
+app.get('/*', (req, res) => res.status(404).sendFile(path.join(__dirname, 'public', 'error-page.html')));
 
 app.listen(PORT, () => console.log(`Yo dawg! Server's at http://localhost:${PORT}`));
