@@ -37,7 +37,6 @@ const routes = {
 	promotedSearch: require('../database-and-auth/database/api/promoted-search'),
 	promotedRelated: require('../database-and-auth/database/api/promoted-related'),
 	forumPost: require('../database-and-auth/database/api/forum-post'),
-	forumComment: require('../database-and-auth/database/api/forum-comment')
 };
 
 const store = new MongoDBStore({
@@ -99,7 +98,6 @@ app.use('/promoted-home', routes.promotedHome);
 app.use('/promoted-search', routes.promotedSearch);
 app.use('/promoted-related', routes.promotedRelated);
 app.use('/forum-post', routes.forumPost);
-app.use('/forum-comment', routes.forumComment);
 
 app.get('/*', (req, res) => res.status(404).sendFile(path.join(__dirname, 'public', 'error-page.html')));
 
