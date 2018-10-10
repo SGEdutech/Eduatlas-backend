@@ -10,7 +10,8 @@ const {
 	schoolPicsMiddleware,
 	tuitionPicsMiddleware,
 	userCoverPicMiddleware,
-	solutionPdfMiddleware
+	solutionPdfMiddleware,
+	notificationMiddleware
 } = require('../database-and-auth/storage-engine');
 const { nestingMiddleware } = require('../database-and-auth/scripts/nesting');
 const { passwordHashMiddleware } = require('../database-and-auth/scripts/hash-password');
@@ -37,6 +38,7 @@ const routes = {
 	promotedSearch: require('../database-and-auth/database/api/promoted-search'),
 	promotedRelated: require('../database-and-auth/database/api/promoted-related'),
 	forumPost: require('../database-and-auth/database/api/forum-post'),
+	notification: require('../database-and-auth/database/api/notification')
 };
 
 const store = new MongoDBStore({
@@ -80,6 +82,7 @@ app.use('/school', schoolPicsMiddleware);
 app.use('/tuition', tuitionPicsMiddleware);
 app.use('/user', userCoverPicMiddleware);
 app.use('/slept-through-class', solutionPdfMiddleware);
+app.use('/notification', notificationMiddleware);
 
 app.get('/*', sanitizeDemandsMiddleware);
 
@@ -98,6 +101,7 @@ app.use('/promoted-home', routes.promotedHome);
 app.use('/promoted-search', routes.promotedSearch);
 app.use('/promoted-related', routes.promotedRelated);
 app.use('/forum-post', routes.forumPost);
+app.use('/notification', routes.notification);
 
 app.get('/*', (req, res) => res.status(404).sendFile(path.join(__dirname, 'public', 'error-page.html')));
 
