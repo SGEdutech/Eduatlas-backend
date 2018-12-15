@@ -66,7 +66,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/image', express.static(path.join(process.cwd(), 'images')));
+app.use('/images', express.static(path.join(process.cwd(), 'images')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
