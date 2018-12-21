@@ -11,7 +11,8 @@ const {
 	tuitionPicsMiddleware,
 	userCoverPicMiddleware,
 	solutionPdfMiddleware,
-	notificationMiddleware
+	notificationMiddleware,
+	resourcesMiddleware
 } = require('../database-and-auth/storage-engine');
 const { nestingMiddleware } = require('../database-and-auth/scripts/nesting');
 const { passwordHashMiddleware } = require('../database-and-auth/scripts/hash-password');
@@ -79,7 +80,8 @@ app.use('/add/notes', (req, res) => res.redirect('/solution.html'));
 
 app.use('/event', eventPicsMiddleware);
 app.use('/school', schoolPicsMiddleware);
-app.use('/tuition', tuitionPicsMiddleware);
+app.use('/tuition/new', tuitionPicsMiddleware);
+app.use('/tuition/resource', resourcesMiddleware);
 app.use('/user', userCoverPicMiddleware);
 app.use('/slept-through-class', solutionPdfMiddleware);
 app.use('/notification', notificationMiddleware);
