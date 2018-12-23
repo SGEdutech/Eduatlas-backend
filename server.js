@@ -81,7 +81,9 @@ app.use('/add/notes', (req, res) => res.redirect('/solution.html'));
 
 app.use('/event', eventPicsMiddleware);
 app.use('/school', schoolPicsMiddleware);
-app.use('/tuition/new', tuitionPicsMiddleware);
+// Using post and put to on trigger on specific routes
+app.post('/tuition', tuitionPicsMiddleware);
+app.put('/tuition', tuitionPicsMiddleware);
 app.use('/tuition/*/resource', resourcesMiddleware);
 app.use('/user', userCoverPicMiddleware);
 app.use('/slept-through-class', solutionPdfMiddleware);
