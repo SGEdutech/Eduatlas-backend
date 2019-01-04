@@ -81,10 +81,14 @@ app.use('/add/notes', (req, res) => res.redirect('/solution.html'));
 
 app.use('/event', eventPicsMiddleware);
 app.use('/school', schoolPicsMiddleware);
-// Using post and put to on trigger on specific routes
-app.post('/tuition/*', tuitionPicsMiddleware);
-app.put('/tuition/*', tuitionPicsMiddleware);
-app.use('/tuition/*/resource', resourcesMiddleware);
+app.use('/tuition', (req, res, next) => {
+	const pathArr = req.path.split('/');
+	if (pathArr.length >= 3 && pathArr[2] === 'resource') {
+		resourcesMiddleware(req, res, next);
+		return;
+	}
+	tuitionPicsMiddleware(req, res, next);
+});
 app.use('/user', userCoverPicMiddleware);
 app.use('/slept-through-class', solutionPdfMiddleware);
 app.use('/notification', notificationMiddleware);
