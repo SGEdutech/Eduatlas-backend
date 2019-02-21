@@ -51,7 +51,14 @@ store.on('connected', () => console.log('Sessions have connected to the database
 
 const app = express();
 
-app.use(cors());
+// Default origin is * which messes up with axios
+const corsOptions = {
+	origin: (origin, cb) => cb(null, true),
+	exposedHeaders: true,
+	credentials: true
+};
+
+app.use(cors(corsOptions));
 
 app.use(redirectUnknownHostMiddlewareEduatlas);
 
