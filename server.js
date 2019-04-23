@@ -77,8 +77,8 @@ app.use(passport.session());
 app.use('/images', express.static(path.join(process.cwd(), 'images')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '100mb' }));
+app.use(express.urlencoded({ extended: true, limit: '100mb' }));
 
 //temp routes
 app.use('/add/tuition', (req, res) => res.redirect('/add-tuition.html'));
