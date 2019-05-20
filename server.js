@@ -119,6 +119,6 @@ app.use('/promoted-related', routes.promotedRelated);
 app.use('/forum-post', routes.forumPost);
 app.use('/notification', routes.notification);
 
-app.get('/*', (req, res) => res.status(404).sendFile(path.join(__dirname, 'public', 'error-page.html')));
+app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 
 app.listen(PORT, () => console.log(`Yo dawg! Server's at http://localhost:${PORT}`));
