@@ -60,8 +60,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use(redirectUnknownHostMiddlewareEduatlas);
-
 app.use(session({
 	secret: keys.CookieKey,
 	cookie: {
